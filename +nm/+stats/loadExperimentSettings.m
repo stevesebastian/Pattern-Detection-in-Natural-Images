@@ -34,7 +34,7 @@ if(strcmp(typeStr,'fovea'))
 	targets(:,:,1) = gabor;
 	targets(:,:,2) = dog;
 
-	targetKey = {'gabor', 'dog'};
+	targetKey = {{'gabor', 'dog'}};
 
 	% Statistic parameters
 	surroundSizePix = 513;
