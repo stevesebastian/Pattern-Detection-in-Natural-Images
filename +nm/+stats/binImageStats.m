@@ -8,23 +8,25 @@ function ImgStats = binImageStats(ImgStats)
 %
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
-patchIndexG = cell(10,10,10);
-patchIndexD = cell(10,10,10);
+nBins = size(ImgStats.Settings.binEdges,2) - 1;
+nTargets = size(ImgStats.Settings.targets,3);
 
-parfor iLum = 1:10    
-    for iCon = 1:10
-        for iSim = 1:10
-            for iTar = 1:10
+patchIndex = cell(nTargets,1);
+
+for iTar = 1:nTargets
+    patchIndex{iTar} = cell(nBins,nBins,nBins);
+    for iLum = 1:nBins    
+        for iCon = 1:nBins
+            for iSim = 1:nBins
                 patchIndexG{iLum,iCon,iSim} = ...
-                 find(ImgStats.L(:) > binEdges.L(iLum) & ImgStats.L(:) <= binEdges.L(iLum+1) ...
-                    & ImgStats.C(:) > binEdges.C(iCon) & ImgStats.C(:) <= binEdges.C(iCon+1) ...
-                    & ImgStats.Sa(:) > binEdges.Sa(iSim,iTar) & ImgStats.Sa(:) <= binEdges.Sa(iSim+1,iTar));
+                 find(ImgStats.L(:) > ImgStats.Settings.binEdges.L(iLum) & ImgStats.L(:) <= ImgStats.Settings.binEdges.L(iLum+1) ...
+                    & ImgStats.C(:) > ImgStats.Settings.binEdges.C(iCon) & ImgStats.C(:) <= ImgStats.Settings.binEdges.C(iCon+1) ...
+                    & ImgStats.Sa(:) > ImgStats.Settings.binEdges.Sa(iSim,iTar) & ImgStats.Sa(:) <= ImgStats.Settings.binEdges.Sa(iSim+1,iTar));
 
             end
         end
     end
 end
 
-ImgStats.patchIndexG = patchIndexG;
-ImgStats.patchIndexD = patchIndexD;
+ImgStats.patchIndex = patchIndex;
     
