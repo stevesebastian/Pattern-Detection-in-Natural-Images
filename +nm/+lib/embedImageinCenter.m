@@ -1,4 +1,4 @@
-function [I_out, percentClipped] = embedImageinCenter(I_in, I_target, bAdditive, bitsIn, offsetPix, bClip)
+    function [I_out, percentClipped] = embedImageinCenter(I_in, I_target, bAdditive, bitsIn, offsetPix, bClip)
 %% Purpose: Places a I_target in the center of I_in
 %Input
 %       I_in        - input image
@@ -11,28 +11,23 @@ function [I_out, percentClipped] = embedImageinCenter(I_in, I_target, bAdditive,
 %       percentClipped  - if additive is selected, the percentage of pixels that
 %                           were clipped on either end
 
-%% 
+%% Set defaults
 
-% set bAdditive to 0 as default
 if(~exist('bAdditive', 'var'))
     bAdditive = 0;
 end;
     
-% set bitsIn to 16 as default
 if(~exist('bitsIn', 'var') || isempty(bitsIn))
     bitsIn = 16;
 end;
 
-% set bitsIn to 16 as default
 if(~exist('offsetPix', 'var'))
     offsetPix = 0;
 end;
 
-% set clipping to 0
 if(~exist('bClip', 'var'))
     bClip = 0;
 end;
-
 
 percentClipped = 0;
 

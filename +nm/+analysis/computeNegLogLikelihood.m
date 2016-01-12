@@ -8,8 +8,7 @@ function nll = computeNegLogLikelihood(x,contrast,correct)
 %   nll:     negative log likelihood
 %   b: 		 model beta (slole parameter)
 %
-%   See also COMPUTESCENELUMINANCE, COMPUTESCENECONTRAST, COMPUTESCENESIMILARITYANGLE,
-%            COMPUTESCENESIMILARITYSPATIAL.
+%   See also FITPSYCHOMETRICFUNCTION.
 %
 % v1.0, 1/5/2016, Jared Abrams, Steve Sebastian <sebastian@utexas.edu>
 

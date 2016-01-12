@@ -89,7 +89,7 @@ center = nm.lib.embedImageinCenter(zeros(size(surround)), center, 1);
 dog = center - surround;
 envelope = surround;
 
-if(bPlot)
+if(nargin >= 2 && bPlot)
     figure; subplot(1,2,1);
     imagesc(dog); axis square;  colormap gray;
     set(gca, 'XTick', []);

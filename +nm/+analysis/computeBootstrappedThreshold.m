@@ -1,13 +1,17 @@
-function [threshC, threshStdC, threshCDist] = getBootstrappedThresholds(subjectStr, binIndex, blocks, numBootIter, bPlot)
-%% Purpose: 
-%   Input:
-%       
-%   Output:
-%       threshC         - theshold contrast
-%       threshStdC      - standard deviation of the threshold contrast
-%                           distrobution
-%       threshCDist   - bootstrapped distribution of thresholds
+function [threshC, threshStdC, threshCDist] = computeBootstrappedThreshold(subjectStr, binIndex, blocks, numBootIter, bPlot)
+%COMPUTEBOOTSTRAPPEDTHRESHOLD Computes experimental thresold with bootstrapped distribution
 %
+% Example: 
+%   [threshC, stdC, cDist] = COMPUTEBOOTSTRAPPEDTHRESHOLD('SUB', [5 5 5], 1:2, 100, 1);
+%
+% Output:
+%   threshC:        threshold 
+%   threshStdC:     standard deviation of bootstrapped thresholds
+%   threshCDist:    distribution of bootstrapped thesholds
+%
+%   See also FITPSYCHOMETRICFUNCTION.
+
+% v0.1, 1/12/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Input handling
 
@@ -64,7 +68,7 @@ for bootIndex = 1:numBootIter
     correct     = correctMat(randIndex);
     
 	% fit the data with a psychometric function
-    [threshCDist(bootIndex), ~] = nm.analysis.fitSDTmodel(0.1,2,contrast,correct(:));
+    [threshCDist(bootIndex), ~] = nm.analysis.fitPsychometric(0.1,2,contrast,correct(:));
     
 end;
 
