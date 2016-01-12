@@ -1,21 +1,17 @@
 function cosWin = cosWindow2(winSize,winFactor,bPLOT)
-
-% function cosWin = cosWindow(winSize,winFactor,bPLOT)
-% 
-%   example calls: cosWin = cosWindow(size(I));
-%                  cosWin = cosWindow(size(I),.5);
+%COSWINDOW2 Creates a 2D cosine window
 %
-% build 2D cosine window with a radius that is equal to the smaller of the two
-% dimensions. it is recommended that cos windows are used only with square
-% patches.
-%  
-% winSize:         [1x2] vector containing the size of the patch in pixels
-% winFactor:       amount of the patch to cosine window
-%                  1, .5, .25, .125, .0625  are the only exceptable values
-% bPLOT:           1 -> plot, 0 -> don't (default == 0)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% cosWin:  cosine window
+% Example: 
+%   cosWin = nm.lib.COSWINDOW2([101 101], 1, 1);
+% 
+% Output:
+%   cosWin:  2D cosine window
+%
+%   See also COSDRADIAL, COSWINDOWFLATTOP2.
+% 
+% v1.0 Johannes Burge
 
+%% Input handlign
 if ~exist('winFactor','var') || isempty(winFactor)
    winFactor = 1; 
 end
@@ -27,7 +23,7 @@ if length(winSize) == 1
 end
 winSizeMin = min(winSize);
 
-% CHECK FOR LEGAL VALUES OF winFactor (poorly written)
+% Check for legal values of winFactor
 if rem(1,winFactor) ~= 0
    error(['cosWindow: winFactor must divide zero evenly. Current value = ' num2str(winFactor)]);
 end
@@ -37,6 +33,8 @@ if mod(winSizeMin,2) == 0 %Even
 elseif mod(winSizeMin,2) == 1 %Odd
     pos = (-(winSizeMin-1)/2):((winSizeMin-1)/2);
 end
+
+%%
 
 [xx, yy] = meshgrid(pos);
 rr = sqrt(xx.^2 + yy.^2);

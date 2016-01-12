@@ -1,19 +1,17 @@
 function Z = cosdRadial(Xdeg,Ydeg,freqCycDeg,amp,dc,bPLOT)
-
-% function cosdRadial(Xdeg,Ydeg,freqCycDeg,bPLOT)
-% 
-%   example call: [X Y ] = meshgrid(linspace(-180,180));
-%                 Z = cosdRadial(X,Y,3,1);
+%COSDRADIAL Radially symmetric cosine with specified frequency at locations Xdeg, Ydeg
+%
+% Example: 
+%   Return all coordinates with 128 spacing between them
+%		[X Y] = meshgrid(linspace(-180,180));
+%		Z = nm.lib.COSDRADIAL(X,Y,3,1);
 %
 % radially symmetric cosine with specified frequency at locations Xdeg, Ydeg
 %
-% Xdeg:
-% Ydeg:
-% freqCycDeg:
-% amp: amplitude
-% bPLOT:
-% %%%%%%%%%%%%%%%%%
-% Z: height of cosine
+% Output:   
+%	Z:	height of cosine
+%
+% Johannes Burge
 
 
 if ~exist('bPLOT')
@@ -31,7 +29,6 @@ if bPLOT == 1
     
     subplot(1,2,2); 
     surf(Xdeg(1,:),Ydeg(:,1)',Z,'edgecolor','none');
-%     axis off;
     axis square; box on 
     
     colormap gray

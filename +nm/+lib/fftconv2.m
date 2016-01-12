@@ -1,22 +1,12 @@
 function C = fftconv2(A,B)
-% if(size(A,1) < size(B,1))
-%     tmp = A;
-%     B = A;
-%     A = tmp;
-% end
-% 
-% C = conv2(A,B);
-% C = C(floor(size(B,1)/2):floor(size(B,1)/2)+size(A,1)-1,...
-%     floor(size(B,2)/2):floor(size(B,2)/2)+size(A,2)-1);
-
-%% function C = fftconv2(A,B)
-% Calculate 2D convolution of A and B
+%FFTCONV2 Calculate 2D convolution of A and B using fft2
 %
-% Use fft2, so much faster than conv2 in matlab
-% A and B must be 2D
-% C has same size as bigger input (A or B)
-%  
-%  Convolution needs to be associative
+% Example: 
+%   C = nm.lib.FFTCONV2(A,B)
+% 
+% Output:
+%   C:	Convolution of A and B. Has same size as biggest input (A or B)
+%   percentClipped: If bAdditive == 1, the % of clipped pixels
 %
 % YC at ES lab
 % Created on Sep. 29, 2009

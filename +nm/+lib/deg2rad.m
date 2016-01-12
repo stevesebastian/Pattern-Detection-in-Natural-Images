@@ -1,6 +1,11 @@
 function rad = deg2rad(deg)
+%DEG2RAD Converts degrees to radian
+%
+% Example: 
+%   rad = nm.lib.DEG2RAS(90);
+% 
+% Output:
+%   rad:  Value in radians
+%
 
-%% deg2rad.m
-%   rad = deg2rad(deg)
-
-rad = deg / 180 * pi;
+rad = deg./180.*pi;

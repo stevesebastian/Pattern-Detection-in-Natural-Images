@@ -1,18 +1,16 @@
-    function [I_out, percentClipped] = embedImageinCenter(I_in, I_target, bAdditive, bitsIn, offsetPix, bClip)
-%% Purpose: Places a I_target in the center of I_in
-%Input
-%       I_in        - input image
-%       I_target    - image to place in I_in
-%       bAdditive   - boolean, 1 if I_embed should be added to I_in
-%       bitsIn      - size of the input image in bits
-%       offsetPix   - offset from center in pixels
-%Output
-%       I_out           - image with target embedded
-%       percentClipped  - if additive is selected, the percentage of pixels that
-%                           were clipped on either end
+function [imgOut, percentClipped] = embedImageinCenter(imgIn, target, bAdditive, bitsIn, offsetPix, bClip)
+%EMBEDIMAGEINCENTER Embeds a target in the center of the input image
+%
+% Example: 
+%   [imgOut, percentClupped] = nm.lib.EMBEDIMAGEINCENTER(I, T, 1, 8, 0, 0);
+% 
+% Output:
+%   imgOUt:         imput with target embedded
+%   percentClipped: If bAdditive == 1, the % of clipped pixels
+%
+% v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Set defaults
-
 if(~exist('bAdditive', 'var'))
     bAdditive = 0;
 end;
@@ -31,14 +29,11 @@ end;
 
 percentClipped = 0;
 
-% set the max pixel value
 maxPixVal = 2^bitsIn - 1;
 
-%% 
-
 % get the patch sizes
-inSize = size(I_in);
-tgSize = size(I_target);
+inSize = size(imgIn);
+tgSize = size(target);
 
 if(tgSize(1) > inSize(1) || tgSize(2) > inSize(2))
     error('ERROR: Target is larger than image');
@@ -55,19 +50,19 @@ targetRangeY = (centerLocation(2) - floor(tgSize(2)./2)):(centerLocation(2) + ce
 
 % embed the target
 if(bAdditive)
-    I_in(targetRangeX, targetRangeY) = I_in(targetRangeX, targetRangeY) + I_target;
+    imgIn(targetRangeX, targetRangeY) = imgIn(targetRangeX, targetRangeY) + target;
     % check for clipping
-    percentClipped = (sum(I_in(:) > maxPixVal) + sum(I_in(:) < 0))./(length(I_target(:)))*100;
+    percentClipped = (sum(imgIn(:) > maxPixVal) + sum(imgIn(:) < 0))./(length(target(:)))*100;
     % clip the image
     if(bClip)
-        I_in(I_in < 0) = 0;
-        I_in(I_in > maxPixVal) = maxPixVal;
+        imgIn(imgIn < 0) = 0;
+        imgIn(imgIn > maxPixVal) = maxPixVal;
     end
 else
-    I_in(targetRangeX, targetRangeY) = I_target;
+    imgIn(targetRangeX, targetRangeY) = target;
 end;
 
-I_out = I_in;
+imgOut = imgIn;
 
 
 

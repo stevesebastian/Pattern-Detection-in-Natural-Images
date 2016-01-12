@@ -1,10 +1,7 @@
 function [dog, envelope] = differenceOfGaussians2D(Parameters, bPlot)
-%% differenceOfGaussians2D.m
+%DIFFERENCEOFGAUSSIANS2D Create D.O.G. with the given parameters 
 %
-%       [[dog, envelope] = differenceOfGaussians2D(Parameters, bPlot)
-%
-%  Create D.O.G. with the given parameters. Parameters is a struct with the
-%  following fields:
+%   Parameters is a struct with the following fields:
 %       Parameters.stdCenter  (scalar or [X,Y])
 %       Paramsters.stdSurround
 %       Parameters.pixperdeg    
@@ -12,11 +9,17 @@ function [dog, envelope] = differenceOfGaussians2D(Parameters, bPlot)
 %       Parameters.offset     (deg) (scalar or [X,Y], default: 0)
 %       Parameters.envelope   ('gau'/'coswin', default: 'coswin')
 %       Parameters.dc         DC value (default: 0)
-%       Parameters.contrast   Michelson contrast (default (100%): 1)
 %
-%  Based on code from Yoon B and Steve S.
-%  v1.0, November 4, 2015, Stephen Sebastian <sebastian@utexas.edu>
+% Example: 
+%   [dog, envelope] = nm.lib.DIFFERENCEOFGAUSSIANS2D(DogParams, 1);
+% 
+% Output:
+%   dog:        difference of guassians
+%   envelope:   envelope of the D.O.G.
 %
+%   See also GABOR2D.
+%
+% v1.0, 1/5/2016, Jared Abrams, Steve Sebastian <sebastian@utexas.edu>
 
 %% Check input
 GABOR_PARAMS = {'stdCenter','stdSurround','pixperdeg','sizeCenter','sizeSurround','offset','envelope','dc','contrast'};

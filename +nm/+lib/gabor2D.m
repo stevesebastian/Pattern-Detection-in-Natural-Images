@@ -1,11 +1,7 @@
 function [gabor, envelope, sinusoid] = gabor2D(Parameters, bPlot)
-% GABOR2D Create gabor a set of parameters
+%GABOR2D Create a gabor with the given parameters.
 %
-% Example:
-%   [gabor, envelope, sinusoid] = gabor2D(X,Y,Parameters)
-%
-%  Parameters is a struct with the
-%  following fields:
+% Parameters is a struct with the following fields:
 %       Parameters.std        (scalar or [X,Y])
 %       Parameters.sf         (cpd)
 %       Parameters.ori        (deg)
@@ -17,11 +13,20 @@ function [gabor, envelope, sinusoid] = gabor2D(Parameters, bPlot)
 %       Parameters.envelope   ('gau'/'coswin', default: 'coswin')
 %       Parameters.dc         DC value (default: 0)
 %       Parameters.contrast   Michelson contrast (default (100%): 1)
-
-
-%  Based on code from Yoon B and Steve S.
-%  v2.0, July 2, 2015, Spencer Chen <spencer.chen@utexas.edu>
 %
+% Example:
+%   [gabor, envelope, sinusoid] = gabor2D(X,Y,Parameters)
+%
+% Output:
+%   gabor:      gabor target
+%   envelope:   envelope of the gabor
+%   sinusoid:   sinusoid of the gabor
+%
+%   See also DIFFERENCEOFGAUSSIANS2D.
+%
+%
+%  v2.0, July 2, 2015, Yoon Bai, Steve Sebastian, and Spencer Chen <spencer.chen@utexas.edu>
+
 
 %% Check input
 GABOR_PARAMS = {'std','sf','ori','pixperdeg','size','phase','odd_even','envelope','offset','dc','contrast'};
@@ -113,9 +118,6 @@ end
 % output
 gabor    = envelope .* sinusoid * amp + Parameters.dc;
 
-% output enevelop and sinusoid as unity values
-% envelope = envelope             * amp + Parameters.dc;
-% sinusoid = sinusoid             * amp + Parameters.dc;
 
 %%
 if(nargin >= 2 && bPlot)

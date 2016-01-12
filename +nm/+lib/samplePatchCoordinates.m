@@ -1,18 +1,19 @@
 function PcoordsRC = samplePatchCoordinates(Isize,Psize,patchSpacing,numPatches)
-
-% example call: % TO RETURN ALL COORDS WITH 128 SPACING BETWEEN THEM
-%                 samplePatchCoordinates(size(I),size(P),128)
+%SAMPLEPATCHCOORDINATES Returns spaces coordinates across an image
 %
-%               % TO RETURN TEN COORDS SAMPLED FROM ALL PATCHES WITH 128 PIXEL SPACING     
-%                 samplePatchCoordinates(size(I),size(P),128,10)
+% Example: 
+%   Return all coordinates with 128 spacing between them
+%		PCoordsRC = nm.lib.SAMPLEPATCHCOORDINATES(size(I), size(P), 128);
+%
+%	Return 10 coordinates sampled from all patches with 128 pixel spacing
+%		PCoordsRC = nm.lib.SAMPLEPATCHCOORDINATES(size(I), size(P), 128, 10);
+%		
+%   [imgOut, percentClupped] = nm.lib.EMBEDIMAGEINCENTER(I, T, 1, 8, 0, 0);
 % 
-% Isize:        image size
-% Psize:        patch size
-% patchSpacing: patch spacing in pixels
-% numPatches:   number of patches to randomly sample from all patches
-%               if empty, defaults to all patches
-%%%%%%%%%%%%%
-% PcoordsRC:    row and column indices corresponding to patch location
+% Output:   
+%	PcoordsRC:    row and column indices corresponding to patch location
+%
+% Johannes Burge
 
 % 1/2 patch width zone in which images are not selected
 PcrdsRlims = [1+round(Psize(1)/2) Isize(1)-ceil(3*Psize(1)/2)+1]; 
@@ -20,7 +21,7 @@ PcrdsClims = [1+round(Psize(2)/2) Isize(2)-ceil(3*Psize(2)/2)+1];
 [PcrdsR, PcrdsC] = meshgrid(PcrdsRlims(1):patchSpacing:PcrdsRlims(2), ...
                            PcrdsClims(1):patchSpacing:PcrdsClims(2));
 
-% PATCH COORDINATES                       
+% Patch coordinates                  
 PcoordsRC = [PcrdsR(:) PcrdsC(:)];
 
 
