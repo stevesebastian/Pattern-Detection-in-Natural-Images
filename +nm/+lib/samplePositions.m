@@ -2,7 +2,7 @@ function pos = samplePositions(pixPerUnit,numPix)
 %SAMPLEPOSITIONS Spatial positions of samples given a sampling rate 
 %
 % Example:
-%	posDeg = samplePositions(128,128)
+%	posDeg = nm.lib.SAMPLEPOSITIONS(128,128)
 %
 % Output:   
 %	pos: 	spatial positions of sample
