@@ -1,13 +1,13 @@
-function StatsOut = computeSceneSimilaritySpatial(imIn, tarIn, wWin, sampleCoords)
+function Sstats = computeSceneSimilaritySpatial(imIn, tarIn, wWin, sampleCoords)
 %%COMPUTESCENCESIMILARITYSPATIAL Computes the similarity of the image to a target in the space domain
 %
 % Example:
-%   StatsOut = COMPUTESCENESIMILARITYSPATIAL(imIn, tarIn, wWin, sampleCoords)
+%   Sstats = COMPUTESCENESIMILARITYSPATIAL(imIn, tarIn, wWin, sampleCoords)
 %
 % Output:
-%   StatsOut.S:         similarity
-%   StatsOut.Smag:      magnitude of similarity
-%   StatsOut.tMatch     spatial template match
+%   Sstats.S:         similarity
+%   Sstats.Smag:      magnitude of similarity
+%   Sstats.tMatch     spatial template match
 %
 %   See also BINIMAGESTATS, COMPUTESCENESTATS.
 %
@@ -15,21 +15,30 @@ function StatsOut = computeSceneSimilaritySpatial(imIn, tarIn, wWin, sampleCoord
 
 %% Variable set up
 iWin = wWin > 0;
-cosWin = lib.cosWindowFlattop2(size(imIn), 90, 10, 0, 0);
 
 %% Compute Similarity
-lumBar  = lib.fftconv2(imIn, wWin);
+lumBar  = nm.lib.fftconv2(imIn, wWin);
 diffImg = imIn - lumBar;
-templateMatch = lib.fftconv2(diffImg, lumBar);
+templateMatch = nm.lib.fftconv2(diffImg, lumBar);
 
-diffImgAve = lib.fftconv2(diffImg, iWin);
+diffImgAve = nm.lib.fftconv2(diffImg, iWin);
 
 tarInNorm = sqrt(sum(tarIn(:).^2));
 diffImgNorm = sqrt(sum(diffImgAve(:).^2));
 
+S = templateMatch./(tarInNorm.*diffImgNorm);
+Smag = abs(S);
 
-StatsOut.S = templateMatch./(tarInNorm.*diffImgNorm);
-StatsOut.Smag = abs(StatsOut.S);
+tMatch = nm.lib.fftconv2(imIn, tarIn);
 
-StatsOut.tMatch = lib.fftconv2(imIn, tarIn);
-
+%% output
+if(isempty(sampleCoords))
+    Sstats.S = S;
+    Sstats.Smag = Smag;
+    Sstats.tMatch = tMatch;
+else
+    inds = sub2ind(size(imIn), sampleCoords(:,1), sampleCoords(:,2));
+    Sstats.S = S(inds);
+    Sstats.Smag = Smag(inds);
+    Sstats.tMatch = tMatch(inds);
+end

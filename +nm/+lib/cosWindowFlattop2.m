@@ -28,7 +28,7 @@ dskRadiusPix = dskDmPix/2;
 rmpWidthPix = rmpWidthPixX2/2;
 
 if bSym == 0
-    [X, Y] = meshgrid(samplePositions(1,numPix));
+    [X, Y] = meshgrid(nm.lib.samplePositions(1,numPix));
 elseif bSym == 1 && mod(numPix,2)==0
     x = samplePositions(1,numPix);
     x = x+diff(x(1:2))/2;
@@ -49,9 +49,9 @@ W(R>dskRadiusPix) = 0.5.*(1 + cos(2.*pi.*freqcpp*(R(R>dskRadiusPix)-dskRadiusPix
 % Set values outside ramp to 0
 W(R>(dskRadiusPix+rmpWidthPix))= 0;
 
-W = cropImage(W,[],fliplr(numPixOrig));
-X = cropImage(X,[],fliplr(numPixOrig));
-Y = cropImage(Y,[],fliplr(numPixOrig));
+W = nm.lib.cropImage(W,[],fliplr(numPixOrig));
+X = nm.lib.cropImage(X,[],fliplr(numPixOrig));
+Y = nm.lib.cropImage(Y,[],fliplr(numPixOrig));
 if bPLOT
    figure('position',[680   666   805   368]); 
    subplot(1,2,1)

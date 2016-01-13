@@ -33,9 +33,9 @@ for iTarget = 1:nTargets
     Sastats  = nm.stats.computeSceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
     Ssstats  = nm.stats.computeSceneSimilaritySpatial(scene, targets(:,:,iTarget), envelope, coords);
 
-    StatsOut.Ss{iTarget} = Ssstats.Smag;
-    StatsOut.Sa{iTarget} = Sastats.Smag;
-    StatsOut.tMatch{iTarget} = Ssstats.tMatch;
+    StatsOut(iTarget).Ss = Ssstats.Smag;
+    StatsOut(iTarget).Sa = Sastats.Smag;
+    StatsOut(iTarget).tMatch = Ssstats.tMatch;
 end
 
 %% Output
@@ -43,7 +43,7 @@ StatsOut.L  = Lstats.L;
 StatsOut.C  = Cstats.Crms;
 
 % Convert luminance to % luminance
-if(exist('pixelMax', 'var') || ~isempty(pixelMax))
+if(exists('pixelMax', 'var') || ~isempty(pixelMax))
     StatsOut.L = (StatsOut.L./(pixelMax)).*100;
 end
 

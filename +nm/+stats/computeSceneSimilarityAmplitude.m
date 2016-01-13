@@ -13,7 +13,7 @@ function StatsOut = computeSceneSimilarityAmplitude(imIn, tarIn, wWin, sampleCoo
 
 %% Variable set up/
 iWin = wWin > 0;
-cosWin = nm.lib.cosWindowFlattop2(size(imIn), 90, 10, 0, 0);
+cosWin = nm.lib.cosWindowFlattop2(size(tarIn), 90, 10, 0, 0);
 paddedImage = ones([128, 128]);
 
 targetSizePix = size(tarIn);
@@ -32,7 +32,7 @@ StatsOut.Smag = zeros(nSamples, 1);
 
 %% Compute Similarity at each location in sampleCoords.
 for sItr = 1:nSamples
-    imgSmall    = cropImage(imIn, sampleCoords(sItr,:), targetSizePix, [], 1);
+    imgSmall    = nm.lib.cropImage(imIn, sampleCoords(sItr,:), targetSizePix, [], 1);
     imgSmall    = imgSmall.*iWin;
     meanImg     = mean(imgSmall(iWin));
     imgSmall    = (imgSmall - meanImg).*cosWin;
