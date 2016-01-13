@@ -19,7 +19,7 @@ imgSizePix      = Settings.imgSizePix;
 
 pixelMax = Settings.pixelMax;
 
-sampleCoords    = lib.samplePatchCoordinates(imgSizePix, [surroundSizePix surroundSizePix], spacingPix);
+sampleCoords    = nm.lib.samplePatchCoordinates(imgSizePix, [surroundSizePix surroundSizePix], spacingPix);
 
 nSamples = size(sampleCoords,1);
 nTargets = length(Settings.targetKey);
@@ -36,7 +36,7 @@ Ss      = zeros(nSamples, nImages, nTargets);
 tMatch = zeros(nSamples, nImages, nTargets);
 pClipped     = zeros(nSamples, nImages);
 
-parfor iImg = 1:nImages;
+for iImg = 1:nImages;
 
     disp(['Image: ' num2str(iImg) '/' num2str(nImages)]);
     
@@ -45,7 +45,8 @@ parfor iImg = 1:nImages;
     
     scene = I.I_PPM;
     
-    StatsOut = nm.stats.computeSceneStats(scene, targets, envelope, sampleCoords, pixelMax);
+    StatsOut = nm.stats.computeSceneStats(scene, Settings.targets, ...
+        Settings.envelope, sampleCoords, pixelMax);
     
     % Save output
     L(:,iImg)        = StatsOut.L;

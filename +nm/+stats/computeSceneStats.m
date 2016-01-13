@@ -30,7 +30,7 @@ Lstats  = nm.stats.computeSceneLuminance(scene, envelope, coords);
 Cstats  = nm.stats.computeSceneContrast(scene, envelope, coords);
 
 for iTarget = 1:nTargets
-    Sastats  = nm.stats.computeSceneContrastceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
+    Sastats  = nm.stats.computeSceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
     Ssstats  = nm.stats.computeSceneSimilaritySpatial(scene, targets(:,:,iTarget), envelope, coords);
 
     StatsOut(iTarget).Ss = Ssstats.Smag;

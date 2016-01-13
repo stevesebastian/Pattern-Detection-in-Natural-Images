@@ -14,9 +14,9 @@ function Cstats = computeSceneContrast(imIn, wWin, sampleCoords)
 wWin = wWin./sum(sum(wWin));
 
 % luminance variance
-lumBar  = imgstats.fftconv2(imIn, wWin);
+lumBar  = nm.lib.fftconv2(imIn, wWin);
 
-weightedSquaredNorm   = lib.fftconv2(imIn.^2, wWin) - lumBar.^2;
+weightedSquaredNorm   = nm.lib.fftconv2(imIn.^2, wWin) - lumBar.^2;
 weightedSquaredNorm(weightedSquaredNorm < 0) = 0;
 lumWeightedLocalNorm  = sqrt(weightedSquaredNorm);
 
@@ -28,5 +28,5 @@ if(isempty(sampleCoords))
     Cstats.Crms = cRms;
 else
     inds = sub2ind(size(imIn), sampleCoords(:,1), sampleCoords(:,2));
-    Cstats.Crms = cMap(inds);
+    Cstats.Crms = cRms(inds);
 end

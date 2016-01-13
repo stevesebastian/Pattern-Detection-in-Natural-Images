@@ -16,7 +16,7 @@ function Lstats = computeSceneLuminance(imIn, wWin, sampleCoords)
 wWin = wWin / sum(wWin(:));
 
 % local mean luminance
-lumBar  = lib.fftconv2(imIn, wWin);
+lumBar  = nm.lib.fftconv2(imIn, wWin);
 
 %% output
 if(isempty(sampleCoords))

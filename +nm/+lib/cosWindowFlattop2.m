@@ -28,11 +28,11 @@ dskRadiusPix = dskDmPix/2;
 rmpWidthPix = rmpWidthPixX2/2;
 
 if bSym == 0
-    [X Y] = meshgrid(samplePositions(1,numPix));
+    [X, Y] = meshgrid(samplePositions(1,numPix));
 elseif bSym == 1 && mod(numPix,2)==0
     x = samplePositions(1,numPix);
     x = x+diff(x(1:2))/2;
-    [X Y] = meshgrid(x); 
+    [X, Y] = meshgrid(x); 
 else
     error(['cosWindowFlattop: WARNING! unhandled bSym and numPix values']);
 end
