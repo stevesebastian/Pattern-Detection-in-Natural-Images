@@ -26,12 +26,12 @@ end
 nTargets = size(targets,3);
 
 %% Calculate stats.
-Lstats  = stats.computeSceneLuminance(scene, envelope, coords);
-Cstats  = stats.computeSceneContrast(scene, envelope, coords);
+Lstats  = nm.stats.computeSceneLuminance(scene, envelope, coords);
+Cstats  = nm.stats.computeSceneContrast(scene, envelope, coords);
 
 for iTarget = 1:nTargets
-    Sastats  = stats.computeSceneContrastceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
-    Ssstats  = stats.computeSceneSimilaritySpatial(scene, targets(:,:,iTarget), envelope, coords);
+    Sastats  = nm.stats.computeSceneContrastceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
+    Ssstats  = nm.stats.computeSceneSimilaritySpatial(scene, targets(:,:,iTarget), envelope, coords);
 
     StatsOut(iTarget).Ss = Ssstats.Smag;
     StatsOut(iTarget).Sa = Sastats.Smag;
@@ -44,18 +44,6 @@ StatsOut.C  = Cstats.Crms;
 
 % Convert luminance to % luminance
 if(exists('pixelMax', 'var') || ~isempty(pixelMax))
-    StatsOut.L = (StatsOut.L./(pixelMax).*100;
+    StatsOut.L = (StatsOut.L./(pixelMax)).*100;
 end
 
-% Sample coords
-if (~isempty(coords))
-    if (numel(coords) == 1 && coords == 0)
-        coords = round(size(scene)/2);
-    end
-    inds = sub2ind(size(scene), coords(:,1), coords(:,2));
-    
-    StatsOut.L = StatsOut.L(inds);
-    StatsOut.C = StatsOut.C(inds);
-    StatsOut.S = StatsOut.S(inds);
-
-end

@@ -36,16 +36,16 @@ Ss      = zeros(nSamples, nImages, nTargets);
 tMatch = zeros(nSamples, nImages, nTargets);
 pClipped     = zeros(nSamples, nImages);
 
-for iImg = 1:nImages;
+parfor iImg = 1:nImages;
 
-    disp('Image: ' num2str(iImg) '/' num2str(nImages)]);
+    disp(['Image: ' num2str(iImg) '/' num2str(nImages)]);
     
     % Load the image.
     I = load([filePathStr '/' D(iImg).name]);
     
     scene = I.I_PPM;
     
-    StatsOut = stats.computeSceneStats(scene, targets, envelope, sampleCoords, pixelMax);
+    StatsOut = nm.stats.computeSceneStats(scene, targets, envelope, sampleCoords, pixelMax);
     
     % Save output
     L(:,iImg)        = StatsOut.L;
@@ -61,7 +61,7 @@ for iImg = 1:nImages;
 end
 
 %% Save output.
-ImgStats = struct('L', L, 'C', C, 'Sa', Sa, 'Sa', 'Sa', 'tMatch', tMatch, 'pClipped', pClipped,  ...
-                  'sampleCoords', sampleCoords, 'imgDir' D, 'Settings', Settings);
+ImgStats = struct('L', L, 'C', C, 'Sa', Sa, 'Ss', Ss, 'tMatch', tMatch, 'pClipped', pClipped,  ...
+                  'sampleCoords', sampleCoords, 'imgDir', D, 'Settings', Settings);
 
 
