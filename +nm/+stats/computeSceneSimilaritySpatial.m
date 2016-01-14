@@ -29,16 +29,12 @@ diffImgNorm = sqrt(sum(diffImgAve(:).^2));
 S = templateMatch./(tarInNorm.*diffImgNorm);
 Smag = abs(S);
 
-tMatch = nm.lib.fftconv2(imIn, tarIn);
-
 %% output
 if(isempty(sampleCoords))
     Sstats.S = S;
     Sstats.Smag = Smag;
-    Sstats.tMatch = tMatch;
 else
     inds = sub2ind(size(imIn), sampleCoords(:,1), sampleCoords(:,2));
     Sstats.S = S(inds);
     Sstats.Smag = Smag(inds);
-    Sstats.tMatch = tMatch(inds);
 end

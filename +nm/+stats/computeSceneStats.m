@@ -28,19 +28,22 @@ nTargets = size(targets,3);
 %% Calculate stats.
 Lstats  = nm.stats.computeSceneLuminance(scene, envelope, coords);
 Cstats  = nm.stats.computeSceneContrast(scene, envelope, coords);
+Pstats  = nm.stats.computeScenePercentClipped(scene, envelope, coords);
 
 for iTarget = 1:nTargets
     Sastats  = nm.stats.computeSceneSimilarityAmplitude(scene, targets(:,:,iTarget), envelope, coords);
     Ssstats  = nm.stats.computeSceneSimilaritySpatial(scene, targets(:,:,iTarget), envelope, coords);
-
+    Tstats   = nm.stats.computeSceneTemplateMatch(scene, targets(:,:,iTarget), coords);
+    
     StatsOut.Ss{iTarget} = Ssstats.Smag;
     StatsOut.Sa{iTarget} = Sastats.Smag;
-    StatsOut.tMatch{iTarget} = Ssstats.tMatch;
+    StatsOut.tMatch{iTarget} = Tstats.tMatch;
 end
 
 %% Output
 StatsOut.L  = Lstats.L;
 StatsOut.C  = Cstats.Crms;
+StatsOut.pClipped = Pstats.pClipped;
 
 % Convert luminance to % luminance
 if(exist('pixelMax', 'var') || ~isempty(pixelMax))
