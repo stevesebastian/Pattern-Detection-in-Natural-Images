@@ -4,11 +4,6 @@ function [P, PcoordsRC] = cropImage(I,PcoordsRC,patchSize,indColorChannels, bCen
 % Example: 
 %   [P PcoordsRC] = nm.lib.CROPIMAGE(I,[475 1625],[128 128]); imagesc(P(:,:,1))
 %
-% Return 10 coordinates sampled from all patches with 128 pixel spacing
-%   PCoordsRC = nm.lib.SAMPLEPATCHCOORDINATES(size(I), size(P), 128, 10);
-%   
-%   [imgOut, percentClupped] = nm.lib.EMBEDIMAGEINCENTER(I, T, 1, 8, 0, 0);
-% 
 % Output:   
 %   P:          cropped patch
 %   PcoordsRC:  row and column indices corresponding to patch location

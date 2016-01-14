@@ -1,25 +1,27 @@
-function ExpSettings = loadExperimentSettings(expTypeStr)
+function ExpSettings = loadExperimentSettings(expTypeStr, binIndex, cLvls)
 
 
 %% 
 
 if(strcmp(expTypeStr, 'fovea'))
-	ExpSettings.nLevels = 5;
-	ExpSettings.nTrials = 30;
-	ExpSettings.nBlocks = 2;
+	nLevels = 5;
+	nTrials = 30;
+	nBlocks = 2;
 
-	ExpSettings.pixelsPerDeg = 120;
-	ExpSettings.targetPosDeg = zeros(ExpSettings.nLevels, ExpSettings.nTrials, ExpSettings.nBlocks, 2);
-	ExpSettings.fixPosDeg = zeros(ExpSettings.nLevels, ExpSettings.nTrials, ExpSettings.nBlocks, 2);
+	pTarget = 0.5;
 
-	ExpSettings.targetFunction = @nm.lib.gabor2D;
+	pixelsPerDeg = 120;
+	targetPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
+	fixPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
 
-	ExpSettings.loadStimuliFunction = @nm.experiment.additiveTarget;
+	targetFunction = @nm.lib.gabor2D;
+	loadStimuliFunction = @nm.experiment.additiveTarget;
 
-	% These values will be set later
-	ExpSettings.bTargetPresent  = [];
-	ExpSettings.targetAmplitude = [];
-	ExpSettings.stimuli = [];
-	ExpSettings.bgPixVal = [];
+	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
+	targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+	stimuli = [];
+	bgPixVal = [];
+
+
 end
 
