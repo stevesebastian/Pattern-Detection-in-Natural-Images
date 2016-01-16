@@ -1,9 +1,14 @@
-function ExpSettings = loadExperimentSettings(expTypeStr, binIndex, cLvls)
+function ExpSettings = loadExperimentSettings(ImgStats, expTypeStr, binIndex, cLvls)
 
 
 %% 
 
 if(strcmp(expTypeStr, 'fovea'))
+    
+    monitorMaxPix = 255;
+    
+    filePathImages = ImgStats.Settings.filePathImages;
+    targetTypeStr = 'gabor';
 	nLevels = 5;
 	nTrials = 30;
 	nBlocks = 2;
@@ -19,9 +24,9 @@ if(strcmp(expTypeStr, 'fovea'))
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
 	targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
-	stimuli = [];
-	bgPixVal = [];
-
+	[stimuli, stimuliIndex] = ...
+        nm.experiment.samplePatchesForExperiment(ImgStats, tergetTypeStr, [5 5 5], filePathImages);
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix;
 
 end
 
