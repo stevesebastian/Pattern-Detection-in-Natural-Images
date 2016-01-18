@@ -19,7 +19,7 @@ iWin = wWin > 0;
 %% Compute Similarity
 lumBar  = nm.lib.fftconv2(imIn, wWin);
 diffImg = imIn - lumBar;
-templateMatch = nm.lib.fftconv2(diffImg, lumBar);
+templateMatch = nm.lib.fftconv2(diffImg, tarIn);
 
 diffImgAve = nm.lib.fftconv2(diffImg, iWin);
 

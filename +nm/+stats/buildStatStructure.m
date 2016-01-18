@@ -37,8 +37,7 @@ Ss = zeros(nSamples, nImages, nTargets);
 tMatch = zeros(nSamples, nImages, nTargets);
 pClipped     = zeros(nSamples, nImages);
 
-for iImg = 1:5;
-
+parfor iImg = 1:32
     disp(['Image: ' num2str(iImg) '/' num2str(nImages)]);
     
     % Load the image.
@@ -59,7 +58,6 @@ for iImg = 1:5;
         Ss(:,iImg, iTarget)     = StatsOut.Ss{iTarget};
         tMatch(:,iImg, iTarget) = StatsOut.tMatch{iTarget};
     end
-
 end
 
 %% Save output.
