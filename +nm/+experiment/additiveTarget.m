@@ -4,7 +4,6 @@ function stimulusOut = additiveTarget(backgroundImg, targetFunction, TargetParam
 % Example: 
 % 	stimulusOut = ADDITIVETARGET(backgroundImg, @nm.lib.gabor2D, GaborParams);
 %
-%
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
 target = targetFunction(TargetParams);

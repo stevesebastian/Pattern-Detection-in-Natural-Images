@@ -1,61 +1,47 @@
-function pIndex = samplePatchesForExperiment(ImgStats, binIndex, targetTypeStr, filePathIn, filePathOut)
-%SAMPLEPATCHESFOREXPERIMENT Sample and save image frames for use in the detection experiment
+function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nLevels, nRuns, nTrials)
+%SAMPLEPATCHESFOREXPERIMENT Sample patches for use in the detection experiment
 % 
 % Example: 
-%   pIndex = SAMPLEPATCHESFOREXPERIMENT(IgStats, [5 5 5], 'gabor', fpIn, fpOut); 
+%  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], fpIn); 
 %
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Set up
 
-numRuns = 2;
-numLvls = 5;
-numTrialsPerLvl = 30;
-
-numPatches = numRuns*numLvls*numTrialsPerLvl;
-
 if(sum(binIndex > 10 | binIndex < 1))
     error('binIndex out of range. Use 1-10');
 end
 
-if(strcmp(targetTypeStr, 'G'))
-    pIndexAll = ImgStats.patchIndexG{binIndex(1), binIndex(2), binIndex(3)};
-elseif(strcmp(targetTypeStr, 'D'))
-    pIndexAll = ImgStats.patchIndexD{binIndex(1), binIndex(2), binIndex(3)};
-else
-    error(['Target type: ' targetTypeStr ' not supported. Use ''G'' or ''D''. ']);
-end
+targetKeyIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetKeyStr);
+numPatches = numRuns*numLvls*numTrials;
+patchIndexBin = ...
+    ImgStats.patchIndex{targetKeyIndex}{binIndex(1), binIndex(2), binIndex(3)};
 
 %% Sample patches uniformly across all bins, 
-% keep image order, but randomize the coordinates
+% keep image order, but randomize the coordinate order
 
-pIndexAll = pIndexAll(randperm(length(pIndexAll)));
+patchIndexBin = patchIndexBin(randperm(length(patchIndexBin)));
 
-[~, iIndexRand] = ind2sub([59332 1491], pIndexAll);
+nCoords = size(ImgStats.L,1);
+nImages = size(ImgStats.L,2);
 
+[~, iIndexRand] = ind2sub([nCoords nImages], patchIndexBin);
 [~, sortedIndex] = sort(iIndexRand);
 
-pIndexAll = pIndexAll(sortedIndex);
-
-pIndex = pIndexAll(round(linspace(1, length(pIndexAll), numPatches)));
-
+patchIndexBin = patchIndexBin(sortedIndex);
+pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), numPatches)));
 pIndex = pIndex(randperm(length(pIndex)));
-
 pIndex = reshape(pIndex, [numLvls, numTrialsPerLvl numRuns]);
 
 %% Load, crop and save images
+stimuli = zeroes(ImgStats.surroundSizePix, ImgStats.surroundSizePix, nTrials, nLevels, nRuns);
 
-for rItr = numRuns
-    
-    frames = zeros(513, 513, numLvls, numTrialsPerLvl);
-    
-    for lItr = 1:numLvls        
-        for tItr = 1:numTrialsPerLvl
-
-            frames(:,:, lItr, tItr, rItr) = nm.getPatchFromStatStruct(ImgStats, pIndex(lItr, tItr, rItr), filePathIn, 0, 0);
-
+for iTrials = 1:nTrials
+    for iLevels = 1:nLevels
+        for iRuns = 1:nRuns
+            stimuli(:,:, iTrials, iLevels, iRuns) = ...
+                nm.lib.getPatchFromStatStruct(ImgStats, pIndex(iTrials, iLevels, iRuns), filePathIn, 0, 0);
         end
     end
 end
 
-save([filePathOut '/' targetTypeStr '_' num2str(binIndex(1)) num2str(binIndex(2)) num2str(binIndex(3)) '.mat'], 'frames', 'pIndex');
