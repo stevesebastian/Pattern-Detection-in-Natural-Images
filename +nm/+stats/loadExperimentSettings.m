@@ -59,8 +59,8 @@ if(strcmp(typeStr,'fovea'))
 elseif(strcmp(typeStr, 'periphery'))
     
 	% Target set up
-    haarParams.pixperdeg    = 120;
-    haarParams.size         = .38;
+    haarParams.pixperdeg    = 60;
+    haarParams.size         = .35;
     haarParams.dc           = 127;
     haarParams.type         = 'vertical';
     haarParams.contrast     = 1;
@@ -74,7 +74,7 @@ elseif(strcmp(typeStr, 'periphery'))
 	targetKey = {{'vertical'}};
 
 	% Statistic parameters
-	surroundSizePix = 513;
+	surroundSizePix = 241;
 	targetSizePix = size(haar,1);
 	spacingPix = 10;
 	imgSizePix = [2844 4284];
@@ -87,7 +87,7 @@ elseif(strcmp(typeStr, 'periphery'))
 	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = nm.stats.computeBinSpacing(0.13, 0.35, 10);
 	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = nm.stats.computeBinSpacing(0.45, 0.75, 10);
 
-    imgFilePath = '~/Desktop/sample_image/';
+    imgFilePath = '~/occluding/newcodeimages/';
 
 	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'haarParams', haarParams,...
                       'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
