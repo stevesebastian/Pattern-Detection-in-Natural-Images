@@ -45,10 +45,10 @@ if(strcmp(typeStr,'fovea'))
 	pixelMax = 2^14-1;
 
 	% Binning parameters
-	[binEdges.L, binCenters.L]  = nm.stats.computeBinSpacing(6, 62, 10);
-	[binEdges.C, binCenters.C]  = nm.stats.computeBinSpacing(0.03, 0.47, 10);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = nm.stats.computeBinSpacing(0.13, 0.35, 10);
-	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = nm.stats.computeBinSpacing(0.45, 0.75, 10);
+	[binEdges.L, binCenters.L]  = nm.stats.computeBinSpacing(6, 62, nBins);
+	[binEdges.C, binCenters.C]  = nm.stats.computeBinSpacing(0.03, 0.47, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = nm.stats.computeBinSpacing(0.13, 0.35, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = nm.stats.computeBinSpacing(0.45, 0.75, nBins);
 
     imgFilePath = 'D:\sebastian\natural_images\images_stats';
 
