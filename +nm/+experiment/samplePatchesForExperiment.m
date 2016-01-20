@@ -33,16 +33,16 @@ nImages = size(ImgStats.L,2);
 patchIndexBin = patchIndexBin(sortedIndex);
 pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), nPatches)));
 pIndex = pIndex(randperm(length(pIndex)));
-pIndex = reshape(pIndex, [numLvls, numTrialsPerLvl numRuns]);
+pIndex = reshape(pIndex, [nTrials, nLevels nBlocks]);
 
 %% Load, crop and save images
-stimuli = zeroes(ImgStats.surroundSizePix, ImgStats.surroundSizePix, nTrials, nLevels, nBlocks);
+stimuli = zeros(ImgStats.Settings.surroundSizePix, ImgStats.Settings.surroundSizePix, nTrials, nLevels, nBlocks);
 
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
-        for iRuns = 1:nBlocks
-            stimuli(:,:, iTrials, iLevels, iRuns) = ...
-                nm.lib.getPatchFromStatStruct(ImgStats, pIndex(iTrials, iLevels, iRuns), filePathIn, 0, 0);
+        for iBlocks = 1:nBlocks
+            stimuli(:,:, iTrials, iLevels, iBlocks) = ...
+                nm.lib.getPatchFromStatStruct(ImgStats, pIndex(iTrials, iLevels, iBlocks), filePathIn, 0, 0);
         end
     end
 end
