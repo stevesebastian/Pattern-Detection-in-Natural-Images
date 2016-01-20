@@ -50,10 +50,15 @@ t_norm  = t_norm + t_mean;
 
 switch Parameters.type
     case('horizontal')
-        error('Haar not implemented yet.')
+        haar    = [repmat(t_norm(1),sizeRadPx,2*sizeRadPx+1);repmat(t_mean,1,2*sizeRadPx+1);repmat(t_norm(2),sizeRadPx,2*sizeRadPx+1)];
     case('vertical')
-        haar = [repmat(t_norm(1),2*sizeRadPx+1,sizeRadPx),repmat(t_mean,2*sizeRadPx+1,1),repmat(t_norm(2),2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
-    case('uniform')
+        haar    = [repmat(t_norm(1),2*sizeRadPx+1,sizeRadPx),repmat(t_mean,2*sizeRadPx+1,1),repmat(t_norm(2),2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
+    case('bowtie')
+        hwR   = YY./XX;    
+        angle = atan(hwR);
+        angle(isnan(angle(:))) = 0; % middle pixel is NaN. We want it to be 0.        
+        haar = abs(angle) <= pi/4 + pi/180;
+
         error('Haar not implemented yet.')
     otherwise
         error('Haar type error');
