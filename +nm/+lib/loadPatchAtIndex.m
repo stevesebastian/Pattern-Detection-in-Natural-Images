@@ -38,10 +38,10 @@ imName = ImgStats.imgDir(imgIndex).name;
 load([filePath '/' imName]);
 
 % crop out the surround patch
-S = nm.lib.cropImage(I_PPM, ImgStats.smpCoords(coordIndex,:), surroundSizePix, [], 1);
+S = nm.lib.cropImage(I_PPM, ImgStats.sampleCoords(coordIndex,:), surroundSizePix, [], 1);
 
 % crop out the patch
-centerCoord = ceil(ImgStats.surroundSizePix/2);
+centerCoord = ceil(surroundSizePix/2);
 P = nm.lib.cropImage(S, [centerCoord, centerCoord], targetSizePix, [], 1);
 
 if(~isempty(envelope))

@@ -1,4 +1,4 @@
-function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nLevels, nBlocks, nTrials)
+function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nTrials, nLevels, nBlocks)
 %SAMPLEPATCHESFOREXPERIMENT Sample patches for use in the detection experiment
 % 
 % Example: 
@@ -42,7 +42,7 @@ for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         for iBlocks = 1:nBlocks
             stimuli(:,:, iTrials, iLevels, iBlocks) = ...
-                nm.lib.getPatchFromStatStruct(ImgStats, pIndex(iTrials, iLevels, iBlocks), filePathIn, 0, 0);
+                nm.lib.loadPatchAtIndex(ImgStats, pIndex(iTrials, iLevels, iBlocks), filePathIn, 0, 0);
         end
     end
 end
