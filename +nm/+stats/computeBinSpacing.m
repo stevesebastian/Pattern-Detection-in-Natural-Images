@@ -1,4 +1,4 @@
-function [binEdges, binCenters] = computeBinEdges(xMax, xMin, nBins)
+function [binEdges, binCenters] = computeBinEdges(xMin, xMax, nBins)
 %COMPUTEBINSPACING Compute non-linear stat bin edges and centers
 %
 % Example

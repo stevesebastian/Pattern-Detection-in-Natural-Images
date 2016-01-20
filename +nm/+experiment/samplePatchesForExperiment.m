@@ -1,4 +1,4 @@
-function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nLevels, nRuns, nTrials)
+function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nLevels, nBlocks, nTrials)
 %SAMPLEPATCHESFOREXPERIMENT Sample patches for use in the detection experiment
 % 
 % Example: 
@@ -12,8 +12,10 @@ if(sum(binIndex > 10 | binIndex < 1))
     error('binIndex out of range. Use 1-10');
 end
 
+filePathIn = ImgStats.Settings.filePathImages;
+
 targetKeyIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetKeyStr);
-numPatches = numRuns*numLvls*numTrials;
+nPatches = nBlocks*nLevels*nTrials;
 patchIndexBin = ...
     ImgStats.patchIndex{targetKeyIndex}{binIndex(1), binIndex(2), binIndex(3)};
 
@@ -29,16 +31,16 @@ nImages = size(ImgStats.L,2);
 [~, sortedIndex] = sort(iIndexRand);
 
 patchIndexBin = patchIndexBin(sortedIndex);
-pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), numPatches)));
+pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), nPatches)));
 pIndex = pIndex(randperm(length(pIndex)));
 pIndex = reshape(pIndex, [numLvls, numTrialsPerLvl numRuns]);
 
 %% Load, crop and save images
-stimuli = zeroes(ImgStats.surroundSizePix, ImgStats.surroundSizePix, nTrials, nLevels, nRuns);
+stimuli = zeroes(ImgStats.surroundSizePix, ImgStats.surroundSizePix, nTrials, nLevels, nBlocks);
 
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
-        for iRuns = 1:nRuns
+        for iRuns = 1:nBlocks
             stimuli(:,:, iTrials, iLevels, iRuns) = ...
                 nm.lib.getPatchFromStatStruct(ImgStats, pIndex(iTrials, iLevels, iRuns), filePathIn, 0, 0);
         end

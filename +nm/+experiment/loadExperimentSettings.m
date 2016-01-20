@@ -15,11 +15,13 @@ if(strcmp(expTypeStr, 'fovea'))
 	nBlocks = 2;
 
 	pTarget = 0.5;
-
-	pixelsPerDeg = 120;
-    
-	targetPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
-	fixPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
+  
+    pixelsPerDeg = 120;
+  
+    targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+	
+    targetPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 
     targetPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
     fixPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
@@ -28,9 +30,9 @@ if(strcmp(expTypeStr, 'fovea'))
 	loadStimuliFunction = @nm.experiment.additiveTarget;
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
-	targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+
 	[stimuli, stimuliIndex] = ...
-        nm.experiment.samplePatchesForExperiment(ImgStats, tergetTypeStr, [5 5 5], filePathImages);
+        nm.experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex, nLevels, nTrials, nBlocks);
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix;
 
     ExpSettings = cell('monitorMaxPix', monitorMaxPix, 'monitorSizePix', monitorSizePix, ...
