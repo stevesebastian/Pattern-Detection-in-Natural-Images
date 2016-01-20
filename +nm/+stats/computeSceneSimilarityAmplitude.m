@@ -13,10 +13,16 @@ function StatsOut = computeSceneSimilarityAmplitude(imIn, tarIn, wWin, sampleCoo
 
 %% Variable set up/
 iWin = wWin > 0;
-cosWin = nm.lib.cosWindowFlattop2(size(tarIn), 90, 10, 0, 0); 
-paddedImage = ones([128, 128]);
 
-targetSizePix = size(tarIn);
+targetSizePix  = size(tarIn);
+rampSizePix = (targetSizePix(1)-1)*.1;
+diskSizePix = targetSizePix(1) - rampSizePix;
+
+cosWin = nm.lib.cosWindowFlattop2(targetSizePix, diskSizePix, rampSizePix); 
+
+% Pad by a power of 2
+paddedSizePix = 2^(ceil(log2(targetSizePix(1))));
+paddedImage = ones([paddedSizePix, paddedSizePix]);
 
 tarIn = tarIn.*cosWin;
 tarInPadded = paddedImage.*0;

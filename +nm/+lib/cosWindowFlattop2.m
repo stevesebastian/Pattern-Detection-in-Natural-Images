@@ -1,8 +1,8 @@
-function W = cosWindowFlattop2(numPixOrig,dskDmPix,rmpWidthPixX2,bSym,bPLOT)
+function W = cosWindowFlattop2(numPixOrig,dskDmPix,rmpWidthPixX2,bPLOT)
 %COSWINDOWFLATTOP2 Creates a 2D cosine window with a flat top
 %
 % Example: 
-%   cosWin = nm.lib.COSWINDOWFLATTOP2([128 128],96,32,1);
+%   cosWin = nm.lib.COSWINDOWFLATTOP2([128 128],91,30,1);
 % 
 % Output:
 %   W:  2D cosine window
@@ -17,27 +17,15 @@ numPix = max(numPixOrig);
 if dskDmPix + rmpWidthPixX2 > numPix(1)
    disp(['cosWindowFlattop: WARNING! disk + ramp radius exceeds image size']);
 end
-if ~exist('bSym','var') || isempty(bSym)
-    bSym = 0;
-end
 if ~exist('bPLOT','var') || isempty(bPLOT)
-   bPLOT = 0; 
+   bPLOT = 0;
 end
 
 dskRadiusPix = dskDmPix/2;
-rmpWidthPix = rmpWidthPixX2/2;
+rmpWidthPix  = rmpWidthPixX2/2;
 
-if bSym == 0
-    [X, Y] = meshgrid(nm.lib.samplePositions(1,numPix));
-elseif bSym == 1 && mod(numPix,2)==0
-    x = samplePositions(1,numPix);
-    x = x+diff(x(1:2))/2;
-    [X, Y] = meshgrid(x); 
-else
-    error(['cosWindowFlattop: WARNING! unhandled bSym and numPix values']);
-end
-R     = sqrt(X.^2 + Y.^2);
-
+[X, Y]  = meshgrid(-(dskDmPix + rmpWidthPixX2 -1)/2:((dskDmPix + rmpWidthPixX2 -1)/2));
+R       = sqrt(X.^2 + Y.^2);
 
 %% Build cosine window
 W = ones(numPix);
