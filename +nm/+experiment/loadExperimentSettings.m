@@ -2,11 +2,16 @@ function ExpSettings = loadExperimentSettings(ImgStats, expTypeStr, binIndex, cL
 
 
 %% 
+<<<<<<< Updated upstream
 
 if(strcmp(expTypeStr, 'fovea'))
     
     monitorMaxPix = 255;    
     monitorSizePix = [1000 1000]; 
+=======
+if(strcmp(expTypeStr, 'fovea')) 
+    monitorMaxPix = 255;
+>>>>>>> Stashed changes
     
     filePathImages = ImgStats.Settings.filePathImages;
     targetTypeStr = 'gabor';
@@ -15,11 +20,13 @@ if(strcmp(expTypeStr, 'fovea'))
 	nBlocks = 2;
 
 	pTarget = 0.5;
-
-	pixelsPerDeg = 120;
-    
-	targetPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
-	fixPosDeg = zeros(nLevels, nTrials, nBlocks, 2);
+  
+    pixelsPerDeg = 120;
+  
+    targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+	
+    targetPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 
     targetPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
     fixPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
@@ -28,9 +35,14 @@ if(strcmp(expTypeStr, 'fovea'))
 	loadStimuliFunction = @nm.experiment.additiveTarget;
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
-	targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+
 	[stimuli, stimuliIndex] = ...
+<<<<<<< HEAD
+        nm.experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex, nLevels, nTrials, nBlocks);
+=======
         nm.experiment.samplePatchesForExperiment(ImgStats, tergetTypeStr, [5 5 5], filePathImages);
+<<<<<<< Updated upstream
+>>>>>>> origin/master
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix;
 
     ExpSettings = cell('monitorMaxPix', monitorMaxPix, 'monitorSizePix', monitorSizePix, ...
@@ -41,5 +53,8 @@ if(strcmp(expTypeStr, 'fovea'))
         'targetFunction', targetFunction, 'loadStimuliFunction', loadStimuliFunction, ...
         'bTargetPresent', bTargetPresent, 'targeAmplitude', targetAmplitude, ...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
+=======
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix;   
+>>>>>>> Stashed changes
 end
 

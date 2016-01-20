@@ -37,7 +37,7 @@ Ss = zeros(nSamples, nImages, nTargets);
 tMatch = zeros(nSamples, nImages, nTargets);
 pClipped     = zeros(nSamples, nImages);
 
-parfor iImg = 1:32
+parfor iImg = 1:nImages
     disp(['Image: ' num2str(iImg) '/' num2str(nImages)]);
     
     % Load the image.

@@ -13,7 +13,7 @@ function StatsOut = computeSceneSimilarityAmplitude(imIn, tarIn, wWin, sampleCoo
 
 %% Variable set up/
 iWin = wWin > 0;
-cosWin = nm.lib.cosWindowFlattop2(size(tarIn), 90, 10, 0, 0);
+cosWin = nm.lib.cosWindowFlattop2(size(tarIn), 90, 10, 0, 0); 
 paddedImage = ones([128, 128]);
 
 targetSizePix = size(tarIn);

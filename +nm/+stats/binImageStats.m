@@ -10,7 +10,7 @@ function ImgStats = binImageStats(ImgStats)
 
 binEdges = ImgStats.Settings.binEdges;
 
-nBins = size(binEdges,2) - 1;
+nBins = size(binEdges.L,2) - 1;
 nTargets = size(ImgStats.Settings.targets,3);
 
 patchIndex = cell(nTargets,1);
@@ -18,13 +18,14 @@ patchIndex = cell(nTargets,1);
 for iTar = 1:nTargets
     patchIndex{iTar} = cell(nBins,nBins,nBins);
     for iLum = 1:nBins    
+        disp(num2str(iLum));
         for iCon = 1:nBins
             for iSim = 1:nBins
-                patchIndex{iLum,iCon,iSim} = ...
+                Sa = ImgStats.Sa(:,:,iTar);
+                patchIndex{iTar}{iLum,iCon,iSim} = ...
                  find(ImgStats.L(:) > binEdges.L(iLum) & ImgStats.L(:) <= binEdges.L(iLum+1) ...
                     & ImgStats.C(:) > binEdges.C(iCon) & ImgStats.C(:) <= binEdges.C(iCon+1) ...
-                    & ImgStats.Sa(:) > binEdges.Sa(iSim,iTar) & ImgStats.Sa(:) <= binEdges.Sa(iSim+1,iTar));
-
+                    & Sa(:) > binEdges.Sa(iSim,iTar) & Sa(:) <= binEdges.Sa(iSim+1,iTar));
             end
         end
     end
