@@ -1,8 +1,8 @@
 function SessionSettings = sessionSettings(ImgStats, expTypeStr, binIndex, cLvls)
-%LOADSESSIONSETTINGS Loads settings and stimuli for each experimental session 
+%SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
-%  ExpSettings = LOADSESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
+%  ExpSettings = SESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
 %
 % Output: 
 %  ExpSettings Structure containing stimuli and experiment settings
@@ -37,7 +37,7 @@ if(strcmp(expTypeStr, 'fovea'))
     stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
     
-	loadStimuliFunction = @nm.experiment.loadStimuliAdditive;
+	loadSessionStimuli = @nm.experiment.loadStimuliAdditive;
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
 
@@ -49,7 +49,7 @@ if(strcmp(expTypeStr, 'fovea'))
         'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
-        'fixPosDeg', fixPosDeg, 'loadStimuliFunction', loadStimuliFunction, ...
+        'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
     

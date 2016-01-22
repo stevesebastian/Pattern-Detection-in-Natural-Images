@@ -1,8 +1,8 @@
 function SessionSettings = sessionSettings(ImgStats, expTypeStr, binIndex, cLvls)
-%LOADSESSIONSETTINGS Loads settings and stimuli for each experimental session 
+%SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
-%  ExpSettings = LOADSESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
+%  ExpSettings = SESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
 %
 % Output: 
 %  ExpSettings Structure containing stimuli and experiment settings

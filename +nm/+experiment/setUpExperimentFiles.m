@@ -1,19 +1,7 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, binIndex, cLvls)
-%LOADSESSIONSETTINGS Loads settings and stimuli for each experimental session 
-% 
-% Example: 
-%  ExpSettings = LOADSESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
-%
-% Output: 
-%  ExpSettings Structure containing stimuli and experiment settings
-%
-% See also:
-%   LOADSTIMULIADDITIVE
-%
-% v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
-
+function setUpExperiment(ImgStats, expTypeStr)
 
 %% 
+
 if(strcmp(expTypeStr, 'fovea'))
     
     monitorMaxPix = 255;    
@@ -41,11 +29,19 @@ if(strcmp(expTypeStr, 'fovea'))
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
 
-	[stimuli, stimuliIndex] = nm.experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex, nTrials, nLevels, nBlocks);
-        
-	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
+    % Experimental bins
+    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 10 5 5; ...
+                5 1 5; 5 3 5; 5 7 5; 5 10 5; ...
+                5 5 1; 5 5 3; 7 7 7; 10 5 5];
+            
+    for iBin = 1:size(binIndex, 1)
+        SessionSettings = nm.experiment.generateSessionSettings(ImgStats, 
+        [stimuli, stimuliIndex] = nm.experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex(iBin,:), nTrials, nLevels, nBlocks);
+    end
+    
+    bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
+    ExpSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
@@ -54,4 +50,3 @@ if(strcmp(expTypeStr, 'fovea'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
     
 end
-

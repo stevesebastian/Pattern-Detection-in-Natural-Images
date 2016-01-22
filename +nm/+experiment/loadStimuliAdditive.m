@@ -58,5 +58,16 @@ for iTrials = 1:nTrials
     end
 end
 
+%% Create target examples
+targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
+
+for iLevels = 1:nLevels
+    thisTarget = target.*mean(targetAmplitude(:,iLevels)).*bgPixVal;
+    
+    targetSamples(:,:,iLevels) = ...
+        nm.lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut);
+end
+
 BlockStimuli = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, ...
-    'stimPosPix', stimPosPix, 'fixPosPix', fixPosPix,'bgPixVal', bgPixVal);
+    'stimPosPix', stimPosPix, 'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, ...
+    'targetSamples', targetSamples);
