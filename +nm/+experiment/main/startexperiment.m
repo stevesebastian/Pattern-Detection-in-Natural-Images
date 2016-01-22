@@ -4,9 +4,8 @@
 %
 % R. Calen Walshe January 14, 2016
 
-if isempty(experimentStruct)
-    experimentStruct = createxperimentStruct(); % talk between     
-end
+experimentStruct = gettestexperimentstruct(BlockStimuli);
+stimulusArray    = BlockStimuli.stimuli;
 
 % Clear the workspace
 close all;
@@ -24,13 +23,8 @@ rand('seed', sum(100 * clock));
 % connected
 screenNumber = max(Screen('Screens'));
 
-% Define black, white and grey
-white = WhiteIndex(screenNumber);
-grey = white / 2;
-black = BlackIndex(screenNumber);
-
 % Open the screen
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, grey, [], 32, 2);
+[window, windowRect] = Screen('OpenWindow', screenNumber, experimentStruct.backgroundcolour, [], [], 2);
 
 % Present cute intro
 im      = imread('maskingintro.jpg');
@@ -54,6 +48,6 @@ topPriorityLevel = MaxPriority(window);
 % Set the blend function for the screen
 Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
-%experimentStruct = createxperimentStruct(); % talk between 
+experimentStruct.window = window;
 
 runexperimentblock(experimentStruct, stimulusArray);

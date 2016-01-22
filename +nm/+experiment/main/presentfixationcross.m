@@ -5,7 +5,8 @@ function presentfixationcross(experimentStruct, fixationcrossPosX, fixationcross
 %   position.
 %
 %   R. Calen Walshe January 14, 2016
-    % Draw fixation cross
+    % Draw fixation cross    
+    
     ppd                     = experimentStruct.ppd;
     fixationcrossWidthDeg   = 1/20;
     fixationcrossLengthDeg   = 1/10;
@@ -20,6 +21,9 @@ function presentfixationcross(experimentStruct, fixationcrossPosX, fixationcross
     Screen('Drawlines', experimentStruct.window, [xCoordsFix;yCoordsFix], ...
         linewidthPix, 0, [fixationcrossPosX, fixationcrossPosY]);
     
-    Screen('Flip', experimentStruct.window,0,1);
-
+    if(experimentStruct.bFovea == 1)
+        Screen('Flip', experimentStruct.window);
+    else
+        Screen('Flip', experimentStruct.window,0,1);
+    end
 end

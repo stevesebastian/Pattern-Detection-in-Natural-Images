@@ -1,6 +1,5 @@
 function [response,responseOnsetMs] = singletrialdetection(experimentStruct,stimulus, trial)
 %% singletrialdetection
-%
 %   Runs a single trial of a detection experiment.
 %
 %   R. Calen Walshe January 14, 2016
@@ -18,6 +17,8 @@ stimulusOnsetMs             = drawstimulus(experimentStruct, stimulusPosX, stimu
 
 removestimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
 
-%presentfeedback(experimentStruct,trial, response);
+presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
+
+presentfeedback(experimentStruct,trial, response);
     
 end

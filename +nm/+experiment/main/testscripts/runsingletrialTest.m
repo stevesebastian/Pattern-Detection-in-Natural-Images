@@ -13,16 +13,17 @@
     screenNumber=max(Screen('Screens'));
 
     % Open a double buffered fullscreen window.
-    [w, wRect]=Screen('OpenWindow',screenNumber, 127,[],32,2);
+    [window, windowRect] = PsychImaging('OpenWindow', screenNumber, .5, [], 32, 2);
     
     Screen('Flip', w);
     
     experimentStruct.window = w;
-    experimentStruct.fixcrossPosX = 100;
-    experimentStruct.fixcrossPosY = 540;
+    experimentStruct.fixcrossPosX(1:2) = 100;
+    experimentStruct.fixcrossPosY(1:2) = 540;
+
     
-    experimentStruct.stimulusPosX = 600;
-    experimentStruct.stimulusPosY = 540;
+    experimentStruct.stimulusPosX(1:2) = 600;
+    experimentStruct.stimulusPosY(1:2) = 540;
     
     experimentStruct.stimulusDuration = 3;
     experimentStruct.ppd = 120;
@@ -31,6 +32,8 @@
     experimentStruct.MAX_TRIALS = 2;
     experimentStruct.target = zeros(21,21);
     experimentStruct.backgroundcolour = .5;
+    experimentStruct.STIMULUSDELAY = 1;
+
     
 
     [X, Y] = meshgrid(-120:120, -120:120);
