@@ -1,16 +1,31 @@
-function BlockStimuli = loadStimuliAdditive(ExpSettings, blockNumber)
+function BlockStimuli = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNumber)
+%LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
+% 
+% Example: 
+%  BlockStimuli = LOADSTIMULIADDITIVE(ExpSettings, monitorSizePix, 1); 
+%
+% Output: 
+%  BlockStimuli Structure containing stimuli and experiment settings
+%
+% v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
+
+%% Set up 
 
 stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
 target = ExpSettings.target;
 targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,blockNumber);
-stimPosPix = ExpSettings.stimPosPix(:,:,:,blockNumber);
-fixPosPix = ExpSettings.fixPosPix(:,:,:,blockNumber);
-
 bgPixVal = ExpSettings.bgPixVal; 
 
+stimPosDeg = ExpSettings.stimPosDeg(:,:,:,blockNumber);
+fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
+
+stimPosPix = nm.lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
+fixPosPix = nm.lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
+
 bAdditive = 1;
-bitDepth = 8;
+bitDepthIn = 14;
+bitDepthOut = 8;
 
 % Create the circular mask
 maskSizePix      = size(stimuli(:,:,:,1,1));
@@ -28,7 +43,7 @@ for iTrials = 1:nTrials
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         % Convert to 8 bit
-        thisStimulus = round((thisStimulus./(2^14-1))*(2^8-1));
+        thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
             thisTarget = target.*targetAmplitude(iTrials,iLevels)*255;

@@ -1,12 +1,22 @@
 function ExpSettings = loadExperimentSettings(ImgStats, expTypeStr, binIndex, cLvls)
+%LOADEXPERIMENTSETTINGS Loads settings and stimuli for experiment 
+% 
+% Example: 
+%  ExpSettings = LOADEXPERIMENTSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
+%
+% Output: 
+%  ExpSettings Structure containing stimuli and experiment settings
+%
+% See also:
+%   LOADSTIMULIADDITIVE
+%
+% v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
 
 
 %% 
 if(strcmp(expTypeStr, 'fovea'))
     
     monitorMaxPix = 255;    
-    monitorSizePix = [1000 1000]; 
-
     
     filePathImages = ImgStats.Settings.filePathImages;
     targetTypeStr = 'gabor';
@@ -14,8 +24,7 @@ if(strcmp(expTypeStr, 'fovea'))
     targetIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-    nm.lib.t
-	nLevels = 5;
+	nLevels = length(cLvls);
 	nTrials = 30;
 	nBlocks = 2;
 
@@ -25,13 +34,10 @@ if(strcmp(expTypeStr, 'fovea'))
   
     targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
 	
-    targetPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+    stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
-
-    stimPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
-    fixPosPix = nm.lib.monitorDegreesToPixels(targetPosDeg, monitorSizePix, pixelsPerDeg);
     
-	loadStimuliFunction = @nm.experiment.additiveTarget;
+	loadStimuliFunction = @nm.experiment.loadStimuliAdditive;
 
 	bTargetPresent  = nm.experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
 
@@ -39,12 +45,11 @@ if(strcmp(expTypeStr, 'fovea'))
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    ExpSettings = struct('monitorMaxPix', monitorMaxPix, 'monitorSizePix', monitorSizePix, ...
+    ExpSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
-        'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'targetPosDeg', targetPosDeg, ...
-        'fixPosDeg', fixPosDeg, 'stimPosPix', stimPosPix, 'fixPosPix', fixPosPix, ...
-        'targetFunction', targetFunction, 'loadStimuliFunction', loadStimuliFunction, ...
+        'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
+        'fixPosDeg', fixPosDeg, 'loadStimuliFunction', loadStimuliFunction, ...
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
     
