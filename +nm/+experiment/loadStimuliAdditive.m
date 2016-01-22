@@ -16,6 +16,7 @@ target = ExpSettings.target;
 targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,blockNumber);
 bgPixVal = ExpSettings.bgPixVal; 
+pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
 stimPosDeg = ExpSettings.stimPosDeg(:,:,:,blockNumber);
 fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
@@ -48,7 +49,7 @@ for iTrials = 1:nTrials
         if(bTargetPresent(iTrials, iLevels))
             thisTarget = target.*targetAmplitude(iTrials,iLevels)*255;
             thisStimulus = ...
-                nm.lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepth);
+                nm.lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut);
         end
 
         % Apply the mask
