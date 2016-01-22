@@ -7,7 +7,7 @@ function stimulusOnsetMs = drawstimulus(experimentStruct, x, y, stimulus, trial)
 % R. Calen Walshe January 14, 2016.
 
 stimulusTexture     = Screen('Maketexture', experimentStruct.window, stimulus);
-stimulusDestination = positionstimulusonscreen(x, y, stimulus);
+stimulusDestination = nm.experiment.main.positionstimulusonscreen(x, y, stimulus);
 
 Screen('DrawTexture', experimentStruct.window, stimulusTexture, [], stimulusDestination);
 

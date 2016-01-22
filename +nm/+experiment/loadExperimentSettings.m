@@ -16,6 +16,8 @@ function ExpSettings = loadExperimentSettings(ImgStats, expTypeStr, binIndex, cL
 %% 
 if(strcmp(expTypeStr, 'fovea'))
     
+    bFovea = 1;
+    
     monitorMaxPix = 255;    
     
     filePathImages = ImgStats.Settings.filePathImages;
@@ -45,7 +47,7 @@ if(strcmp(expTypeStr, 'fovea'))
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    ExpSettings = struct('monitorMaxPix', monitorMaxPix, ...
+    ExpSettings = struct('bFovea', bFovea, 'monitorMaxPix', monitorMaxPix, ...
         'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...

@@ -8,7 +8,7 @@ function [response, RT] = waitforresponse(experimentStruct,stimulusOnsetMs)
 %   R. Calen Walshe January 14, 2016.
     response            = -1;
     RT                  = -1; 
-    maxPresentationTime = stimulusOnsetMs + experimentStruct.stimulusDuration;
+    maxPresentationTime = stimulusOnsetMs + 1.5; %CHANGE TO VARIABLE
 
     t = GetSecs();
       
