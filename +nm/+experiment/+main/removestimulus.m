@@ -3,9 +3,9 @@ function removestimulus(experimentStruct,stimulusPosX, stimulusPosY, stimulus)
 %   Places a mask over the stimulus.
 % R. Calen Walshe Jan 15, 2016
 
-    stimulusDestination = positionstimulusonscreen(stimulusPosX, stimulusPosY ,stimulus);
+    stimulusDestination = nm.experiment.main.positionstimulusonscreen(stimulusPosX, stimulusPosY ,stimulus);
     
-    Screen('FillRect', experimentStruct.window, experimentStruct.backgroundcolour, stimulusDestination);    
+    Screen('FillRect', experimentStruct.window, experimentStruct.bgPixVal, stimulusDestination);    
     Screen('Flip', experimentStruct.window);
 
 end
