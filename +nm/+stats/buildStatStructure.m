@@ -1,9 +1,9 @@
-function ImgStats = buildStatStructure(filePathStr, Settings)
+function ImgStats = buildStatStructure(Settings)
 %BUILDSTATSTRUCTURE Computes statistics for each image in filepath
 %
 % Example: 
 %   Settings = stats.EXPERIMENTSETTINGS('fovea');
-%   ImgStats = BUILDSTATSTRUCTURE('./images', Settings);
+%   ImgStats = BUILDSTATSTRUCTURE(Settings);
 %   
 %   See also BINIMAGESTATS, COMPUTESCENESTATS.
 %
@@ -13,6 +13,8 @@ function ImgStats = buildStatStructure(filePathStr, Settings)
 surroundSizePix = Settings.surroundSizePix;
 spacingPix      = Settings.spacingPix;
 imgSizePix      = Settings.imgSizePix;
+
+filePathStr = Settings.imgFilePath;
 
 targets = Settings.targets;
 envelope = Settings.envelope;
