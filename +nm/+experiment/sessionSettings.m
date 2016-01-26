@@ -16,9 +16,14 @@ function SessionSettings = sessionSettings(ImgStats, expTypeStr, binIndex, cLvls
 %% 
 if(strcmp(expTypeStr, 'fovea'))
     
+    stimulusIntervalMs = 250;
+    responseInvervalMs = 300;
+    fixationIntervalMs = 200;
+    blankIntervalMs    = 100;
+    
     monitorMaxPix = 255;    
     
-    filePathImages = ImgStats.Settings.filePathImages;
+    imgFilePath = ImgStats.Settings.imgFilePath;
     targetTypeStr = 'gabor';
     
     targetIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
@@ -46,12 +51,14 @@ if(strcmp(expTypeStr, 'fovea'))
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
-        'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
+        'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
-        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
+        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
     
 end
 

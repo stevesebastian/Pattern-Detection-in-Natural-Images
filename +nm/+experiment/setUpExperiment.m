@@ -10,7 +10,10 @@ if(strcmp(expTypeStr, 'fovea'))
                 5 5 1; 5 5 3; 7 7 7; 10 5 5];
  
     % Contrast range for each level
-    cLvls = repmat(linspace(0.05, 0.25, 5), [size(binIndex,1) , 1]);
+    cLvls = repmat(linspace(0.05, 0.2, 5), [size(binIndex,1) , 1]);
+    
+    fpSettings = '../experiment_settings';
+    fpSubjects = '../subject_out';
     
     % Session files
     for iBin = 1:size(binIndex, 1)
@@ -26,7 +29,7 @@ if(strcmp(expTypeStr, 'fovea'))
     for iSubject = 1:size(subjectStr,1)
         SubjectExpFile.binIndex = binIndex;
         SubjectExpFile.bCompleted = zeroes(size(binIndex,1), 2);
-        fpOut = [fpSubject '/' expTypeStr '_' subjectStr(:,iSubject) '.mat'];
+        fpOut = [fpSubjects '/' expTypeStr '_' subjectStr(:,iSubject) '.mat'];
         save(fpOut, SubjectExpFile);
     end
 end

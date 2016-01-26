@@ -12,7 +12,7 @@ if(sum(binIndex > 10 | binIndex < 1))
     error('binIndex out of range. Use 1-10');
 end
 
-filePathIn = ImgStats.Settings.filePathImages;
+filePathIn = ImgStats.Settings.imgFilePath;
 
 targetKeyIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetKeyStr);
 nPatches = nBlocks*nLevels*nTrials;
