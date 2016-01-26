@@ -32,7 +32,7 @@ BlockStimuli        = BlockSettings.loadStimuliFunction(BlockSettings, windowRec
 experimentStruct    =  createexperimentparams(BlockSettings, BlockStimuli, windowRect, Block);
 
 % Present cute intro
-im      = imread('./+nm/+experiment/+main/maskingintro.jpg');
+im      = imread('./+experiment/+main/maskingintro.jpg');
 tex     = Screen('MakeTexture', window, im);
 Screen('DrawTexture', window, tex);
 Screen('Flip', window);
@@ -55,7 +55,7 @@ Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
 experimentStruct.window = window;
 
-nm.experiment.main.runexperimentblock(experimentStruct, BlockStimuli.stimuli);
+experiment.main.runexperimentblock(experimentStruct, BlockStimuli.stimuli);
 
 end
 

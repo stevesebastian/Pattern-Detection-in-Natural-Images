@@ -24,7 +24,7 @@ for i = 1:nLevels
     
     presenttargetonly(experimentStruct, i);
     
-    nm.experiment.main.presentfixationcross(experimentStruct, experimentStruct.fixPosPix(1, block, 1), experimentStruct.fixPosPix(1, block, 2));    
+    experiment.main.presentfixationcross(experimentStruct, experimentStruct.fixPosPix(1, block, 1), experimentStruct.fixPosPix(1, block, 2));    
     
     WaitSecs(1);
     
@@ -32,7 +32,7 @@ for i = 1:nLevels
     for k = 1:nTrials
         trial = k;
         stimulus = levelStimulus(:,:,trial);
-        [response, RT] = nm.experiment.main.singletrialdetection(experimentStruct, stimulus, block, trial);
+        [response, RT] = experiment.main.singletrialdetection(experimentStruct, stimulus, block, trial);
 
         blockData(nLevels, nTrials, 1) = response;
         blockData(nLevels, nTrials, 2) = RT;
@@ -81,7 +81,7 @@ oldTextSize          = Screen('TextSize', w, 25);
 [nx, ny, textbounds] = DrawFormattedText(w, 'Observe the target that you will be required to detect.\nPress spacebar when ready to continue the experiment.', 'center',1*experimentStruct.ppd);
 
  targetTexture        = Screen('MakeTexture', w, experimentStruct.targetLevel(:,:,Level));
-stimulusDestination = nm.experiment.main.positionstimulusonscreen(stimX, stimY, experimentStruct.targetLevel(:,:,1));
+stimulusDestination = experiment.main.positionstimulusonscreen(stimX, stimY, experimentStruct.targetLevel(:,:,1));
 
 Screen('DrawTexture', experimentStruct.window, targetTexture, [], stimulusDestination);
 

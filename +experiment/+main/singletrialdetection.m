@@ -14,7 +14,7 @@ fixcrossPosY = experimentStruct.fixPosPix(trial, block, 2);
 stimulusPosX = experimentStruct.stimPosPix(trial, block, 1);
 stimulusPosY = experimentStruct.stimPosPix(trial, block, 2);
 
-nm.experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
+experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
 
 if experimentStruct.bFovea
     Screen('Flip', experimentStruct.window, 1);
@@ -23,16 +23,16 @@ else
     WaitSecs(experimentStruct.stimulusDelaySeconds);
 end
 
-stimulusOnsetMs             = nm.experiment.main.drawstimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
+stimulusOnsetMs             = experiment.main.drawstimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
 
 WaitSecs(experimentStruct.displayTimeSeconds);
 
-[response, responseOnsetMs] = nm.experiment.main.waitforresponse(experimentStruct, stimulusOnsetMs);
+[response, responseOnsetMs] = experiment.main.waitforresponse(experimentStruct, stimulusOnsetMs);
 
-nm.experiment.main.removestimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
+experiment.main.removestimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
 
-nm.experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
+experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
 
-nm.experiment.main.presentfeedback(experimentStruct, block, trial, response);
+experiment.main.presentfeedback(experimentStruct, block, trial, response);
     
 end

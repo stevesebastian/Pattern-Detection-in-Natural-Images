@@ -3,7 +3,7 @@ function removestimulus(experimentStruct,stimulusPosX, stimulusPosY, stimulus)
 %
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
-    stimulusDestination = nm.experiment.main.positionstimulusonscreen(stimulusPosX, stimulusPosY ,stimulus);
+    stimulusDestination = experiment.main.positionstimulusonscreen(stimulusPosX, stimulusPosY ,stimulus);
     
     Screen('FillRect', experimentStruct.window, experimentStruct.bgPixVal, stimulusDestination);    
     Screen('Flip', experimentStruct.window);
