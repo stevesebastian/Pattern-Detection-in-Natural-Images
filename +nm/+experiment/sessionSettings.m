@@ -1,4 +1,4 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, binIndex, cLvls)
+function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, cLvls)
 %SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
@@ -24,7 +24,6 @@ if(strcmp(expTypeStr, 'fovea'))
     monitorMaxPix = 255;    
     
     imgFilePath = ImgStats.Settings.imgFilePath;
-    targetTypeStr = 'gabor';
     
     targetIndex = nm.lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
