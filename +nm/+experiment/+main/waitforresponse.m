@@ -16,13 +16,11 @@ function [response, RT] = waitforresponse(experimentStruct,stimulusOnsetMs)
         % Check the keyboard.
         [keyIsDown,secs, keyCode] = KbCheck;   
         if      keyCode(KbName('leftarrow'))
-                    response        = 0;
-                    RT = t - stimulusOnsetMs;
-                    break;
-        elseif  keyCode(KbName('rightarrow'))
                     response        = 1;
                     RT = t - stimulusOnsetMs;
-                    break;
+        elseif  keyCode(KbName('rightarrow'))
+                    response        = 0;
+                    RT = t - stimulusOnsetMs;
         end
         t = GetSecs();
         WaitSecs(.001);

@@ -1,12 +1,13 @@
-function blockData = startexperiment(ExpSettings,Block)
-%% startexperiment
+
+function blockData = startexperiment(BlockSettings,Block)
+%STARTEXPERIMENT Launch the detection experiment.
 %
-%   Implements the experiment protocol.
+% Example: 
+%   blockData = STARTEXPERIMENT(BlockSettings, Block);
+%   
+%   See also RUNEXPERIMENTBLOCK
 %
-%   ExpSettings - A settings structure generated with
-%   loadexperimentsettings
-%   Block         - Block number
-% R. Calen Walshe January 14, 2016
+% v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
 % Clear the workspace
 close all;
@@ -25,10 +26,10 @@ rand('seed', sum(100 * clock));
 screenNumber = max(Screen('Screens'));
 
 % Open the screen
-[window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixVal, [], [], 2);
+[window, windowRect] = Screen('OpenWindow', screenNumber, BlockSettings.bgPixVal, [], [], 2);
 
-BlockStimuli        = ExpSettings.loadStimuliFunction(ExpSettings, size(windowRect), 1);
-experimentStruct    =  createexperimentparams(ExpSettings, windowRect, Block);
+BlockStimuli        = BlockSettings.loadStimuliFunction(BlockSettings, windowRect(3:4), 1);
+experimentStruct    =  createexperimentparams(BlockSettings, BlockStimuli, windowRect, Block);
 
 % Present cute intro
 im      = imread('./+nm/+experiment/+main/maskingintro.jpg');
@@ -58,18 +59,18 @@ nm.experiment.main.runexperimentblock(experimentStruct, BlockStimuli.stimuli);
 
 end
 
-function experimentStruct = createexperimentparams(ExpSettings,windowRect, Block)
+function experimentStruct = createexperimentparams(ExpSettings, BlockStimuli, windowRect, Block)
 % createxperimentstruct
 % Creates the parameters for the experiment that will be used by PTB.
 
 
 ppd         = ExpSettings.pixelsPerDeg;
-stimPosPix  = ExpSettings.stimPosDeg(:,:,:,Block) * ExpSettings.pixelsPerDeg;
-fixPosPix   = ExpSettings.fixPosDeg(:,:,:,Block) * ExpSettings.pixelsPerDeg;
-stimPosPix(:,:,1) = stimPosPix(:,:,1,Block) + windowRect(3)/2;
-stimPosPix(:,:,2) = stimPosPix(:,:,2,Block) + windowRect(4)/2;
-fixPosPix(:,:,1) = fixPosPix(:,:,1,Block) + windowRect(3)/2;
-fixPosPix(:,:,2) = fixPosPix(:,:,2,Block) + windowRect(4)/2;
+stimPosPix  = BlockStimuli.stimPosPix(:,:,:);
+fixPosPix   = BlockStimuli.fixPosPix(:,:,:);
+%stimPosPix(:,:,1) = stimPosPix(:,:,1,Block) + windowRect(3)/2;
+%stimPosPix(:,:,2) = stimPosPix(:,:,2,Block) + windowRect(4)/2;
+%fixPosPix(:,:,1)  = fixPosPix(:,:,1,Block) + windowRect(3)/2;
+%fixPosPix(:,:,2)  = fixPosPix(:,:,2,Block) + windowRect(4)/2;
 
 nLevels = ExpSettings.nLevels;
 nTrials = ExpSettings.nTrials;
@@ -81,9 +82,16 @@ targetLevel = ExpSettings.targetLevel(:,:,:,Block);
 
 bTargetPresent = ExpSettings.bTargetPresent(:,:,Block);
 
+%______fixcrossOffSeconds/stimulusDelaySeconds______>______displayTimeSeconds______>______responseTimeSeconds______>
+stimulusDelaySeconds = .45;
+displayTimeSeconds   = .25;
+responseTimeSeconds  = .45;
+fixcrossOffSeconds   = .45;
+
 experimentStruct = struct('targetLevel', targetLevel, 'ppd', ppd, 'stimPosPix',...
     stimPosPix, 'fixPosPix', fixPosPix, 'bTargetPresent', bTargetPresent, ...
     'nLevels', nLevels, 'nTrials', nTrials, 'bgPixVal', bgPixVal, ...
-    'bFovea', bFovea);
+    'bFovea', bFovea, 'displayTimeSeconds', displayTimeSeconds, 'responseTimeSeconds', responseTimeSeconds, ...
+    'fixcrossOffSeconds', fixcrossOffSeconds, 'stimulusDelaySeconds', stimulusDelaySeconds);
 
 end

@@ -1,15 +1,14 @@
 function presentfixationcross(experimentStruct, fixationcrossPosX, fixationcrossPosY)
-%% drawfixationcross
+%PRESENTFIXATIONCROSS Draw a fixation cross at the specified position.
 %
-%   Draw a fixation cross with several parameters. Most importantly, the
-%   position.
-%
-%   R. Calen Walshe January 14, 2016
-    % Draw fixation cross    
+% Example: 
+%   SINGLETRIALDETECTION(experimentStruct, fixationcrossPosX, fixationcrossPosY);
+%   
+% v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
     
     ppd                     = experimentStruct.ppd;
     fixationcrossWidthDeg   = 1/20;
-    fixationcrossLengthDeg   = 1/10;
+    fixationcrossLengthDeg  = 1/10;
     
     
     linewidthPix    = fixationcrossWidthDeg * ppd;

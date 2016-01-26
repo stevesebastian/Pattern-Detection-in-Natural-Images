@@ -1,10 +1,12 @@
-function stimulusOnsetMs = drawstimulus(experimentStruct, x, y, stimulus, trial)
-% drawstimulus
+function stimulusOnsetMs = drawstimulus(experimentStruct, x, y, stimulus)
+%DRAWSTIMULUS Draw the detection stimulus.
 %
-% Draws the stimulus for a trial on the screen at the x and y stimulus
-% coordinates.
+% Description:
+%   The stimulus is presented at the x and y coordinates provided.
 %
-% R. Calen Walshe January 14, 2016.
+% Example: 
+%   stimulusOnsetMs = DRAWSTIMULUS(experimentStruct, x, y, stimulus);
+% v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
 stimulusTexture     = Screen('Maketexture', experimentStruct.window, stimulus);
 stimulusDestination = nm.experiment.main.positionstimulusonscreen(x, y, stimulus);

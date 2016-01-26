@@ -1,7 +1,7 @@
 function removestimulus(experimentStruct,stimulusPosX, stimulusPosY, stimulus)
-%% removestimulus
-%   Places a mask over the stimulus.
-% R. Calen Walshe Jan 15, 2016
+%REMOVESTIMULUS Remove stimulus from screen.
+%
+% v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
     stimulusDestination = nm.experiment.main.positionstimulusonscreen(stimulusPosX, stimulusPosY ,stimulus);
     
