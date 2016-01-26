@@ -16,5 +16,5 @@ zeroPointPix = round(monitorSize./2);
 
 posPixRelative = posDeg.*pixPerDeg;
 
-posPix(:,:,:,1) = zeroPointPix(1) + posPixRelative(:,:,1); 
-posPix(:,:,:,2) = zeroPointPix(2) + posPixRelative(:,:,2); 
+posPix(:,:,1) = zeroPointPix(1) + posPixRelative(:,:,1); 
+posPix(:,:,2) = zeroPointPix(2) + posPixRelative(:,:,2); 
