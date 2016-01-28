@@ -17,7 +17,7 @@ errorTone    = sin(2*pi*errorFreqHz*soundData);
 % Feedback
 if(response == -1)
     sound(errorTone, sampleFreqHz);
-    else8if(SessionSettings.bTargetPresent(trialNumber,levelNumber) == response)
+elseif(SessionSettings.bTargetPresent(trialNumber,levelNumber) == response)
     sound(correctTone, sampleFreqHz);
 else
     sound(incorrectTone, sampleFreqHz);
