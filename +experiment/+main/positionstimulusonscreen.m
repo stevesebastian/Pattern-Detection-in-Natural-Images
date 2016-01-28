@@ -9,5 +9,3 @@ function stimulusDestination = positionstimulusonscreen(x,y, stimulus)
 
 stimulusRect         = SetRect(0, 0, size(stimulus,2), size(stimulus,1));
 stimulusDestination  = floor(CenterRectOnPointd(stimulusRect, x, y));   
-
-end

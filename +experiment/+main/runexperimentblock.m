@@ -1,4 +1,4 @@
-function runexperimentblock(experimentStruct,stimulusArray)
+function runexperimentblock(SessionSettings, SessionStimuli)
 %RUNEXPERIMENTBLOCK Runs a single block of an experiment.
 % Description: 
 %   A block consists of N levels. Each level contains M trials. The
@@ -7,65 +7,68 @@ function runexperimentblock(experimentStruct,stimulusArray)
 %   the experiment (see +stats).
 %
 % Example: 
-%   [response, responseOnsetMs] = SINGLETRIALDETECTION(experimentStruct, stimulus, block, trial);
+%   [response, responseOnsetMs] = SINGLETRIALDETECTION(ExperimentStruct, stimulus, block, trial);
 %   
 %   See also SINGLETRIALDETECTION
 %
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
-nTrials     = experimentStruct.nTrials;
-nLevels     = experimentStruct.nLevels;
+nTrials     = SessionSettings.nTrials;
+nLevels     = SessionSettings.nLevels;
+
+fixationIntervalS = SessionSettings.fixationIntervalMs/1000;
+responseIntervalS = SessionSettings.responseIntervalMs/1000;
 
 blockData = zeros(nLevels, nTrials, 2);
 
-for i = 1:nLevels
-    block = i;
+for iLevel = 1:nLevels
+    block = iLevel;
+        
+%     presenttargetonly(SessionSettings, iLevel);
     
+    experiment.main.presentfixationcross(SessionSettings, SessionStimuli.fixPosPix(1, block, 1), SessionStimuli.fixPosPix(1, block, 2));    
     
-    presenttargetonly(experimentStruct, i);
+    WaitSecs(fixationIntervalS);
     
-    experiment.main.presentfixationcross(experimentStruct, experimentStruct.fixPosPix(1, block, 1), experimentStruct.fixPosPix(1, block, 2));    
+    levelStimuli = SessionStimuli.stimuli(:,:,:,iLevel);
     
-    WaitSecs(1);
-    
-    levelStimulus = stimulusArray(:,:,:,i);
-    for k = 1:nTrials
-        trial = k;
-        stimulus = levelStimulus(:,:,trial);
-        [response, RT] = experiment.main.singletrialdetection(experimentStruct, stimulus, block, trial);
+    for iTrial = 1:nTrials
+
+        stimulus = levelStimuli(:,:,iTrial);
+        [response, RT] = experiment.main.singletrialdetection(SessionSettings, stimulus, iLevel, iTrial);
 
         blockData(nLevels, nTrials, 1) = response;
         blockData(nLevels, nTrials, 2) = RT;
 
-        WaitSecs(.5); % ADD AS VARIABLE
-    end
+        WaitSecs(responseIntervalS);
 
-    Screen('TextSize', experimentStruct.window, 25);
-    DrawFormattedText(experimentStruct.window, 'End of the block', 'center', 'center');
-    Screen('Flip', experimentStruct.window);
+    Screen('TextSize', ExperimentStruct.window, 25);
+    DrawFormattedText(ExperimentStruct.window, 'End of the block', 'center', 'center');
+    Screen('Flip', ExperimentStruct.window);
     WaitSecs(1);
   
+    end
 end
 
 end
 
-function presenttargetonly(experimentStruct, Level)
+function presenttargetonly(ExperimentStruct, Level)
 %% presenttargetonly
 %   Used for the beginning of blocks. Presents that target, with text, at
 %   the beginning of the block.
 
-posInd = randsample(1:experimentStruct.nTrials,1);
+posInd = randsample(1:ExperimentStruct.nTrials,1);
 
 
-fixX = experimentStruct.fixPosPix(posInd, Level, 1);
-fixY = experimentStruct.fixPosPix(posInd, Level, 2);
+fixX = ExperimentStruct.fixPosPix(posInd, Level, 1);
+fixY = ExperimentStruct.fixPosPix(posInd, Level, 2);
 
-stimX = experimentStruct.stimPosPix(posInd, Level, 1);
-stimY = experimentStruct.stimPosPix(posInd, Level, 2);
+stimX = ExperimentStruct.stimPosPix(posInd, Level, 1);
+stimY = ExperimentStruct.stimPosPix(posInd, Level, 2);
 
-w       = experimentStruct.window;
+w       = ExperimentStruct.window;
 
-ppd                         = experimentStruct.ppd;
+ppd                         = ExperimentStruct.ppd;
 fixationcrossWidthDeg       = 1/20;
 fixationcrossLengthDeg      = 1/10;
 
@@ -74,16 +77,16 @@ linelengthPix   = fixationcrossLengthDeg * ppd;
 
 xCoordsFix      = [-linelengthPix linelengthPix 0 0];
 yCoordsFix      = [0 0 -linelengthPix linelengthPix];
-Screen('Drawlines', experimentStruct.window, [xCoordsFix;yCoordsFix], ...
+Screen('Drawlines', ExperimentStruct.window, [xCoordsFix;yCoordsFix], ...
     linewidthPix, 0, [fixX, fixY]);
 
 oldTextSize          = Screen('TextSize', w, 25);
-[nx, ny, textbounds] = DrawFormattedText(w, 'Observe the target that you will be required to detect.\nPress spacebar when ready to continue the experiment.', 'center',1*experimentStruct.ppd);
+[nx, ny, textbounds] = DrawFormattedText(w, 'Observe the target that you will be required to detect.\nPress spacebar when ready to continue the experiment.', 'center',1*ExperimentStruct.ppd);
 
- targetTexture        = Screen('MakeTexture', w, experimentStruct.targetLevel(:,:,Level));
-stimulusDestination = experiment.main.positionstimulusonscreen(stimX, stimY, experimentStruct.targetLevel(:,:,1));
+ targetTexture        = Screen('MakeTexture', w, ExperimentStruct.targetLevel(:,:,Level));
+stimulusDestination = experiment.main.positionstimulusonscreen(stimX, stimY, ExperimentStruct.targetLevel(:,:,1));
 
-Screen('DrawTexture', experimentStruct.window, targetTexture, [], stimulusDestination);
+Screen('DrawTexture', ExperimentStruct.window, targetTexture, [], stimulusDestination);
 
 Screen('Flip',w);
 

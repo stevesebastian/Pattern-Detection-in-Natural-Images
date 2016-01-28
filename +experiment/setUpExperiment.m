@@ -22,13 +22,13 @@ if(strcmp(expTypeStr, 'fovea'))
     % Session files
     for iBin = 1:nBins
         for iTarget = 1:nTargets
-            BlockSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
+            BinExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
                 ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), cLvls(iBin,:));
             
-            fpOut = [fpSettings '/' expTypeStr '/' BlockSettings.targetTypeStr ...
+            fpOut = [fpSettings '/' expTypeStr '/' BinExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
-            save(fpOut, 'BlockSettings');
+            save(fpOut, 'BinExpSettings');
         end
     end
  
@@ -36,11 +36,11 @@ if(strcmp(expTypeStr, 'fovea'))
     subjectStr = ['sps'; 'rcw'; 'jsa'; 'yhb'];
     
     nSubjects = size(subjectStr, 1);
-    nTrials = BlockSettings.nTrials;
-    nLevels = BlockSettings.nLevels;
-    nSessions = BlockSettings.nBlocks;
+    nTrials = BinExpSettings.nTrials;
+    nLevels = BinExpSettings.nLevels;
+    nSessions = BinExpSettings.nBlocks;
     
-    BlockSettings.targetTypeStr = {'gabor', 'dog'};
+    BinExpSettings.targetTypeStr = {'gabor', 'dog'};
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
@@ -52,10 +52,10 @@ if(strcmp(expTypeStr, 'fovea'))
             SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.response     = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.pixPerDeg = BlockSettings.pixPerDeg;
-            SubjectExpFile.bgPixVal = BlockSettings.bgPixVal;
+            SubjectExpFile.pixPerDeg = BinExpSettings.pixPerDeg;
+            SubjectExpFile.bgPixVal = BinExpSettings.bgPixVal;
             
-            fpOut = [fpSubjects '/' expTypeStr '/' BlockSettings.targetTypeStr{iTarget} ...
+            fpOut = [fpSubjects '/' expTypeStr '/' BinExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
             save(fpOut, 'SubjectExpFile');
         end

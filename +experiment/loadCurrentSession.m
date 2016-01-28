@@ -17,7 +17,7 @@ sessionNumber = notCompletedSession(1);
 %% Load settings
 
 filePathSession = ['../experiment_settings/' expTypeStr '/' targetTypeStr '/' ...
-    'L' binIndex(1) '_C' binIndex(2) '_S' binIndex(3) '.mat'];
+    'L' num2str(binIndex(1)) '_C' num2str(binIndex(2)) '_S' num2str(binIndex(3)) '.mat'];
 load(filePathSession);
 
 SettingsOut = BlockSettings;
