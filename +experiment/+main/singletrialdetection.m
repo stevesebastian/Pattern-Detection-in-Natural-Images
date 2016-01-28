@@ -1,29 +1,33 @@
-function [response,responseOnsetMs] = singletrialdetection(experimentStruct,stimulus, block, trial)
-%SINGLETRIALDETECTION Runs a single trial of the detection experiment
+function [response,responseOnsetMs] = runSingleTrial(ExpSettings, StimuliSettings, blockNumber, trialNumber)
+%SINGLETRIALDETECTION Runs a single trialNumber of the detection experiment
 %
 % Example: 
-%   [response, responseOnsetMs] = SINGLETRIALDETECTION(experimentStruct, stimulus, block, trial);
+%   [response, responseOnsetMs] = SINGLETRIALDETECTION(experimentStruct, stimulus, blockNumber, trialNumber);
 %   
 %   See also PRESENTFIXATIONCROSS, DRAWSTIMULUS.
 %
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
-fixcrossPosX = experimentStruct.fixPosPix(trial, block, 1);
-fixcrossPosY = experimentStruct.fixPosPix(trial, block, 2);
+fixcrossPosX = StimuliSettings.fixPosPix(trialNumber, blockNumber, 1);
+fixcrossPosY = StimuliSettings.fixPosPix(trialNumber, blockNumber, 2);
 
-stimulusPosX = experimentStruct.stimPosPix(trial, block, 1);
-stimulusPosY = experimentStruct.stimPosPix(trial, block, 2);
+stimulusPosX = StimuliSettings.stimPosPix(trialNumber, blockNumber, 1);
+stimulusPosY = StimuliSettings.stimPosPix(trialNumber, blockNumber, 2);
 
-experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
+blankIntervalS = ExpSettings.blankIntervalMS/1000;
+fixationIntervalS = ExpSettings.fixationIntervalMs/1000;
 
-if experimentStruct.bFovea
-    Screen('Flip', experimentStruct.window, 1);
-    WaitSecs(experimentStruct.fixcrossOffSeconds);
+stimuli = StimuliSettings.
+experiment.main.presentfixationcross(ExpSettings, fixcrossPosX, fixcrossPosY);
+
+if ExpSettings.bFovea
+    Screen('Flip', ExpSettings.window, 1);
+    WaitSecs(blankIntervalS);
 else
-    WaitSecs(experimentStruct.stimulusDelaySeconds);
+    WaitSecs(fixationIntervalS);
 end
 
-stimulusOnsetMs             = experiment.main.drawstimulus(experimentStruct, stimulusPosX, stimulusPosY, stimulus);
+stimulusOnsetMs = experiment.main.drawstimulus(ExpSettings, stimulusPosX, stimulusPosY, stimulus);
 
 WaitSecs(experimentStruct.displayTimeSeconds);
 
@@ -33,6 +37,6 @@ experiment.main.removestimulus(experimentStruct, stimulusPosX, stimulusPosY, sti
 
 experiment.main.presentfixationcross(experimentStruct, fixcrossPosX, fixcrossPosY);
 
-experiment.main.presentfeedback(experimentStruct, block, trial, response);
+experiment.main.presentfeedback(experimentStruct, blockNumber, trialNumber, response);
     
 end

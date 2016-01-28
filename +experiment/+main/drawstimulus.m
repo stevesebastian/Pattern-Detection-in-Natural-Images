@@ -1,4 +1,4 @@
-function stimulusOnsetMs = drawstimulus(experimentStruct, x, y, stimulus)
+function stimulusOnsetMs = drawStimulus(experimentStruct, x, y, stimulus)
 %DRAWSTIMULUS Draw the detection stimulus.
 %
 % Description:
@@ -13,7 +13,6 @@ stimulusDestination = experiment.main.positionstimulusonscreen(x, y, stimulus);
 
 Screen('DrawTexture', experimentStruct.window, stimulusTexture, [], stimulusDestination);
 
-[VBLTimestamp StimulusOnsetTime FlipTimestamp Missed Beampos] = Screen('Flip', experimentStruct.window, 0, 1);
+[~, StimulusOnsetTime] = Screen('Flip', experimentStruct.window, 0, 1);
 
 stimulusOnsetMs = StimulusOnsetTime;       
-end
