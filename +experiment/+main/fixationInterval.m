@@ -27,3 +27,5 @@ if(SessionSettings.bFovea)
     Screen('Flip', SessionSettings.window);
     WaitSecs(blankIntervalS);
 end
+
+experiment.main.checkFixationCross(SessionSettings, fixPosXY(1),fixPosXY(2));

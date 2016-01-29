@@ -1,4 +1,3 @@
-
 function SessionData = runMaskingExperiment(subjectStr, expTypeStr, targetTypeStr)
 %STARTEXPERIMENT Launch the detection experiment.
 %
@@ -15,6 +14,7 @@ function SessionData = runMaskingExperiment(subjectStr, expTypeStr, targetTypeSt
 % Clear the workspace
 close all;
 sca;
+Eyelink('Shutdown');
 
 % Setup PTB with some default values
 PsychDefaultSetup(2);
@@ -29,9 +29,11 @@ screenNumber = max(Screen('Screens'));
 % Open the screen
 [window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixVal, [], [], 2);
 
+el              = experiment.main.configureEyetracker(window);
 SessionSettings = ExpSettings.loadSessionStimuli(ExpSettings, windowRect(3:4), sessionNumber);
 
 SessionSettings.window = window;
+SessionSettings.el     = el;
 
 % Present cute intro
 im      = imread('./+experiment/+main/maskingintro.jpg');

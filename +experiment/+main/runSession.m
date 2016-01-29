@@ -1,9 +1,9 @@
 function SessionData = runSession(SessionSettings)
 %RUNEXPERIMENTBLOCK Runs a single block of an experiment.
 % Description: 
-%   A block consists of N levels. Each level contains M trials. The
-%   experiment protocol is agnostic to what visual content define the block
-%   and levels. stimulusArray defines what is present and is setup prior to
+%   A session consists of N levels. Each level contains M trials. The
+%   experiment protocol is agnostic to what visual content define the
+%   sessions and levels. stimulusArray defines what is present and is setup prior to
 %   the experiment (see +stats).
 %
 % Example: 
