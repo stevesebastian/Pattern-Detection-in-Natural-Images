@@ -10,16 +10,17 @@ function [response, RT] = responseInterval(SessionSettings, trialNumber, levelNu
 %% Set up
 responseIntervalS = SessionSettings.responseIntervalS;
 
-target = SessionSettings.fixationTarget; 
+target   = SessionSettings.fixationTarget; 
 fixPosXY = SessionSettings.fixPosPix(trialNumber, levelNumber, :);
 
-targetTexture  = Screen('Maketexture', SessionSettings.window, target);
+targetTexture      = Screen('Maketexture', SessionSettings.window, target);
 targetRect         = SetRect(0, 0, size(target,2), size(target,1));
 targetDestination  = floor(CenterRectOnPointd(targetRect, fixPosXY(1), fixPosXY(2)));  
 
 %% Draw fixation target and wait for response
 
 Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
+Screen('Flip', SessionSettings.window, 0, 1);
 
 response = -1;
 RT = -1;

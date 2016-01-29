@@ -20,8 +20,8 @@ stimulusRect         = SetRect(0, 0, size(stimulus,2), size(stimulus,1));
 stimulusDestination  = floor(CenterRectOnPointd(stimulusRect, stimPosXY(1), stimPosXY(2)));  
 
 %% Display stimulus
-Screen('DrawTexture', SessionSettings.window, stimulusTexture, [], stimulusDestination);
 
+Screen('DrawTexture', SessionSettings.window, stimulusTexture, [], stimulusDestination);
 [~, StimulusOnsetTime] = Screen('Flip', SessionSettings.window, 0, 1);
 
 WaitSecs(stimulusIntervalS);

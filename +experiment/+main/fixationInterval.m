@@ -7,21 +7,23 @@ function fixationInterval(SessionSettings, trialNumber, levelNumber)
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
 %% Set up 
-target = SessionSettings.fixationTarget; 
+fixTarget = SessionSettings.fixationTarget; 
 fixPosXY = SessionSettings.fixPosPix(trialNumber, levelNumber, :);
 fixationIntervalS = SessionSettings.fixationIntervalS;
 
-targetTexture  = Screen('Maketexture', SessionSettings.window, target);
-targetRect         = SetRect(0, 0, size(target,2), size(target,1));
+fixTexture  = Screen('Maketexture', SessionSettings.window, fixTarget);
+targetRect         = SetRect(0, 0, size(fixTarget,2), size(fixTarget,1));
 targetDestination  = floor(CenterRectOnPointd(targetRect, fixPosXY(1), fixPosXY(2)));  
 
-%% Draw target followed by blank if foveal experiment
+%% Draw fixTarget followed by blank if foveal experiment
 
-Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
+Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination);
+Screen('Flip', SessionSettings.window, 0, 1);
 WaitSecs(fixationIntervalS);
 
 if(SessionSettings.bFovea)
-    blankIntervalS = SessionSettings.blankIntervalS;
-    Screen('Flip', SessionSettings.window, 1);
+    blankIntervalS = SessionSettings.blankIntervalS; 
+    Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal, targetDestination);
+    Screen('Flip', SessionSettings.window);
     WaitSecs(blankIntervalS);
 end

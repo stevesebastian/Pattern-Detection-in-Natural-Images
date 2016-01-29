@@ -11,6 +11,8 @@ function BlockStimuli = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNu
 
 %% Set up 
 
+bFovea = ExpSettings.bFovea;
+
 stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
 target = ExpSettings.target;
 targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
@@ -24,8 +26,8 @@ fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
 
-bAdditive = 1;
-bitDepthIn = 14;
+bAdditive   = 1;
+bitDepthIn  = 14;
 bitDepthOut = 8;
 
 responseIntervalS = ExpSettings.responseIntervalMs/1000;
@@ -85,7 +87,7 @@ BlockStimuli = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'sti
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
     'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...
-    'pixelsPerDeg', pixelsPerDeg, 'bFovea', 1);
+    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea);
 
 
 
