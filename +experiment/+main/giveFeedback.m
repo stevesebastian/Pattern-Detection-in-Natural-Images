@@ -16,9 +16,12 @@ errorTone    = sin(2*pi*errorFreqHz*soundData);
 
 % Feedback
 if(response == -1)
-    sound(errorTone, sampleFreqHz);
+    Beeper(errorFreqHz);
+    %sound(errorTone, sampleFreqHz);
 elseif(SessionSettings.bTargetPresent(trialNumber,levelNumber) == response)
-    sound(correctTone, sampleFreqHz);
+    Beeper(correctFreqHz);
+    %sound(correctTone, sampleFreqHz);
 else
-    sound(incorrectTone, sampleFreqHz);
+    Beeper(incorrectFreqHz);
+    %sound(incorrectTone, sampleFreqHz);
 end

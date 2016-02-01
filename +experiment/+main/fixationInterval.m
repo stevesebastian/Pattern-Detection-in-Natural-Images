@@ -28,4 +28,3 @@ if(SessionSettings.bFovea)
     WaitSecs(blankIntervalS);
 end
 
-experiment.main.checkFixationCross(SessionSettings, fixPosXY(1),fixPosXY(2));

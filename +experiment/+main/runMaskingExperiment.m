@@ -29,12 +29,12 @@ screenNumber = max(Screen('Screens'));
 % Open the screen
 [window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixVal, [], [], 2);
 
-el              = experiment.main.configureEyetracker(window);
+
 SessionSettings = ExpSettings.loadSessionStimuli(ExpSettings, windowRect(3:4), sessionNumber);
-
 SessionSettings.window = window;
-SessionSettings.el     = el;
 
+el              = experiment.main.configureEyetracker(SessionSettings);
+SessionSettings.el = el;
 % Present cute intro
 im      = imread('./+experiment/+main/maskingintro.jpg');
 tex     = Screen('MakeTexture', window, im);
