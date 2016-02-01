@@ -11,6 +11,8 @@ function BlockStimuli = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNu
 
 %% Set up 
 
+bFovea = ExpSettings.bFovea;
+
 stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
 target = ExpSettings.target;
 targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
@@ -24,9 +26,14 @@ fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
 
-bAdditive = 1;
-bitDepthIn = 14;
+bAdditive   = 1;
+bitDepthIn  = 14;
 bitDepthOut = 8;
+
+responseIntervalS = ExpSettings.responseIntervalMs/1000;
+stimulusIntervalS = ExpSettings.stimulusIntervalMs/1000;
+fixationIntervalS = ExpSettings.fixationIntervalMs/1000;
+blankIntervalS    = ExpSettings.blankIntervalMs/1000;
 
 % Create the circular mask
 maskSizePix      = size(stimuli(:,:,:,1,1));
@@ -68,6 +75,21 @@ for iLevels = 1:nLevels
         lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut);
 end
 
-BlockStimuli = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, ...
-    'stimPosPix', stimPosPix, 'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, ...
-    'targetSamples', targetSamples);
+%% Create the fixation target
+fixationSize = round(pixelsPerDeg.*0.1);
+fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
+fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
+
+%% Save
+
+BlockStimuli = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'stimPosPix', stimPosPix, ...
+    'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, 'targetSamples', targetSamples, ...
+    'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
+    'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
+    'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...
+    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea);
+
+
+
+
+
