@@ -56,10 +56,12 @@ switch Parameters.type
     case('bowtie')
         hwR   = YY./XX;    
         angle = atan(hwR);
-        angle(isnan(angle(:))) = 0; % middle pixel is NaN. We want it to be 0.        
-        haar = abs(angle) <= pi/4 + pi/180;
-
-        error('Haar not implemented yet.')
+        angle(isnan(angle(:))) = 0; % middle pixel is NaN. We want it to be 0.
+        
+        haar = ones(sizeRadPx*2 + 1) * Parameters.dc;
+        
+        haar(abs(angle) <= pi/4 + pi/180)   = t_norm(1);
+        haar(abs(angle) > pi/4 + pi/180)    = t_norm(2);
     otherwise
         error('Haar type error');
 end

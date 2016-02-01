@@ -62,7 +62,7 @@ elseif(strcmp(typeStr, 'periphery'))
 	% Target set up
     haarParams.pixperdeg    = 60;
     haarParams.size         = .35;
-    haarParams.dc           = 127;
+    haarParams.dc           = 0;
     haarParams.type         = 'vertical';
     haarParams.contrast     = 1;
 
@@ -83,9 +83,10 @@ elseif(strcmp(typeStr, 'periphery'))
 	pixelMax = 2^14-1;
 
 	% Binning parameters
-	[binEdges.L, binCenters.L]  = nm.stats.computeBinSpacing(6, 62, 10);
-	[binEdges.C, binCenters.C]  = nm.stats.computeBinSpacing(0.03, 0.47, 10);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = nm.stats.computeBinSpacing(0.5, 0.76, 10);
+    nBins = 10;
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(6, 70, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 1.5, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.5, 0.9, nBins);
 
     imgFilePath = '~/occluding/natural_images/pixel_space/';
 
