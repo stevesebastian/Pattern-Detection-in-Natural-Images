@@ -8,6 +8,8 @@ function [response,responseTimeMs] = runTrial(SessionSettings, trialNumber, leve
 %
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
+experiment.main.checkFixationCross(SessionSettings, SessionSettings.fixPosPix(trialNumber, levelNumber, :));
+
 experiment.main.fixationInterval(SessionSettings, trialNumber, levelNumber);
 
 experiment.main.stimulusInterval(SessionSettings, trialNumber, levelNumber);

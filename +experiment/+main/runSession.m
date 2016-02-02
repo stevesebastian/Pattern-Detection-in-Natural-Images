@@ -21,7 +21,7 @@ rtMatrix = zeros(nLevels, nTrials);
 
 for iLevel = 1:nLevels
 
-    experiment.main.displayLevelStart(SessionSettings, iLevel);  
+      experiment.main.displayLevelStart(SessionSettings, iLevel);  
     
     for iTrial = 1:nTrials
 

@@ -38,6 +38,8 @@ end
 
 SessionSettings.window = window;
 
+el              = experiment.main.configureEyetracker(SessionSettings);
+SessionSettings.el = el;
 % Present cute intro
 im      = imread('./+experiment/+main/maskingintro.jpg');
 tex     = Screen('MakeTexture', window, im);

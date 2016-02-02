@@ -55,16 +55,14 @@ end
 if(bDisp) 
     
     if(isempty(envelope))
-        bitsIn = 8;
+        bitsIn = 14;
         subplot(1, 2, 1);
         imagesc(S, [0 2^bitsIn-1]); colormap gray; axis square; % display the image 
-        formatFigure('', '', '', 0, 0, 20, 24);
         axis square;
         set(gca, 'xtick', []); set(gca, 'ytick', []);
 
         subplot(1, 2, 2);
         imagesc(P, [0 2^bitsIn-1]); colormap gray; axis square; % display the image 
-        formatFigure('', '', '', 0, 0, 20, 24);
         axis square;
         set(gca, 'xtick', []); set(gca, 'ytick', []);
     else
@@ -72,7 +70,6 @@ if(bDisp)
         pEnv = double(P);
         pEnv = (pEnv-mean(pEnv(:))).*envelope + mean(pEnv(:));
         imagesc(pEnv, [0 2^bitsIn-1]); colormap gray; axis square; % display the image 
-        formatFigure('', '', '', 0, 0, 20, 24);
         axis square;
         set(gca, 'xtick', []); set(gca, 'ytick', []);
     end

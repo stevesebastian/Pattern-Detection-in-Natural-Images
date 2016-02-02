@@ -62,33 +62,44 @@ elseif(strcmp(typeStr, 'periphery'))
 	% Target set up
     haarParams.pixperdeg    = 60;
     haarParams.size         = .35;
-    haarParams.dc           = 127;
-    haarParams.type         = 'vertical';
+    haarParams.dc           = 0;
     haarParams.contrast     = 1;
 
-	[haar, envelope] = lib.haar2D(haarParams);
-
-	haar = haar./max(haar(:));
-
-	targets(:,:,1) = haar;
-
-	targetKey = {{'vertical'}};
-
+    haarParams.type         = 'vertical';   
+	[vertical, envelope] = lib.haar2D(haarParams);
+ 
+    haarParams.type         = 'horizontal';
+    [horizontal, envelope]  = lib.haar2D(haarParams);
+    
+    haarParams.type         = 'bowtie';
+    [bowtiehaar, envelope]  = lib.haar2D(haarParams);
+	
+    vertical    = vertical./max(vertical(:));
+    horizontal  = horizontal./max(horizontal(:));
+    bowtiehaar      = bowtiehaar./max(bowtiehaar(:));
+	targets(:,:,1)  = vertical;
+    targets(:,:,2)  = horizontal;
+    targets(:,:,3)  = bowtiehaar;
+    
+	targetKey = {{'vertical','horizontal','bowtie'}};
+    
 	% Statistic parameters
 	surroundSizePix = 241;
-	targetSizePix = size(haar,1);
+	targetSizePix = size(targets(:,:,1));
 	spacingPix = 10;
 	imgSizePix = [2844 4284];
 
 	pixelMax = 2^14-1;
 
 	% Binning parameters
-	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(6, 62, 10);
-	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 0.47, 10);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.13, 0.35, 10);
-	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.45, 0.75, 10);
-
-    imgFilePath = '~/occluding/newcodeimages/';
+    nBins = 10;
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(6, 70, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 1.5, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.5, 0.9, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.5, 0.9, nBins);
+	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.5, 0.9, nBins);
+    
+    imgFilePath = '~/occluding/natural_images/pixel_space/';
 
 	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'haarParams', haarParams,...
                       'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
