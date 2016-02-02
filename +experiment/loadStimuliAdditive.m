@@ -1,17 +1,17 @@
-function BlockStimuli = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNumber)
+function SessionSettings = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNumber)
 %LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
 % 
 % Example: 
-%  BlockStimuli = LOADSTIMULIADDITIVE(ExpSettings, monitorSizePix, 1); 
+%  SessionSettings = LOADSTIMULIADDITIVE(ExpSettings, monitorSizePix, 1); 
 %
 % Output: 
-%  BlockStimuli Structure containing stimuli and experiment settings
+%  SessionSettings Structure containing stimuli and experiment settings
 %
 % v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Set up 
 
-bFovea = ExpSettings.bFovea;
+bFovea = 1;
 
 stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
 target = ExpSettings.target;
@@ -82,7 +82,7 @@ fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
 
 %% Save
 
-BlockStimuli = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'stimPosPix', stimPosPix, ...
+SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'stimPosPix', stimPosPix, ...
     'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, 'targetSamples', targetSamples, ...
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
