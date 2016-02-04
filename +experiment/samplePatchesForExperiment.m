@@ -1,12 +1,16 @@
-function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nTrials, nLevels, nBlocks)
+function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, binIndex, nTrials, nLevels, nBlocks, sampleMethod)
 %SAMPLEPATCHESFOREXPERIMENT Sample patches for use in the detection experiment
 % 
 % Example: 
-%  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], fpIn); 
+%  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], 'uniform'sss); 
 %
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Set up
+
+if(nargin < 7)
+    sampleMethod = 'uniform';
+end
 
 if(sum(binIndex > 10 | binIndex < 1))
     error('binIndex out of range. Use 1-10');
@@ -19,20 +23,25 @@ nPatches = nBlocks*nLevels*nTrials;
 patchIndexBin = ...
     ImgStats.patchIndex{targetKeyIndex}{binIndex(1), binIndex(2), binIndex(3)};
 
-%% Sample patches uniformly across all bins, 
+%% Sample patches across all bins, 
 % keep image order, but randomize the coordinate order
 
-patchIndexBin = patchIndexBin(randperm(length(patchIndexBin)));
+if(strcmp(sampleMethod, 'uniform'))
+    patchIndexBin = patchIndexBin(randperm(length(patchIndexBin)));
 
-nCoords = size(ImgStats.L,1);
-nImages = size(ImgStats.L,2);
+    nCoords = size(ImgStats.L,1);
+    nImages = size(ImgStats.L,2);
 
-[~, iIndexRand] = ind2sub([nCoords nImages], patchIndexBin);
-[~, sortedIndex] = sort(iIndexRand);
+    [~, iIndexRand] = ind2sub([nCoords nImages], patchIndexBin);
+    [~, sortedIndex] = sort(iIndexRand);
 
-patchIndexBin = patchIndexBin(sortedIndex);
-pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), nPatches)));
-pIndex = pIndex(randperm(length(pIndex)));
+    patchIndexBin = patchIndexBin(sortedIndex);
+    pIndex = patchIndexBin(round(linspace(1, length(patchIndexBin), nPatches)));
+    pIndex = pIndex(randperm(length(pIndex)));
+else
+    pIndex = randsample(patchIndexBin, nPatches);
+end
+
 pIndex = reshape(pIndex, [nTrials, nLevels nBlocks]);
 
 %% Load, crop and save images

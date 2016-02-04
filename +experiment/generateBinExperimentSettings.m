@@ -1,8 +1,8 @@
-function BinSettings = generateBinExperimentSettings(ImgStats, expTypeStr, binIndex, cLvls)
-%GENERATESESSIONSETTINGS Loads settings and stimuli for each experimental bin 
+function ExpSettings = generateBinExperimentSettings(ImgStats, expTypeStr, binIndex, cLvls)
+%GENERATEBINEXPERIMENTSETTINGS Loads settings and stimuli for each experimental bin 
 % 
 % Example: 
-%  ExpSettings = GENERATESESSIONSETTINGS(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
+%  ExpSettings = GENERATEBINEXPERIMENTSETTINGSs(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
 %
 % Output: 
 %  ExpSettings Structure containing stimuli and experiment settings
@@ -45,13 +45,16 @@ if(strcmp(expTypeStr, 'fovea'))
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    BinSettings = struct('monitorMaxPix', monitorMaxPix, ...
+    bFovea = 1;
+    
+    ExpSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadStimuliFunction', loadStimuliFunction, ...
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
-        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal);
+        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'bFovea', bFovea);
     
 end
 

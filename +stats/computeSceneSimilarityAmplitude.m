@@ -11,7 +11,7 @@ function StatsOut = computeSceneSimilarityAmplitude(imIn, tarIn, wWin, sampleCoo
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 
 
-%% Variable set up/
+%% Variable set up
 iWin = wWin > 0;
 
 targetSizePix  = size(tarIn);
@@ -22,13 +22,17 @@ cosWin = lib.cosWindowFlattop2(targetSizePix, diskSizePix, rampSizePix);
 
 % Pad by a power of 2
 paddedSizePix = 2^(ceil(log2(targetSizePix(1))));
-paddedImage = ones([paddedSizePix, paddedSizePix]);
+paddedCenterPix = paddedSizePix/2;
+paddedImage = zeros([paddedSizePix, paddedSizePix]);
+
+ampRange = (paddedCenterPix-floor(size(tarIn,1)/2)):(paddedCenterPix+floor(size(tarIn,2)/2));
 
 tarIn = tarIn.*cosWin;
-tarInPadded = paddedImage.*0;
+tarInPadded = paddedImage;
 tarInPadded(1:targetSizePix(1),1:targetSizePix(2)) = tarIn;
 
-tarInPaddedF = abs(fft2(tarInPadded));
+tarInPaddedF = fftshift(abs(fft2(tarInPadded)));
+tarInPaddedF = tarInPaddedF(ampRange, ampRange);
 tarInNorm = sqrt(sum(tarInPaddedF(:).^2));
 
 nSamples = size(sampleCoords, 1);
@@ -38,15 +42,17 @@ StatsOut.Smag = zeros(nSamples, 1);
 
 %% Compute Similarity at each location in sampleCoords.
 for sItr = 1:nSamples
-    imgSmall    = lib.cropImage(imIn, sampleCoords(sItr,:), targetSizePix, [], 1);
-    imgSmall    = imgSmall.*iWin;
-    meanImg     = mean(imgSmall(iWin));
-    imgSmall    = (imgSmall - meanImg).*cosWin;
+    imgSmall       = lib.cropImage(imIn, sampleCoords(sItr,:), targetSizePix, [], 1);
+    imgSmall       = imgSmall.*iWin;
+    meanImg        = mean(imgSmall(iWin));
+    imgSmall(iWin) = imgSmall(iWin) - meanImg;
+    imgSmall       = imgSmall.*cosWin;
     
     imgSmallPadded = paddedImage;
     imgSmallPadded(1:targetSizePix(1),1:targetSizePix(2)) = imgSmall;
     
-    imgSmallPaddedF = abs(fft2(imgSmallPadded));
+    imgSmallPaddedF = fftshift(abs(fft2(imgSmallPadded)));
+    imgSmallPaddedF = imgSmallPaddedF(ampRange, ampRange);
     imgNorm = sqrt(sum(imgSmallPaddedF(:).^2));
     
     templateMatch = sum(imgSmallPaddedF(:).*tarInPaddedF(:));

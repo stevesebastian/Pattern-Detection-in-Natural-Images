@@ -17,8 +17,8 @@ function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, 
 if(strcmp(expTypeStr, 'fovea'))
     
     stimulusIntervalMs = 250;
-    responseInvervalMs = 300;
-    fixationIntervalMs = 200;
+    responseInvervalMs = 1000;
+    fixationIntervalMs = 400;
     blankIntervalMs    = 100;
     
     monitorMaxPix = 255;    
@@ -45,13 +45,16 @@ if(strcmp(expTypeStr, 'fovea'))
 
 	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
 
-	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex, nTrials, nLevels, nBlocks);
+    sampleMethod = 'random';
+    
+	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
+        targetTypeStr, binIndex, nTrials, nLevels, nBlocks, sampleMethod);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
-        'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
+        'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
