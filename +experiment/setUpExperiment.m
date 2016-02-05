@@ -108,7 +108,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
             SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.response     = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.pixelsssssPerDeg = ExpSettings.pixelsPerDeg;
+            SubjectExpFile.pixelsPerDeg = ExpSettings.pixelsPerDeg;
             SubjectExpFile.bgPixVal = ExpSettings.bgPixVal;
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...

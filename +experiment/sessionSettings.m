@@ -83,7 +83,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
 
 	pTarget = 0.5;
   
-    pixelsPerDeg = 120;
+    pixelsPerDeg = 60;
   
     targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
 	
