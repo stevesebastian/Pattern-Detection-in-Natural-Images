@@ -67,7 +67,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
  
     
     % Contrast range for each level
-    cLvls = repmat(linspace(0.05, 0.2, 5), [size(binIndex,1) , 1]);    
+    cLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
