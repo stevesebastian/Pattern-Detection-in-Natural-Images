@@ -60,28 +60,36 @@ if(strcmp(typeStr,'fovea'))
 elseif(strcmp(typeStr, 'periphery'))
     
 	% Target set up
-    haarParams.pixperdeg    = 60;
-    haarParams.size         = .35;
-    haarParams.dc           = 0;
-    haarParams.contrast     = 1;
+    stimulusParams.pixperdeg    = 60;
+    stimulusParams.size         = .35;
+    stimulusParams.dc           = 0;
+    stimulusParams.contrast     = 1;
 
-    haarParams.type         = 'vertical';   
-	[vertical, envelope] = lib.haar2D(haarParams);
+    stimulusParams.type     = 'vertical';   
+	[vertical, envelope]    = lib.haar2D(stimulusParams);
  
-    haarParams.type         = 'horizontal';
-    [horizontal, envelope]  = lib.haar2D(haarParams);
+    stimulusParams.type     = 'horizontal';
+    [horizontal, envelope]  = lib.haar2D(stimulusParams);
     
-    haarParams.type         = 'bowtie';
-    [bowtiehaar, envelope]  = lib.haar2D(haarParams);
+    stimulusParams.type     = 'bowtie';
+    [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
+
+    stimulusParams.type     = 'bowtie';
+    [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
+
+    stimulusParams.type     = 'spot';
+    spot                    = lib.cosWindow2([21,21],1);
 	
     vertical    = vertical./max(vertical(:));
     horizontal  = horizontal./max(horizontal(:));
-    bowtiehaar      = bowtiehaar./max(bowtiehaar(:));
+    bowtiehaar  = bowtiehaar./max(bowtiehaar(:));
+    spot        = spot./max(spot(:));
 	targets(:,:,1)  = vertical;
     targets(:,:,2)  = horizontal;
     targets(:,:,3)  = bowtiehaar;
+    targets(:,:,4)  = spot;
     
-	targetKey = {{'vertical','horizontal','bowtie'}};
+	targetKey = {{'vertical','horizontal','bowtie','spot'}};
     
 	% Statistic parameters
 	surroundSizePix = 241;
@@ -98,10 +106,11 @@ elseif(strcmp(typeStr, 'periphery'))
 	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.5, 0.9, nBins);
 	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.5, 0.9, nBins);
 	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.5, 0.9, nBins);
+	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.5, 0.9, nBins);
     
     imgFilePath = '~/occluding/natural_images/pixel_space/';
 
-	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'haarParams', haarParams,...
+	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'stimulusParams', stimulusParams,...
                       'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
 					  'imgSizePix', imgSizePix, 'pixelMax', pixelMax, 'binEdges', binEdges, 'binCenters', binCenters);
     
