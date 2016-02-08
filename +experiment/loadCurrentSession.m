@@ -1,4 +1,4 @@
-function SettingsOut = loadCurrentSession(subjectStr, expTypeStr, targetTypeStr)
+function SettingsOut = loadCurrentSession(subjectStr, expTypeStr, targetTypeStr, binIndex, sessionNumber, levelNumber)
 %LOADCURRENSESSIONS Load the stimuli and experiment info for the next
 %session. Called only during experiment.
 %
@@ -9,22 +9,29 @@ function SettingsOut = loadCurrentSession(subjectStr, expTypeStr, targetTypeStr)
 filePathSubject = ['experiment_files/subject_out/' expTypeStr '/' targetTypeStr '/' subjectStr '.mat'];
 load(filePathSubject);
 
-nLevels = size(SubjectExpFile.targetAmplitude,2);
+if(nargin < 4)
+    nLevels = size(SubjectExpFile.targetAmplitude,2);
 
-% Check for experiment files that have not been completed
-[notCompletedBin, notCompletedSession] = ...
-    find(SubjectExpFile.levelCompleted < nLevels);
+    % Check for experiment files that have not been completed
+    [notCompletedBin, notCompletedSession] = ...
+        find(SubjectExpFile.levelCompleted < nLevels);
 
-if(isempty(notCompletedBin) && isempty(notCompletedSession))
-    error('Error: All bins, sessions, and levels have been completed');
+    if(isempty(notCompletedBin) && isempty(notCompletedSession))
+        error('Error: All bins, sessions, and levels have been completed');
+    end
+
+    currentBin     = notCompletedBin(1);
+    currentSession = notCompletedSession(1);
+    binIndex = SubjectExpFile.binIndex(notCompletedBin(1), :);
+    
+    levelCompleted = SubjectExpFile.levelCompleted(currentBin, currentSession);
+    levelStartIndex = levelCompleted + 1;
+else
+    currentSession = sessionNumber; 
+    currentBin = find(ismember(SubjectExpFile.binIndex, binIndex, 'rows') == 1);
+    levelStartIndex = levelNumber;
 end
 
-currentBin     = notCompletedBin(1);
-currentSession = notCompletedSession(1);
-binIndex = SubjectExpFile.binIndex(notCompletedBin(1), :);
-
-levelCompleted = SubjectExpFile.levelCompleted(currentBin, currentSession);
-levelStartIndex = levelCompleted + 1;
 
 disp(['Loading bin: L' num2str(binIndex(1)) ' C' num2str(binIndex(2)) ' S' num2str(binIndex(3))]);
 disp(['Session number: ' num2str(currentSession) ' Level number: ' num2str(levelStartIndex)]);
