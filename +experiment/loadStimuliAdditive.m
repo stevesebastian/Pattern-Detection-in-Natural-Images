@@ -20,8 +20,8 @@ bTargetPresent = ExpSettings.bTargetPresent(:,:,blockNumber);
 bgPixVal = ExpSettings.bgPixVal; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
-stimPosDeg = ExpSettings.stimPosDeg(:,:,:,blockNumber);
-fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
+stimPosDeg = ExpSettings.stimPosDeg(:,:,blockNumber,:);
+fixPosDeg = ExpSettings.fixPosDeg(:,:,blockNumber,:);
 
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);

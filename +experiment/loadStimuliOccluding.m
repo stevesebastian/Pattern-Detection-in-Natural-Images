@@ -78,7 +78,7 @@ end
 %% Create the fixation target
 fixationSize = round(pixelsPerDeg.*0.1);
 fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
-fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
+fixationTarget = fixationPixelVal .* ones(fixationSize, fixationSize);
 
 %% Save
 

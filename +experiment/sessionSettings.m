@@ -1,4 +1,4 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, cLvls)
+function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, eLvls)
 %SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
@@ -86,9 +86,9 @@ elseif(strcmp(expTypeStr, 'periphery'))
     pixelsPerDeg = 60;
   
     targetAmplitude = .17;
-	
-    stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
-	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+	    
+    stimPosDeg       = ones(nTrials, nLevels, nBlocks, 2) * 10;
+	fixPosDeg        = stimPosDeg - repmat(eLvls, [nTrials,1,nBlocks,2]);
     
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
@@ -99,7 +99,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
         targetTypeStr, binIndex, nTrials, nLevels, nBlocks, sampleMethod);
         
-	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
 
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...

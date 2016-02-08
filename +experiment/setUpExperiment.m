@@ -66,8 +66,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
                 5 5 1; 5 5 3; 7 7 7; 10 5 5];
  
     
-    % Contrast range for each level
-    cLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
+    % Eccentricity range for each level
+    eLvls = linspace(2, 10, 5);
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -96,7 +96,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
     nLevels   = ExpSettings.nLevels;
     nSessions = ExpSettings.nBlocks;
     
-    ExpSettings.targetTypeStr = {'horizontal', 'vertical','bowtie'};
+    ExpSettings.targetTypeStr = {'horizontal', 'vertical','bowtie','spot'};
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
