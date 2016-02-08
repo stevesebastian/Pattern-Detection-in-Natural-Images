@@ -16,10 +16,12 @@ function SessionData = runSession(SessionSettings)
 nTrials     = SessionSettings.nTrials;
 nLevels     = SessionSettings.nLevels;
 
-responseMatrix = zeros(nLevels, nTrials);
-rtMatrix = zeros(nLevels, nTrials);
+levelStartIndex = SessionSettings.levelStartIndex;
 
-for iLevel = 1:nLevels
+responseMatrix = zeros(nTrials, nLevels);
+rtMatrix = zeros(nTrials, nLevels);
+
+for iLevel = levelStartIndex:nLevels
 
       experiment.main.displayLevelStart(SessionSettings, iLevel);  
     
@@ -27,10 +29,12 @@ for iLevel = 1:nLevels
 
         [response, RT] = experiment.main.runTrial(SessionSettings, iTrial, iLevel);
 
-        responseMatrix(nLevels, nTrials) = response;
-        rtMatrix(nLevels, nTrials) = RT;
+        responseMatrix(iTrial, iLevel) = response;
+        rtMatrix(iLevel, iLevel) = RT;
 
     end
+    
+    experiment.saveCurrentLevel(SessionSettings, responseMatrix(:,iLevel), iLevel);
     
     Screen('TextSize', SessionSettings.window, 25);
     DrawFormattedText(SessionSettings.window, 'End of the block', 'center', 'center');
