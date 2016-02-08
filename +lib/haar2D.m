@@ -35,7 +35,7 @@ sizeRadPx   = floor(Parameters.size/2*Parameters.pixperdeg);
 r           = Parameters.size/2; %radius of Haar
 
 X = (-sizeRadPx:sizeRadPx) / Parameters.pixperdeg;
-Y = (-sizeRadPx:sizeRadPx) / Parameters.pixperdeg;
+Y = (sizeRadPx:-1:-sizeRadPx) / Parameters.pixperdeg;
 
 [XX YY]     = meshgrid(X,Y);
 haarGrid    = XX.^2 + YY.^2 < r^2;
@@ -55,13 +55,18 @@ switch Parameters.type
         haar    = [repmat(t_norm(1),2*sizeRadPx+1,sizeRadPx),repmat(t_mean,2*sizeRadPx+1,1),repmat(t_norm(2),2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
     case('bowtie')
         hwR   = YY./XX;    
-        angle = atan(hwR);
-        angle(isnan(angle(:))) = 0; % middle pixel is NaN. We want it to be 0.
+        angleMat = atan2(YY,XX);
+        angleMat(isnan(angleMat(:))) = 0; % middle pixel is NaN. We want it to be 0.
         
         haar = ones(sizeRadPx*2 + 1) * Parameters.dc;
         
-        haar(abs(angle) <= pi/4 + pi/180)   = t_norm(1);
-        haar(abs(angle) > pi/4 + pi/180)    = t_norm(2);
+        haar(angleMat > 0 & angleMat < pi/2) = t_norm(1);
+        haar(angleMat > pi/2 & angleMat < pi) = t_norm(2);
+        haar(angleMat < 0 & angleMat > -pi/2) = t_norm(2);
+        haar(angleMat < -pi/2 & angleMat > -pi) = t_norm(1);
+        
+        %haar(angle >= 0 & angle < pi/2  + pi/180)   = t_norm(1);
+        %haar(abs(angle) > pi/4 + pi/180 & abs(angle) < 3*pi/2) = t_norm(2);
     otherwise
         error('Haar type error');
 end
