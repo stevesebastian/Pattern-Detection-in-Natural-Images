@@ -78,8 +78,12 @@ elseif(strcmp(expTypeStr, 'periphery'))
     % Session files
     for iBin = 1:nBins
         for iTarget = 1:nTargets
+
+            
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), cLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
+            
+            mkdir([fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr])            
             
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...

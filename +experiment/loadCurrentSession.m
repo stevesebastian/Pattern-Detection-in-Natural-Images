@@ -1,4 +1,4 @@
-function [SettingsOut, sessionNumber] = loadCurrentSession(subjectStr, expTypeStr, targetTypeStr)
+function SettingsOut = loadCurrentSession(subjectStr, expTypeStr, targetTypeStr)
 %LOADCURRENSESSIONS Load the stimuli and experiment info for the next
 %session. Called only during experiment.
 %
@@ -9,22 +9,25 @@ function [SettingsOut, sessionNumber] = loadCurrentSession(subjectStr, expTypeSt
 filePathSubject = ['experiment_files/subject_out/' expTypeStr '/' targetTypeStr '/' subjectStr '.mat'];
 load(filePathSubject);
 
-% Check for experiment files that have not been started
-[notCompletedBin, notCompletedSession] = find(SubjectExpFile.bCompleted == 0);
+nLevels = size(SubjectExpFile.targetAmplitude,2);
 
-% Check for experiment files that have been started but not completed
-if(isempty(notCompletedBin) && isempty(notCompletedSession))
-    [notCompletedBin, notCompletedSession] = find(SubjectExpFile.bCompleted == 2);
-end
+% Check for experiment files that have not been completed
+[notCompletedBin, notCompletedSession] = ...
+    find(SubjectExpFile.levelCompleted < nLevels);
 
 if(isempty(notCompletedBin) && isempty(notCompletedSession))
-    error('Error: All bins and sessions have been completed');
+    error('Error: All bins, sessions, and levels have been completed');
 end
 
+currentBin     = notCompletedBin(1);
+currentSession = notCompletedSession(1);
 binIndex = SubjectExpFile.binIndex(notCompletedBin(1), :);
-sessionNumber = notCompletedSession(1);
+
+levelCompleted = SubjectExpFile.levelCompleted(currentBin, currentSession);
+levelStartIndex = levelCompleted + 1;
 
 disp(['Loading bin: L' num2str(binIndex(1)) ' C' num2str(binIndex(2)) ' S' num2str(binIndex(3))]);
+disp(['Session number: ' num2str(currentSession) ' Level number: ' num2str(levelStartIndex)]);
 
 %% Load settings
 
@@ -35,5 +38,10 @@ load(filePathSession);
 save(filePathSubject, 'SubjectExpFile');
 
 SettingsOut = ExpSettings;
-SettingsOut.currentBin = notCompletedBin(1);
-SettingsOut.currentSession = notCompletedSession(1);
+SettingsOut.subjectStr = subjectStr;
+SettingsOut.expTypeStr = expTypeStr;
+SettingsOut.targetTypeStr = targetTypeStr;
+SettingsOut.levelStartIndex = levelStartIndex;
+SettingsOut.currentBin = currentBin;
+SettingsOut.currentSession = currentSession;
+

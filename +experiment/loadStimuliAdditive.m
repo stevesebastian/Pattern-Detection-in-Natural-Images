@@ -1,4 +1,4 @@
-function SessionSettings = loadStimuliAdditive(ExpSettings, monitorSizePix, blockNumber)
+function SessionSettings = loadStimuliAdditive(ExpSettings)
 %LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
 % 
 % Example: 
@@ -13,15 +13,26 @@ function SessionSettings = loadStimuliAdditive(ExpSettings, monitorSizePix, bloc
 
 bFovea = 1;
 
-stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
+levelStartIndex = ExpSettings.levelStartIndex;
+subjectStr = ExpSettings.subjectStr; 
+expTypeStr = ExpSettings.expTypeStr;
+targetTypeStr = ExpSettings.targetTypeStr;
+
+currentBin = ExpSettings.currentBin;
+currentSession = ExpSettings.currentSession;
+
+monitorSizePix = ExpSettings.monitorSizePix;
+
+stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
+stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
-targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
-bTargetPresent = ExpSettings.bTargetPresent(:,:,blockNumber);
+targetAmplitude = ExpSettings.targetAmplitude(:,:,currentSession);
+bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
-stimPosDeg = ExpSettings.stimPosDeg(:,:,blockNumber,:);
-fixPosDeg = ExpSettings.fixPosDeg(:,:,blockNumber,:);
+stimPosDeg = ExpSettings.stimPosDeg(:,:,currentSession, :);
+fixPosDeg = ExpSettings.fixPosDeg(:,:,currentSession, :);
 
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
@@ -87,7 +98,11 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
     'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...
-    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea);
+    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea, ...
+    'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
+    'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
+    'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
+    'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
 
 
 

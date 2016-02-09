@@ -1,4 +1,4 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, eLvls)
+function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, cLvls)
 %SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
@@ -88,7 +88,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
     targetAmplitude = .17;
 	    
     stimPosDeg       = ones(nTrials, nLevels, nBlocks, 2) * 10;
-	fixPosDeg        = stimPosDeg - repmat(eLvls, [nTrials,1,nBlocks,2]);
+	fixPosDeg        = stimPosDeg - repmat(cLvls, [nTrials,1,nBlocks,2]);
     
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
