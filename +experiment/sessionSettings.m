@@ -157,5 +157,52 @@ elseif(strcmp(expTypeStr, 'periphery'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+elseif(strcmp(expTypeStr, 'periphery-pilot'))
+    stimulusIntervalMs = 250;
+    responseInvervalMs = 1000;
+    fixationIntervalMs = 400;
+    blankIntervalMs    = 100;
+    
+    monitorMaxPix = 255;    
+    
+    imgFilePath = ImgStats.Settings.imgFilePath;
+    
+    targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
+    target = ImgStats.Settings.targets(:,:,targetIndex);
+    
+	nLevels = length(cLvls);
+	nTrials = 100;
+	nBlocks = 1;
+
+	pTarget = 0.5;
+  
+    pixelsPerDeg = 60;
+  
+    targetAmplitude = .17;
+	    
+    stimPosDeg       = ones(nTrials, nLevels, nBlocks, 2) * 10;
+	fixPosDeg        = stimPosDeg - repmat(cLvls, [nTrials,1,nBlocks,2]);
+    
+	loadSessionStimuli = @experiment.loadStimuliPilot;
+
+	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
+
+    sampleMethod = 'random';
+    
+	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
+        targetTypeStr, binIndex, nTrials, nLevels, nBlocks, sampleMethod);
+        
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
+
+    SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
+        'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
+        'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, 'sampleMethod', sampleMethod, ...
+        'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
+        'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
+        'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
+        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+end
 end
 
