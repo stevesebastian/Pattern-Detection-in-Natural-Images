@@ -34,7 +34,7 @@ screenNumber = max(Screen('Screens'));
 
 ExpSettings.monitorSizePix = windowRect(3:4);
 
- SessionSettings = ExpSettings.loadSessionStimuli(ExpSettings);
+SessionSettings = ExpSettings.loadSessionStimuli(ExpSettings);
 
 SessionSettings.window = window;
 

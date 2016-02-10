@@ -1,4 +1,4 @@
-function SessionSettings = loadStimuliOccluding(ExpSettings, monitorSizePix, blockNumber)
+function SessionSettings = loadStimuliOccluding(ExpSettings)
 %LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
 % 
 % Example: 
@@ -10,18 +10,28 @@ function SessionSettings = loadStimuliOccluding(ExpSettings, monitorSizePix, blo
 % v1.0, 2/4/2016 R. Calen Walshe <calen.walshe@utexas.edu>
 
 %% Set up 
-
 bFovea = 0;
 
-stimuli = ExpSettings.stimuli(:,:,:,:,blockNumber);
+levelStartIndex = ExpSettings.levelStartIndex;
+subjectStr = ExpSettings.subjectStr; 
+expTypeStr = ExpSettings.expTypeStr;
+targetTypeStr = ExpSettings.targetTypeStr;
+
+currentBin = ExpSettings.currentBin;
+currentSession = ExpSettings.currentSession;
+
+monitorSizePix = ExpSettings.monitorSizePix;
+
+stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
+stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
-targetAmplitude = ExpSettings.targetAmplitude(:,:,blockNumber);
-bTargetPresent = ExpSettings.bTargetPresent(:,:,blockNumber);
+targetAmplitude = ExpSettings.targetAmplitude;
+bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
-stimPosDeg = ExpSettings.stimPosDeg(:,:,:,blockNumber);
-fixPosDeg = ExpSettings.fixPosDeg(:,:,:,blockNumber);
+stimPosDeg = ExpSettings.stimPosDeg(:,:,currentSession, :);
+fixPosDeg = ExpSettings.fixPosDeg(:,:,currentSession, :);
 
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
@@ -54,7 +64,7 @@ for iTrials = 1:nTrials
         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target.*targetAmplitude(iTrials,iLevels)*255;
+            thisTarget = target.*targetAmplitude*255;
             thisStimulus = ...
                 lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut);
         end
@@ -78,7 +88,7 @@ end
 %% Create the fixation target
 fixationSize = round(pixelsPerDeg.*0.1);
 fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
-fixationTarget = fixationPixelVal .* ones(fixationSize, fixationSize);
+fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
 
 %% Save
 
@@ -87,9 +97,9 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
     'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...
-    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea);
-
-
-
-
+    'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea, ...
+    'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
+    'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
+    'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
+    'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
 
