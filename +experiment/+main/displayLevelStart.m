@@ -37,7 +37,7 @@ targetDestination  = floor(CenterRectOnPointd(targetRect, stimPosPixXY(1), stimP
 Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
 
 Screen('Flip',SessionSettings.window);
-
+   
 KbWait();
 
 WaitSecs(1);
