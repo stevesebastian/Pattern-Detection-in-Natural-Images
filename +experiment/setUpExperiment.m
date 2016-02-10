@@ -67,7 +67,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
  
     
     % Eccentricity range for each level
-    eLvls = linspace(2, 10, 5);
+    eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -114,6 +114,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
             SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.pixelsPerDeg = ExpSettings.pixelsPerDeg;
             SubjectExpFile.bgPixVal = ExpSettings.bgPixVal;
+            
+            mkdir([fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget}, '/']);
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
