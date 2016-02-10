@@ -1,4 +1,4 @@
-function runMaskingExperiment(subjectStr, expTypeStr, targetTypeStr)
+function runMaskingExperiment(subjectStr, expTypeStr, targetTypeStr, binIndex, sessionNumber, levelNumber)
 %STARTEXPERIMENT Launch the detection experiment.
 %
 % Example: 
@@ -9,7 +9,11 @@ function runMaskingExperiment(subjectStr, expTypeStr, targetTypeStr)
 % v2.0, 1/27/2016, Steve Sebastian, R. C. Walshe <calen.walshe@utexas.edu>
 
 %% Load in the settings
-ExpSettings = experiment.loadCurrentSession(subjectStr, expTypeStr, targetTypeStr);
+if(nargin < 4)
+    ExpSettings = experiment.loadCurrentSession(subjectStr, expTypeStr, targetTypeStr);
+else
+    ExpSettings = experiment.loadCurrentSession(subjectStr, expTypeStr, targetTypeStr, binIndex, sessionNumber, levelNumber);
+end
 
 % Clear the workspace
 close all;

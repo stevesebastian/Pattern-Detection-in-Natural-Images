@@ -46,4 +46,6 @@ SubjectExpFile.falseAlarm(:,levelNumber,sessionNumber, binNumber) = ...
 SubjectExpFile.correctRejection(:,levelNumber,sessionNumber, binNumber) = ...
     (bTargetPresent == 0 & response == 0);
 
+disp(['Level ' num2str(levelNumber) ' completed.']);
+disp(['Percent correct: ' num2str(mean(bTargetPresent == response)*100)]);
 save(filePathSubject, 'SubjectExpFile');
