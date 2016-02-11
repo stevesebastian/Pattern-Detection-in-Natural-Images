@@ -131,11 +131,16 @@ elseif(strcmp(expTypeStr, 'periphery'))
 	pTarget = 0.5;
   
     pixelsPerDeg = 60;
-  
-    targetAmplitude = .17;
-	    
-    stimPosDeg       = ones(nTrials, nLevels, nBlocks, 2) * 10;
-	fixPosDeg        = stimPosDeg - repmat(cLvls, [nTrials,1,nBlocks,2]);
+        
+    stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nBlocks, 2);
+    
+    targetContrast  = .17;
+    targetAmplitude = 127;
+        
+    stimulusDistanceDeg     = 10;
+    stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(cLvls, [nTrials,1,nBlocks]);
     
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
@@ -147,16 +152,19 @@ elseif(strcmp(expTypeStr, 'periphery'))
         targetTypeStr, binIndex, nTrials, nLevels, nBlocks, sampleMethod);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
+    
+    envelope = ImgStats.Settings.envelope;
 
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
-        'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
+        'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplidue,...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
-        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
+    
 elseif(strcmp(expTypeStr, 'periphery-pilot'))
     stimulusIntervalMs = 250;
     responseInvervalMs = 1000;

@@ -31,18 +31,21 @@ screenNumber = max(Screen('Screens'));
 
 % Open the screen
 [window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixVal, [], [], 2);
+load ./+experiment/+main/GammaLookup.mat
+Screen('LoadNormalizedGammaTable', window, GammaLookup*[1 1 1]);
 
 ExpSettings.monitorSizePix = windowRect(3:4);
 
 SessionSettings = ExpSettings.loadSessionStimuli(ExpSettings);
-
 SessionSettings.window = window;
 
 if(~SessionSettings.bFovea)
     Eyelink('Shutdown');
-    el = experiment.main.configureEyetracker(window);
+    el = experiment.main.configureEyetracker(SessionSettings);
     SessionSettings.el     = el;
 end
+
+
 
 % Present cute intro
  im      = imread('./+experiment/+main/maskingintro.jpg');

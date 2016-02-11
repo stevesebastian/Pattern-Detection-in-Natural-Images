@@ -44,4 +44,3 @@ end
 
 SessionData.response = responseMatrix;
 SessionData.rt = rtMatrix;
-

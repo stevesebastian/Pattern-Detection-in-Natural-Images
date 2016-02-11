@@ -25,6 +25,7 @@ monitorSizePix = ExpSettings.monitorSizePix;
 stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
 stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
+targetContrast  = ExpSettings.targetContrast;
 targetAmplitude = ExpSettings.targetAmplitude;
 bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
@@ -55,6 +56,9 @@ circMask        = ((maskX.^2+maskY.^2)<=(maskRadiusPix.^2));
 nTrials = ExpSettings.nTrials;
 nLevels = ExpSettings.nLevels;
 
+tWin        = ExpSettings.envelope;
+thisTarget = target.*targetContrast*targetAmplitude + targetAmplitude;
+
 %% Add stimuli to backgrounds
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
@@ -64,7 +68,6 @@ for iTrials = 1:nTrials
         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target.*targetAmplitude*255;
             thisStimulus = ...
                 lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut);
         end
