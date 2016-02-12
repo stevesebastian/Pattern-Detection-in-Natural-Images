@@ -48,7 +48,7 @@ end
 
 
 % Present cute intro
- im      = imread('./+experiment/+main/maskingintro.jpg');
+im      = imread('./+experiment/+main/maskingintro.jpg');
 tex     = Screen('MakeTexture', window, im);
 Screen('DrawTexture', window, tex);
 Screen('Flip', window);

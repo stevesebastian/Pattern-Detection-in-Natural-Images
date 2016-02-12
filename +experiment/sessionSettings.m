@@ -135,8 +135,11 @@ elseif(strcmp(expTypeStr, 'periphery'))
     stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
     fixPosDeg  = zeros(nTrials, nLevels, nBlocks, 2);
     
-    targetContrast  = .17;
-    targetAmplitude = 127;
+    
+    contrastRMS     = .17;
+    amplitude8Bit   = 127;
+    targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nBlocks]); % Contrast
+    targetAmplitude = repmat(ones(1,nLevels)*amplitude8Bit , [nTrials, 1, nBlocks]); % Amplitude
         
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;

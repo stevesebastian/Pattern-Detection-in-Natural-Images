@@ -33,12 +33,16 @@ if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always
 
     Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination);    
 end
+[~, StimulusOnsetTime] = Screen('Flip', SessionSettings.window, 0, 1);
 
- 
-
-WaitSecs(stimulusIntervalS);
+WaitSecs(stimulusIntervalS); % Stimulus is on for stimulusIntervalS seconds.
 
 Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal, stimulusDestination);
-Screen('Flip', SessionSettings.window);
+
+if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always a layer above the stimulus.
+    Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination);    
+end
+
+[~, StimulusOnsetTime] = Screen('Flip', SessionSettings.window, 0, 1);
 
 stimulusOnsetMs = StimulusOnsetTime;

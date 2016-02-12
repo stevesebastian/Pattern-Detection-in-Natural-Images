@@ -57,11 +57,12 @@ nTrials = ExpSettings.nTrials;
 nLevels = ExpSettings.nLevels;
 
 tWin        = ExpSettings.envelope;
-thisTarget = target.*targetContrast*targetAmplitude + targetAmplitude;
+
 
 %% Add stimuli to backgrounds
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
+        thisTarget = target.*targetContrast(iTrials,iLevels)*targetAmplitude(iTrials,iLevels) + targetAmplitude(iTrials,iLevels);        
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         % Convert to 8 bit
@@ -81,8 +82,8 @@ end
 %% Create target examples
 targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
 
-for iLevels = 1:nLevels
-    thisTarget = target.*targetAmplitude.*bgPixVal;
+for iLevels = 1:nLevels    
+    thisTarget = target.*mean(targetContrast(:,iLevels))*mean(targetAmplitude(:,iLevels)) + mean(targetAmplitude(:,iLevels));            
     
     targetSamples(:,:,iLevels) = ...
         lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut,[],[], tWin);
