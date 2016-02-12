@@ -69,7 +69,7 @@ for iTrials = 1:nTrials
         
         if(bTargetPresent(iTrials, iLevels))
             thisStimulus = ...
-                lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut);
+                lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin);
         end
 
         % Apply the mask
@@ -85,13 +85,17 @@ for iLevels = 1:nLevels
     thisTarget = target.*targetAmplitude.*bgPixVal;
     
     targetSamples(:,:,iLevels) = ...
-        lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut);
+        lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut,[],[], tWin);
 end
 
 %% Create the fixation target
-fixationSize = round(pixelsPerDeg.*0.1);
-fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
-fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
+crossWidth          = round(pixelsPerDeg.*0.1);
+fixationSize        = floor(pixelsPerDeg.*0.5)-1;
+fixationPixelVal    = round(bgPixVal - bgPixVal*0.5);
+fixationTarget      = ones(fixationSize, fixationSize)*bgPixVal;
+fixationTarget(round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,:) = fixationPixelVal;
+fixationTarget(:,round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2) = fixationPixelVal;
+
 
 %% Save
 
