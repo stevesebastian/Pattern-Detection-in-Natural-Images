@@ -10,7 +10,7 @@ if(strcmp(expTypeStr, 'fovea'))
  
     
     % Contrast range for each level
-    cLvls = repmat(linspace(0.05, 0.2, 5), [size(binIndex,1) , 1]);    
+    targetLvls = repmat(linspace(0.05, 0.2, 5), [size(binIndex,1) , 1]);    
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -22,7 +22,7 @@ if(strcmp(expTypeStr, 'fovea'))
     for iBin = 1:nBins
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), cLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iBin,:));
             
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
@@ -68,11 +68,11 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L(5)/100;
     
-    cLvls(1,:) = linspace(0.2, 0.02, nLevels)*lumVal;
-    cLvls(2,:) = linspace(0.35, 0.09, nLevels)*lumVal;
-    cLvls(3,:) = linspace(0.4, 0.08, nLevels)*lumVal;
-    cLvls(4,:) = linspace(0.21, 0.05, nLevels)*lumVal;
-    cLvls(5,:) = linspace(0.3, 0.08, nLevels)*lumVal;
+    targetLvls(1,:) = linspace(0.2, 0.02, nLevels)*lumVal;
+    targetLvls(2,:) = linspace(0.35, 0.09, nLevels)*lumVal;
+    targetLvls(3,:) = linspace(0.4, 0.08, nLevels)*lumVal;
+    targetLvls(4,:) = linspace(0.21, 0.05, nLevels)*lumVal;
+    targetLvls(5,:) = linspace(0.3, 0.08, nLevels)*lumVal;
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -84,7 +84,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     for iBin = 1:nBins
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), cLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iBin,:));
             
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
