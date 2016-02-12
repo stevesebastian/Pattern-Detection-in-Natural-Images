@@ -201,7 +201,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     fpSubjects = 'experiment_files/subject_out';
     
     nBins = size(binIndex, 1);
-    nTargets = 1;
+    nTargets = size(ImgStats.Settings.targets, 3);
     
     % Session files
     for iBin = 1:nBins
@@ -219,35 +219,34 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     end
  
     % Subject experiment files
-    subjectStr = ['rcw'];
+    subjectStr = ['pilot'];
     
     nSubjects = size(subjectStr, 1);
     nTrials   = ExpSettings.nTrials;
     nLevels   = ExpSettings.nLevels;
     nSessions = ExpSettings.nBlocks;
     
-    ExpSettings.targetTypeStr = {'horizontal', 'vertical','bowtie','spot'};
+    ExpSettings.targetTypeStr = ImgStats.Settings.targetKey;
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
             SubjectExpFile.binIndex = binIndex;
-            SubjectExpFile.bCompleted = zeros(nBins, 2);
-            SubjectExpFile.targetAmplitude = zeros(nTrials, nLevels, nSessions, nBins);
-	    SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
-            SubjectExpFile.targetPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
+            SubjectExpFile.stimPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.fixPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.response     = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.response = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.hit = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.miss = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.falseAlarm = zeros(nTrials, nLevels, nSessions, nBins);
+            SubjectExpFile.correctRejection = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.pixelsPerDeg = ExpSettings.pixelsPerDeg;
             SubjectExpFile.bgPixVal = ExpSettings.bgPixVal;
-            
-            mkdir([fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget}, '/']);
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
             save(fpOut, 'SubjectExpFile');
         end
     end
-end
 end
