@@ -142,8 +142,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
     nTargets = size(ImgStats.Settings.targets, 3);
     
     % Session files
-    for iBin = 1%:nBins
-        for iTarget = 1%1:nTargets           
+    for iBin = 1:nBins
+        for iTarget = 1:nTargets           
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
                 ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
             
@@ -166,8 +166,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
     
     ExpSettings.targetTypeStr = ImgStats.Settings.targetKey;
     
-    for iSubject = 1%1:nSubjects
-        for iTarget = 1%1:nTargets
+    for iSubject = 1:nSubjects
+        for iTarget = 1:nTargets
             SubjectExpFile.binIndex = binIndex;
             SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
             SubjectExpFile.stimPosDeg = zeros(nTrials, nLevels, nSessions, nBins);

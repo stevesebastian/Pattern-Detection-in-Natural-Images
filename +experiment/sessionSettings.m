@@ -124,7 +124,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-	nLevels = length(cLvls);
+	nLevels = length(targetLvls);
 	nTrials = 30;
 	nBlocks = 2;
 
@@ -143,7 +143,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
         
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
-	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(cLvls, [nTrials,1,nBlocks]);
+	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nBlocks]);
     
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
@@ -181,7 +181,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-	nLevels = length(cLvls);
+	nLevels = length(targetLvls);
 	nTrials = 100;
 	nBlocks = 1;
 
@@ -192,7 +192,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     targetAmplitude = .17;
 	    
     stimPosDeg       = ones(nTrials, nLevels, nBlocks, 2) * 10;
-	fixPosDeg        = stimPosDeg - repmat(cLvls, [nTrials,1,nBlocks,2]);
+	fixPosDeg        = stimPosDeg - repmat(targetLvls, [nTrials,1,nBlocks,2]);
     
 	loadSessionStimuli = @experiment.loadStimuliPilot;
 
