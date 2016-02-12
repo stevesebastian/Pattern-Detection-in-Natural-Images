@@ -76,27 +76,22 @@ elseif(strcmp(typeStr, 'periphery'))
 
     stimulusParams.type     = 'bowtie';
     [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
-
-    stimulusParams.type     = 'spotC';
-    spotC                    = lib.cosWindow2([21,21],1);
     
     stimulusParams.type     = 'spot';
-    spotSz                  = stimulusParams.pixperdeg * stimulusParams.size;
-    spot                    = ones(spotSz) .* envelope;    
+    tWin                    = envelope;
+    spot                    = lib.spot2D(stimulusParams, tWin);
 	
     vertical    = vertical./max(vertical(:));
     horizontal  = horizontal./max(horizontal(:));
     bowtiehaar  = bowtiehaar./max(bowtiehaar(:));
     spot        = spot./max(spot(:));
-    spotRC      = spotC./max(spotC(:));
         
 	targets(:,:,1)  = vertical;
     targets(:,:,2)  = horizontal;
     targets(:,:,3)  = bowtiehaar;
     targets(:,:,4)  = spot;
-    targets(:,:,5)  = spotC;    
     
-	targetKey = {{'vertical','horizontal','bowtie','spot','spotC'}};
+	targetKey = {{'vertical','horizontal','bowtie','spot'}};
     
 	% Statistic parameters
 	surroundSizePix = 241;
