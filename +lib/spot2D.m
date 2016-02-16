@@ -25,4 +25,5 @@ spot(dGrid > widthIntDeg) = -1;
 spot(dGrid < widthIntDeg) = 1;
 
 spot = (spot - mean(spot(tWin(:)))) .* tWin
+
 end
