@@ -11,6 +11,7 @@ function ExpSettings = generateBinExperimentSettings(ImgStats, expTypeStr, binIn
 %   LOADSTIMULIADDITIVE
 %
 % v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
+% v1.1, 2/04/2016, R. Calen Walshe <calen.walshe@utexas.edu>
 
 
 %% 
@@ -56,5 +57,47 @@ if(strcmp(expTypeStr, 'fovea'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'bFovea', bFovea);
     
-end
+%% 
+elseif(strcmp(expTypeStr, 'periphery'))
+    
+    monitorMaxPix = 255;    
+    
+    filePathImages = ImgStats.Settings.filePathImages;
+    targetTypeStr = 'horizontal';
+    
+    targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
+    target = ImgStats.Settings.targets(:,:,targetIndex);
+    
+	nLevels = length(cLvls);
+	nTrials = 30;
+	nBlocks = 2;
 
+	pTarget = 0.5;
+  
+    pixelsPerDeg = 60;
+  
+    targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+	
+    stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+    
+	loadStimuliFunction = @experiment.loadStimuliOccluding;
+
+	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nBlocks, pTarget);
+
+	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, targetTypeStr, binIndex, nTrials, nLevels, nBlocks);
+        
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
+
+    bFovea = 0;
+    
+    ExpSettings = struct('monitorMaxPix', monitorMaxPix, ...
+        'filePathImages', filePathImages, 'target', target, 'targetTypeStr', targetTypeStr, ...
+        'nLevels', nLevels, 'nTrials', nTrials, 'nBlocks', nBlocks, ...
+        'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
+        'fixPosDeg', fixPosDeg, 'loadStimuliFunction', loadStimuliFunction, ...
+        'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
+        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'bFovea', bFovea);
+    
+end

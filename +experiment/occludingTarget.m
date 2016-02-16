@@ -2,7 +2,7 @@ function stimulusOut = occludingTarget(backgroundImg, targetFunction, TargetPara
 %ADDITIVETARGET Adds the target specified by targetFunction to the background
 % 
 % Example: 
-% 	stimulusOut = ADDITIVETARGET(backgroundImg, @lib.haar2D, HaarParams);
+% 	stimulusOut = OCCLUDINGTARGET(backgroundImg, @lib.haar2D, HaarParams);
 %
 % 1/19/2016, R.C Walshe <calen.walshe@gmail.com>
 

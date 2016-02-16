@@ -1,4 +1,4 @@
-function [imgOut, percentClipped] = embedImageinCenter(imgIn, target, bAdditive, bitsIn, offsetPix, bClip)
+function [imgOut, percentClipped] = embedImageinCenter(imgIn, target, bAdditive, bitsIn, offsetPix, bClip, tWin)
 %EMBEDIMAGEINCENTER Embeds a target in the center of the input image
 %
 % Example: 
@@ -19,12 +19,16 @@ if(~exist('bitsIn', 'var') || isempty(bitsIn))
     bitsIn = 16;
 end;
 
-if(~exist('offsetPix', 'var'))
+if(~exist('offsetPix', 'var')) || isempty(offsetPix)
     offsetPix = 0;
 end;
 
-if(~exist('bClip', 'var'))
+if(~exist('bClip', 'var')) || isempty(bClip)
     bClip = 0;
+end;
+
+if(~exist('tWin', 'var')) || isempty(tWin)
+    warning('If you are using an occluding target you need a window. Execution may crash if no window is supplied');
 end;
 
 percentClipped = 0;
@@ -59,7 +63,11 @@ if(bAdditive)
         imgIn(imgIn > maxPixVal) = maxPixVal;
     end
 else
-    imgIn(targetRangeX, targetRangeY) = target;
+    patch = imgIn(targetRangeX, targetRangeY);
+    patch(tWin) = target(tWin);
+    
+    imgIn(targetRangeX, targetRangeY) = patch;
+    
 end;
 
 imgOut = imgIn;

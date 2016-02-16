@@ -14,7 +14,7 @@ if nargin == 1
     imgDir      = '~/occluding/natural_images/pixel_space/';
 end
 
-[target, win] = haar2D();
+[target, win] = lib.haar2D();
 
 patchList = ImgStats.patchIndex{targetNr,1}(L,C,S);
 try 

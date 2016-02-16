@@ -10,7 +10,8 @@ filePathSubject = ['experiment_files/subject_out/' expTypeStr '/' targetTypeStr 
 load(filePathSubject);
 
 if(nargin < 4)
-    nLevels = size(SubjectExpFile.targetAmplitude,2);
+    nLevels = size(SubjectExpFile.stimPosDeg,2);
+        
 
     % Check for experiment files that have not been completed
     [notCompletedBin, notCompletedSession] = ...
