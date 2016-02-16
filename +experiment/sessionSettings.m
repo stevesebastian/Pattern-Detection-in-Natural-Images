@@ -1,4 +1,4 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, cLvls)
+function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, targetLvls)
 %SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
@@ -28,7 +28,7 @@ if(strcmp(expTypeStr, 'fovea'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-	nLevels = length(cLvls);
+	nLevels = length(targetLvls);
 	nTrials = 30;
 	nBlocks = 2;
 
@@ -36,7 +36,7 @@ if(strcmp(expTypeStr, 'fovea'))
   
     pixelsPerDeg = 120;
   
-    targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+    targetAmplitude = repmat(targetLvls, [nTrials, 1, nBlocks]);
 	
     stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
@@ -75,7 +75,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-	nLevels = length(cLvls);
+	nLevels = length(targetLvls);
 	nTrials = 20;
 	nBlocks = 1;
 
@@ -83,7 +83,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
   
     pixelsPerDeg = 120;
   
-    targetAmplitude = repmat(cLvls, [nTrials, 1, nBlocks]);
+    targetAmplitude = repmat(targetLvls, [nTrials, 1, nBlocks]);
 	
     stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
 	fixPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
