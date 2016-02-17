@@ -10,7 +10,8 @@ function presentpatches(ImgStats, L, targetNr,bSave, outPath)
 close all;
 h = figure('Position', [100,100, 1920,1200], 'Name', ['Luminance bin = ' num2str(L), ' Contrast x Similarity']);
 
-[target, win] = lib.haar2D();
+envelope = ImgStats.Settings.envelope;
+targetSizePix = ImgStats.Settings.targetSizePix;
 
 for i = 1:10
     for j = 1:10
@@ -21,10 +22,10 @@ for i = 1:10
 
             [patchNr, imgNr] = ind2sub(size(ImgStats.L), randPatch);
 
-            I_PPM = load([ImgStats.Settings.imgFilePath, ImgStats.imgDir(imgNr).name]);
+            I_PPM = load([ImgStats.Settings.imgFilePath, '/' ImgStats.imgDir(imgNr).name]);
             I = I_PPM.I_PPM;
     
-            cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr,:), 21,1,1).*win;
+            cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr,:), targetSizePix,1,1).*envelope;
             colormap(gray(2^14));image(cropped)
             axis image;          
             set(gca,'xtick',[],'ytick',[]);
