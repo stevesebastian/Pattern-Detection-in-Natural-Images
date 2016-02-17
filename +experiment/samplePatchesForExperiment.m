@@ -2,7 +2,7 @@ function [stimuli, pIndex] = samplePatchesForExperiment(ImgStats, targetKeyStr, 
 %SAMPLEPATCHESFOREXPERIMENT Sample patches for use in the detection experiment
 % 
 % Example: 
-%  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], 'uniform'sss); 
+%  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], 'uniform'); 
 %
 % v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
 

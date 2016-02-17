@@ -15,6 +15,8 @@ if nargin == 1
     envelope    = ImgStats.Settings.imgFilePath;
 end
 
+[target, win] = lib.haar2D();
+
 patchList = ImgStats.patchIndex{targetNr,1}(L,C,S);
 try 
     randPatch = randsample(patchList{1}, 100);

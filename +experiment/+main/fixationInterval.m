@@ -28,6 +28,8 @@ if(SessionSettings.bFovea)
     WaitSecs(blankIntervalS);
 end
 
-if(~SessionSettings.bFovea)
-    experiment.main.checkFixationCross(SessionSettings, fixPosXY(1),fixPosXY(2));
+if(~SessionSettings.bFovea)    
+    if ~SessionSettings.el.dummyconnected
+        experiment.main.checkFixationCross(SessionSettings, fixPosXY(1),fixPosXY(2));
+    end
 end
