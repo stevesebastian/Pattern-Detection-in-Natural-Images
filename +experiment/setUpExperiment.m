@@ -246,6 +246,9 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
+            
+            mkdir([fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} '/']);            
+            
             save(fpOut, 'SubjectExpFile');
         end
     end
