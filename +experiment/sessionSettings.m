@@ -15,7 +15,7 @@ function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, 
 % peripheral settings.
 
 
-%% 
+%% FOVEA
 if(strcmp(expTypeStr, 'fovea'))
     
     stimulusIntervalMs = 250;
@@ -54,7 +54,7 @@ if(strcmp(expTypeStr, 'fovea'))
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
+    SessionSettings = struct('binIndex', binIndex, 'monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
@@ -63,6 +63,7 @@ if(strcmp(expTypeStr, 'fovea'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+%% FOVEA PILOT
 elseif(strcmp(expTypeStr, 'fovea_pilot'))
         
     stimulusIntervalMs = 250;
@@ -101,7 +102,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
-    SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
+    SessionSettings = struct('binIndex', binIndex, 'monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
@@ -110,7 +111,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
-    
+%% PERIPHERY  
 elseif(strcmp(expTypeStr, 'periphery'))
     stimulusIntervalMs = 250;
     responseInvervalMs = 1000;
@@ -167,7 +168,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
-    
+%% PERIPHERY PILOT   
 elseif(strcmp(expTypeStr, 'periphery-pilot'))
     stimulusIntervalMs = 250;
     responseInvervalMs = 1000;
@@ -214,6 +215,5 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
-end
 end
 
