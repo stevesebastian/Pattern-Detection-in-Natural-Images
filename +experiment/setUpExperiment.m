@@ -51,7 +51,7 @@ if(strcmp(expTypeStr, 'fovea'))
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile = subjectSettings(ExpSettings);
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings);
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
@@ -63,16 +63,16 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Experimental bins
     binIndex = [5 1 5; 5 5 5; 5 10 5; 5 5 1; 5 5 10];
  
-    nLevels = 4;
+    nLevels = 5;
     
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L(5)/100;
     
-    targetLvls(1,:) = linspace(0.06, 0.005, nLevels)*lumVal;
-    targetLvls(2,:) = linspace(0.2, 0.01, nLevels)*lumVal;
-    targetLvls(3,:) = linspace(0.2, 0.01, nLevels)*lumVal;
-    targetLvls(4,:) = linspace(0.2, 0.01, nLevels)*lumVal;
-    targetLvls(5,:) = linspace(0.2, 0.01, nLevels)*lumVal;
+    targetLvls(1,:) = linspace(0.05, 0.003, nLevels)*lumVal;
+    targetLvls(2,:) = linspace(0.15, 0.01, nLevels)*lumVal;
+    targetLvls(3,:) = linspace(0.25, 0.05, nLevels)*lumVal;
+    targetLvls(4,:) = linspace(0.13, 0.003, nLevels)*lumVal;
+    targetLvls(5,:) = linspace(0.2 , 0.01, nLevels)*lumVal;
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -100,7 +100,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile = subjectSettings(ExpSettings);
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, nBins);
 
             fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 

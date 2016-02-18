@@ -1,9 +1,9 @@
-function SubjectExpFile = subjectExperimentFile(ExpSettings)
+function SubjectExpFile = subjectExperimentFile(ExpSettings, nBins)
 %SUBJECTEXPERIMENTFILE Initialize all matrices for subject out in
 %experiment
 % 
 % Example: 
-%  ExpSettings = SUBJECTEXPERIMENTFILE(ImgStats, 'fovea', [5 5 5], linspace(0.05, 0.2, 5)); 
+%  ExpSettings = SUBJECTEXPERIMENTFILE(ExpSettings, nBins); 
 %
 % Output: 
 %  SubjectExpFile Structure containing subject output values
@@ -18,7 +18,6 @@ binIndex    = ExpSettings.binIndex;
 nTrials     = ExpSettings.nTrials;
 nLevels     = ExpSettings.nLevels;
 nSessions   = ExpSettings.nSessions;
-nBins       = ExpSettings.nBins;
 
 %% Experimental values
 SubjectExpFile.binIndex = binIndex;

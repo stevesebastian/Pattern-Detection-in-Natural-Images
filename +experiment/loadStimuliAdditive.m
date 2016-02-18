@@ -80,7 +80,7 @@ end
 targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
 
 for iLevels = 1:nLevels
-    thisTarget = target.*mean(targetAmplitude(:,iLevels)).*bgPixVal;
+    thisTarget = target.*mean(targetAmplitude(:,iLevels)).*255;
     
     targetSamples(:,:,iLevels) = ...
         lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut);
