@@ -184,18 +184,38 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     
 	nLevels = length(targetLvls);
 	nTrials = 100;
+<<<<<<< HEAD
+	nBlocks = 2;
+=======
 	nSessions = 1;
+>>>>>>> peripheral-settings
 
 	pTarget = 0.5;
   
     pixelsPerDeg = 60;
+<<<<<<< HEAD
+        
+    stimPosDeg = zeros(nTrials, nLevels, nBlocks, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nBlocks, 2);
+    
+    
+    contrastRMS     = .17;
+    amplitude8Bit   = 127;
+    targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nBlocks]); % Contrast
+    targetAmplitude = repmat(ones(1,nLevels)*amplitude8Bit , [nTrials, 1, nBlocks]); % Amplitude
+        
+    stimulusDistanceDeg     = 10;
+    stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nBlocks]);
+=======
   
     targetAmplitude = .17;
 	    
     stimPosDeg       = ones(nTrials, nLevels, nSessions, 2) * 10;
 	fixPosDeg        = stimPosDeg - repmat(targetLvls, [nTrials,1,nSessions,2]);
+>>>>>>> peripheral-settings
     
-	loadSessionStimuli = @experiment.loadStimuliPilot;
+	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
 	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
 
@@ -205,15 +225,21 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
+    
+    envelope = ImgStats.Settings.envelope;
 
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
-        'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
+        'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplitude,...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
+<<<<<<< HEAD
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
+=======
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+>>>>>>> peripheral-settings
 end
 
