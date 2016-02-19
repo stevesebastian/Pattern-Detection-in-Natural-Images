@@ -56,6 +56,10 @@ circMask        = ((maskX.^2+maskY.^2)<=(maskRadiusPix.^2));
 nTrials = ExpSettings.nTrials;
 nLevels = ExpSettings.nLevels;
 
+targetSizePix = size(target, 1);
+ditherFilter = ones(targetSizePix,targetSizePix);
+ditherFilter(1:2:targetSizePix, 1:2:targetSizePix) = 0;
+
 %% Add stimuli to backgrounds
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
@@ -65,9 +69,15 @@ for iTrials = 1:nTrials
         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target.*targetAmplitude(iTrials,iLevels)*255;
+            thisTarget = target.*targetAmplitude(iTrials,iLevels).*255;
+
+            if(targetAmplitude(iTrials,iLevels) < 0.05)
+                thisTarget = thisTarget.*4.*ditherFilter;
+            end
+            
             thisStimulus = ...
-                lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut);
+                round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut));
+            
         end
 
         % Apply the mask
