@@ -214,15 +214,12 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
             SubjectExpFile.binIndex = binIndex;
-<<<<<<< HEAD
             SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
             SubjectExpFile.stimPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-=======
             SubjectExpFile.bCompleted = zeros(nBins, 2);
             SubjectExpFile.targetAmplitude = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
             SubjectExpFile.targetPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
->>>>>>> peripheral-settings
             SubjectExpFile.fixPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
             SubjectExpFile.response = zeros(nTrials, nLevels, nSessions, nBins);

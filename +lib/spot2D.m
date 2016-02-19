@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> peripheral-settings
 function spot = spot2D(stimulusParams, tWin)
 % SPOT2D Create a pedestal stimulus. /----\
 %                                   |  __  | 
@@ -22,38 +18,12 @@ widthIntDeg    = spotRadPx/stimulusParams.pixperdeg * .75;
 [XX, YY] = meshgrid(-spotRadPx:spotRadPx);
 
 dGrid = sqrt(XX.^2 + YY.^2) ./ stimulusParams.pixperdeg;
-<<<<<<< HEAD
-
-=======
-=======
-function spot = spot(spotParams)
-
-
-
-spotRadPx     = floor(spotParams.spotWidth/2);
-ppd           = spotParams.ppd;
-widthIntDeg    = spotRadPx/ppd * .75;
-
-[XX, YY] = meshgrid(-spotRadPx:spotRadPx);
-
-dGrid = sqrt(XX.^2 + YY.^2) ./ ppd;
->>>>>>> peripheral-settings
->>>>>>> peripheral-settings
 
 spot = zeros(size(dGrid));
 
 spot(dGrid > widthIntDeg) = -1;
 spot(dGrid < widthIntDeg) = 1;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> peripheral-settings
 
 spot = (spot - mean(spot(tWin(:)))) .* tWin;
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> peripheral-settings
->>>>>>> peripheral-settings
 end
