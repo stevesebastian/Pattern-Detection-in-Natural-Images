@@ -19,6 +19,7 @@ widthIntDeg    = spotRadPx/stimulusParams.pixperdeg * .75;
 
 dGrid = sqrt(XX.^2 + YY.^2) ./ stimulusParams.pixperdeg;
 
+
 spot = zeros(size(dGrid));
 
 spot(dGrid > widthIntDeg) = -1;

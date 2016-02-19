@@ -13,17 +13,6 @@ stimPosPixXY = SessionSettings.stimPosPix(randTrial, blockNumber, :);
 
 w       = SessionSettings.window;
 
-% fixationcrossWidthDeg       = 1/20;
-% fixationcrossLengthDeg      = 1/10;
-% 
-% linewidthPix    = fixationcrossWidthDeg.*SessionSettings.pixelsPerDeg;
-% linelengthPix   = fixationcrossLengthDeg.*SessionSettings.pixelsPerDeg;
-% 
-% xCoordsFix      = [-linelengthPix linelengthPix 0 0];
-% yCoordsFix      = [0 0 -linelengthPix linelengthPix];
-% Screen('Drawlines', SessionSettings.window, [xCoordsFix;yCoordsFix], ...
-%     linewidthPix, 0, [fixPosPixXY(1), fixPosPixXY(2)]);
-
 %% Set up 
 fixTarget = SessionSettings.fixationTarget; 
 fixPosXY = fixPosPixXY;
