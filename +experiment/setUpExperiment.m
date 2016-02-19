@@ -239,4 +239,9 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
             save(fpOut, 'SubjectExpFile');
         end
     end
+    
+ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+fprintf('Date Created: %s', date);
+fclose(ftemp);    
+
 end
