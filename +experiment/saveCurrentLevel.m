@@ -17,10 +17,10 @@ binNumber     = SessionSettings.currentBin;
 sessionNumber = SessionSettings.currentSession;
 
 bTargetPresent = ...
-    SessionSettings.bTargetPresent(:,levelNumber, sessionNumber, binNumber);
+    SessionSettings.bTargetPresent(:,levelNumber);
 
-SubjectExpFile.levelCompleted = ...
-    SubjectExpFile.levelCompleted(binNumber, sessionNumber) + 1;
+SubjectExpFile.levelCompleted(sessionNumber, binNumber) = ...
+    SubjectExpFile.levelCompleted(sessionNumber, binNumber) + 1;
 
 SubjectExpFile.stimuliIndex(:,levelNumber,sessionNumber, binNumber) = ...
     SessionSettings.stimuliIndex(:,levelNumber);
@@ -34,6 +34,7 @@ SubjectExpFile.bTargetPresent(:,levelNumber,sessionNumber, binNumber) = ...
     SessionSettings.bTargetPresent(:,levelNumber);
 
 %% Performance
+SubjectExpFile.bTargetPresent(:,levelNumber,sessionNumber, binNumber) = bTargetPresent;
 SubjectExpFile.response(:,levelNumber,sessionNumber, binNumber) = response;
 SubjectExpFile.correct(:,levelNumber,sessionNumber, binNumber) = ...
     bTargetPresent == response;

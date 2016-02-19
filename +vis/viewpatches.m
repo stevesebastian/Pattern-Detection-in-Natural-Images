@@ -11,7 +11,8 @@ if nargin == 1
     targetNr    = 1;
     bText       = 1;
     bSave       = 0;
-    imgDir      = '~/occluding/natural_images/pixel_space/';
+    imgDir      = ImgStats.Settings.imgFilePath;
+    envelope    = ImgStats.Settings.imgFilePath;
 end
 
 [target, win] = lib.haar2D();
@@ -25,14 +26,14 @@ end
     
 [patchNr, imgNr] = ind2sub(size(ImgStats.L), randPatch);
 
-h = figure('Position', [100, 100, 21, 21]);
+figure('Position', [100, 100, 21, 21]);
 
 for i = 1:length(patchNr)
 
     I_PPM = load([ImgStats.Settings.imgFilePath, ImgStats.imgDir(imgNr(i)).name]);
     I     = I_PPM.I_PPM;
     
-    cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr(i),:), 21,1,1).*win;
+    cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr(i),:), 21,1,1).*envelope;
     
     colormap(gray(2^14)); imagesc(cropped);
 
