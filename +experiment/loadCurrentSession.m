@@ -14,7 +14,7 @@ if(nargin < 4)
         
 
     % Check for experiment files that have not been completed
-    [notCompletedBin, notCompletedSession] = ...
+    [notCompletedSession, notCompletedBin] = ...
         find(SubjectExpFile.levelCompleted < nLevels);
 
     if(isempty(notCompletedBin) && isempty(notCompletedSession))
@@ -25,7 +25,7 @@ if(nargin < 4)
     currentSession = notCompletedSession(1);
     binIndex = SubjectExpFile.binIndex(notCompletedBin(1), :);
     
-    levelCompleted = SubjectExpFile.levelCompleted(currentBin, currentSession);
+    levelCompleted = SubjectExpFile.levelCompleted(currentSession, currentBin);
     levelStartIndex = levelCompleted + 1;
 else
     currentSession = sessionNumber; 
