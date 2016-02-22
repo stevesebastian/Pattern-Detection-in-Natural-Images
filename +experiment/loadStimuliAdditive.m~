@@ -103,6 +103,7 @@ for iLevels = 1:nLevels
         round(lib.embedImageinCenter(targetSamplesD(:,:,iLevels), thisTargetD, bAdditive, bitDepthOut));
 end
 
+thisTarget = target.*0.05.*(2^10-1) + (bgPixVal/255.*(2^10-1));
 thisTarget = target.*0.04.*(255) + bgPixVal;
 targetTexture = Screen('MakeTexture', ExpSettings.window, thisTarget);
 

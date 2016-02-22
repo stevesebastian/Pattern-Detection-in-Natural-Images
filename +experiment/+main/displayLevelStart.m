@@ -34,8 +34,6 @@ targetTexture = Screen('MakeTexture', SessionSettings.window, target);
 targetRect         = SetRect(0, 0, size(target,2), size(target,1));
 targetDestination  = floor(CenterRectOnPointd(targetRect, stimPosPixXY(1), stimPosPixXY(2))); 
 
-
-
 if SessionSettings.bFovea % If foveal experiment, then draw stimulus after fixation cross.
     Screen('DrawTexture', SessionSettings.window, fixTexture, [], fixDestination);
     Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
