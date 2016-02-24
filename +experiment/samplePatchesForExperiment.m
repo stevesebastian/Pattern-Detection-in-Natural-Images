@@ -16,7 +16,7 @@ if(sum(binIndex > 10 | binIndex < 1))
     error('binIndex out of range. Use 1-10');
 end
 
-filePathIn = ImgStats.Settings.imgFilePath;
+filePathIn = ImgStats.Settings.imgFilePathExperiment;
 
 targetKeyIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetKeyStr);
 nPatches = nBlocks*nLevels*nTrials;
