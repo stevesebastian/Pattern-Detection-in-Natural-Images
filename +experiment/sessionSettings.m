@@ -113,7 +113,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
 %% PERIPHERY  
 elseif(strcmp(expTypeStr, 'periphery'))
-    stimulusIntervalMs = 250;
+    stimulusIntervalMs = 200;
     responseInvervalMs = 1000;
     fixationIntervalMs = 400;
     blankIntervalMs    = 100;
@@ -169,7 +169,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
 %% PERIPHERY PILOT   
 elseif(strcmp(expTypeStr, 'periphery-pilot'))
-    stimulusIntervalMs = 250;
+    stimulusIntervalMs = 200;
     responseInvervalMs = 1000;
     fixationIntervalMs = 400;
     blankIntervalMs    = 100;
@@ -195,9 +195,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     
     
     contrastRMS     = .17;
-    amplitude8Bit   = 127;
     targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
-    targetAmplitude = repmat(ones(1,nLevels)*amplitude8Bit , [nTrials, 1, nSessions]); % Amplitude
         
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
@@ -222,9 +220,64 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
-        'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplitude,...
+        'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, ...
+        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
+
+elseif(strcmp(expTypeStr, 'phase-noise'))
+    stimulusIntervalMs = 200;
+    responseInvervalMs = 1000;
+    fixationIntervalMs = 400;
+    blankIntervalMs    = 100;
+    
+    monitorMaxPix = 255;    
+    
+    imgFilePath = ImgStats.Settings.imgFilePath;
+    
+    
+    targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
+    target = ImgStats.Settings.targets(:,:,targetIndex);
+    
+	nLevels = length(targetLvls);
+	nTrials = 30;
+	nSessions = 2;
+
+	pTarget = 0.5;
+  
+    pixelsPerDeg = 60;
+        
+    stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
+    
+    contrastRMS     = .17;
+
+    targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
+        
+    stimulusDistanceDeg     = 10;
+    stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nSessions]);
+    
+	loadSessionStimuli = @experiment.loadStimuliPhaseNoise;
+
+	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
+
+    sampleMethod = 'random';
+    
+	[stimuli, stimuliIndex] = experiment.sampleNoisePatchForExperiment(ImgStats, ...
+        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
+        
+	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
+    
+    envelope = ImgStats.Settings.envelope;
+
+    SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
+        'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
+        'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
+        'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
+        'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
+        'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, ...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
 end
-
