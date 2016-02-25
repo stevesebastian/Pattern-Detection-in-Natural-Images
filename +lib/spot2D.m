@@ -1,8 +1,9 @@
 function spot = spot2D(stimulusParams)
-% SPOT2D Create a pedestal stimulus. /----\
+% SPOT2D Create a pedestal stimulus. ------
 %                                   |  __  | 
-%                                   | |__| |
-%                                    \____/                 
+%                                   | |  | |
+%                                   |  --  |
+%                                    ------
 % R. Calen Walshe 02/12/2016 (calen.walshe@utexas.edu)
 
 if nargin < 1
@@ -11,6 +12,13 @@ if nargin < 1
     stimulusParams.dc          = 0;    
     stimulusParams.contrast    = 1;
     stimulusParams.type        = 'spot';
+end
+
+
+if (stimulusParams.dc ~= 0)
+    amp = stimulusParams.dc * stimulusParams.contrast;
+else
+    amp = 1;
 end
 
 paramNames      =  {'pixperdeg','size','dc','contrast','type'};
@@ -29,10 +37,12 @@ interiorRadDeg  = stimulusParams.size/2 * 1/sqrt(2);
 dGrid       = sqrt(XX.^2 + YY.^2) ./ stimulusParams.pixperdeg;
 envelope    = dGrid < stimulusParams.size/2;
 
-spot = ones(size(dGrid)) * -1;
+spot = ones(size(dGrid)) * -amp .* envelope;
+spot(dGrid < interiorRadDeg) = amp;
 
-spot(dGrid < interiorRadDeg) = 1;
+nInner = size(spot(dGrid < interiorRadDeg),1) % Number of pixels in the inner region
+nOuter = size(spot(dGrid(envelope) > interiorRadDeg),1) % Number of pixels in the outer region.
 
-spot = (spot - mean(spot(envelope(:)))) .* envelope;
+spot(dGrid < interiorRadDeg) = spot(dGrid < interiorRadDeg) * nOuter/nInner; % Scale the magnitude of the inner region. Region under the target envelope integrates to 0.
 
 end
