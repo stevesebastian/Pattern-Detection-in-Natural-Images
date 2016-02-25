@@ -51,7 +51,7 @@ if(strcmp(expTypeStr, 'fovea'))
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings);
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
             
             fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
@@ -85,7 +85,6 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
                 ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iBin,:));
-            
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
@@ -101,8 +100,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, nBins);
-
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
             fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
             save(fpOut, 'SubjectExpFile');

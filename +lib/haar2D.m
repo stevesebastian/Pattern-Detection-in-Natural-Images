@@ -40,19 +40,20 @@ Y = (sizeRadPx:-1:-sizeRadPx) / Parameters.pixperdeg;
 [XX YY]     = meshgrid(X,Y);
 haarGrid    = XX.^2 + YY.^2 < r^2;
 
-%Luminance of Haar
-t       = [0,255];
-t_mean  = Parameters.dc;
-t_norm  = (t - mean(t)) ./ std(t); % calculate contrast of target like contrast of mask.
-t_norm  = t_norm .* Parameters.contrast .* 127;
-t_norm  = t_norm + t_mean;
+% amplitude depends on requested contrast
+% but when dc == 0, contrast is undefined, so use unity amplitude
+if (Parameters.dc ~= 0)
+    amp = Parameters.dc * Parameters.contrast;
+else
+    amp = 1;
+end
 
 
 switch Parameters.type
     case('horizontal')
-        haar    = [repmat(t_norm(1),sizeRadPx,2*sizeRadPx+1);repmat(t_mean,1,2*sizeRadPx+1);repmat(t_norm(2),sizeRadPx,2*sizeRadPx+1)];
+        haar    = [repmat(-amp,sizeRadPx,2*sizeRadPx+1);repmat(Parameters.dc,1,2*sizeRadPx+1);repmat(amp,sizeRadPx,2*sizeRadPx+1)];
     case('vertical')
-        haar    = [repmat(t_norm(1),2*sizeRadPx+1,sizeRadPx),repmat(t_mean,2*sizeRadPx+1,1),repmat(t_norm(2),2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
+        haar    = [repmat(-amp,2*sizeRadPx+1,sizeRadPx),repmat(Parameters.dc,2*sizeRadPx+1,1),repmat(amp,2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
     case('bowtie')
         hwR   = YY./XX;    
         angleMat = atan2(YY,XX);
@@ -60,13 +61,13 @@ switch Parameters.type
         
         haar = ones(sizeRadPx*2 + 1) * Parameters.dc;
         
-        haar(angleMat > 0 & angleMat < pi/2) = t_norm(1);
-        haar(angleMat > pi/2 & angleMat < pi) = t_norm(2);
-        haar(angleMat < 0 & angleMat > -pi/2) = t_norm(2);
-        haar(angleMat < -pi/2 & angleMat > -pi) = t_norm(1);
+        haar(angleMat > 0 & angleMat < pi/2) = -amp;
+        haar(angleMat > pi/2 & angleMat < pi) = amp;
+        haar(angleMat < 0 & angleMat > -pi/2) = amp;
+        haar(angleMat < -pi/2 & angleMat > -pi) = -amp;
         
-        %haar(angle >= 0 & angle < pi/2  + pi/180)   = t_norm(1);
-        %haar(abs(angle) > pi/4 + pi/180 & abs(angle) < 3*pi/2) = t_norm(2);
+        %haar(angle >= 0 & angle < pi/2  + pi/180)   = -amp;
+        %haar(abs(angle) > pi/4 + pi/180 & abs(angle) < 3*pi/2) = amp;
     otherwise
         error('Haar type error');
 end
