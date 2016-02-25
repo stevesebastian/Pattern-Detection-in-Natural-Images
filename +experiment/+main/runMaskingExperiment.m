@@ -30,9 +30,8 @@ rand('seed', sum(100 * clock));
 screenNumber = max(Screen('Screens'));
 
 % Open the screen
-[window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixVal, [], [], 2);
-load ./+experiment/+main/GammaLookup.mat
-Screen('LoadNormalizedGammaTable', window, GammaLookup*[1 1 1]);
+[window, windowRect] = Screen('OpenWindow', screenNumber, ExpSettings.bgPixValGamma);
+LoadIdentityClut(window);
 
 ExpSettings.monitorSizePix = windowRect(3:4);
 

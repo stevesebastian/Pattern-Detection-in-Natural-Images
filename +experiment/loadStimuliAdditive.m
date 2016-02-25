@@ -31,6 +31,7 @@ target = ExpSettings.target;
 targetAmplitude = ExpSettings.targetAmplitude(:,:,currentSession);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
+bgPixValGamma = ExpSettings.bgPixValGamma; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
 stimPosDeg = ExpSettings.stimPosDeg(:,:,currentSession, :);
@@ -40,7 +41,7 @@ stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
 
 bAdditive   = 1;
-bitDepthIn  = 14;
+bitDepthIn  = 16;
 bitDepthOut = 8;
 
 responseIntervalS = ExpSettings.responseIntervalMs/1000;
@@ -67,7 +68,7 @@ for iTrials = 1:nTrials
 %         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target.*targetAmplitude(iTrials,iLevels).*bitDepthIn;
+            thisTarget = target.*targetAmplitude(iTrials,iLevels).*(2^bitDepthIn-1);
             
             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut));
@@ -88,22 +89,25 @@ end
 %% Create target examples
 targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
 
+
 for iLevels = 1:nLevels
-    thisTarget = target.*mean(targetAmplitude(:,iLevels)).*255;
+    thisTarget = target.*mean(targetAmplitude(:,iLevels)).*(2^bitDepthIn-1);
     
-    targetSamples(:,:,iLevels) = ...
+    thisSample = ...
         lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut);
+    targetSamples(:,:,iLevels) = experiment.gammaCorrect(thisSample, gammaValue, bitDepthIn, bitDepthOut);
 end
 
 %% Create the fixation target
 fixationSize = round(pixelsPerDeg.*0.1);
 fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
 fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
+fixationTarget = experiment.gammaCorrect(fixationTarget, gammaValue, bitDepthIn, bitDepthOut);
 
 %% Save
 
 SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'stimPosPix', stimPosPix, ...
-    'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, 'targetSamples', targetSamples, ...
+    'fixPosPix', fixPosPix,'bgPixValGamma', bgPixValGamma, 'targetSamples', targetSamples, ...
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
     'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...

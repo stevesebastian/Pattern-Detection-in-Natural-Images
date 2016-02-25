@@ -23,7 +23,7 @@ WaitSecs(fixationIntervalS);
 
 if(SessionSettings.bFovea)
     blankIntervalS = SessionSettings.blankIntervalS; 
-    Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal, targetDestination);
+    Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma, targetDestination);
     Screen('Flip', SessionSettings.window);
     WaitSecs(blankIntervalS);
 end

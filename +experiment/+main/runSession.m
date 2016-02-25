@@ -36,7 +36,7 @@ for iLevel = levelStartIndex:nLevels
     
     experiment.saveCurrentLevel(SessionSettings, responseMatrix(:,iLevel), iLevel);
     
-    Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal)
+    Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma)
     Screen('TextSize', SessionSettings.window, 25);
     DrawFormattedText(SessionSettings.window, 'End of the block', 'center', 'center');
     Screen('Flip', SessionSettings.window);

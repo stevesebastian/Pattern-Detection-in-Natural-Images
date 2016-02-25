@@ -37,7 +37,7 @@ end
 
 WaitSecs(stimulusIntervalS); % Stimulus is on for stimulusIntervalS seconds.
 
-Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal, stimulusDestination);
+Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma, stimulusDestination);
 
 if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always a layer above the stimulus.
     Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination);    

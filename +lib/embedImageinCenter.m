@@ -28,7 +28,7 @@ if(~exist('bClip', 'var')) || isempty(bClip)
 end;
 
 if(~exist('tWin', 'var')) || isempty(tWin)
-    warning('If you are using an occluding target you need a window. Execution may crash if no window is supplied');
+%     warning('If you are using an occluding target you need a window. Execution may crash if no window is supplied');
 end;
 
 percentClipped = 0;
