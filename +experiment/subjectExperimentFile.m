@@ -1,4 +1,4 @@
-function SubjectExpFile = subjectExperimentFile(ExpSettings, nBins)
+function SubjectExpFile = subjectExperimentFile(ExpSettings, binIndex)
 %SUBJECTEXPERIMENTFILE Initialize all matrices for subject out in
 %experiment
 % 
@@ -14,10 +14,10 @@ function SubjectExpFile = subjectExperimentFile(ExpSettings, nBins)
 % v1.0, 2/18/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% 
-binIndex    = ExpSettings.binIndex;
 nTrials     = ExpSettings.nTrials;
 nLevels     = ExpSettings.nLevels;
 nSessions   = ExpSettings.nSessions;
+nBins       = size(binIndex, 1);
 
 %% Experimental values
 SubjectExpFile.binIndex = binIndex;
