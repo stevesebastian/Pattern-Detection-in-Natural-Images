@@ -97,6 +97,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     subjectStr = ['sps'; 'rcw'; 'jsa'; 'yhb'];  
     nSubjects = size(subjectStr, 1);
     targetTypeStr = ImgStats.Settings.targetKey;
+    ExpSettings.binIndex = binIndex;
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
