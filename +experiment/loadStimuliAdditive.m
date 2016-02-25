@@ -11,6 +11,8 @@ function SessionSettings = loadStimuliAdditive(ExpSettings)
 
 %% Set up 
 
+gammaValue = 1.972;
+
 bFovea = 1;
 
 levelStartIndex = ExpSettings.levelStartIndex;
@@ -56,24 +58,16 @@ circMask        = ((maskX.^2+maskY.^2)<=(maskRadiusPix.^2));
 nTrials = ExpSettings.nTrials;
 nLevels = ExpSettings.nLevels;
 
-targetSizePix = size(target, 1);
-ditherFilter = ones(targetSizePix,targetSizePix);
-ditherFilter(1:2:targetSizePix, 1:2:targetSizePix) = 0;
-
 %% Add stimuli to backgrounds
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         % Convert to 8 bit
-        thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
+%         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target.*targetAmplitude(iTrials,iLevels).*255;
-
-            if(targetAmplitude(iTrials,iLevels) < 0.05)
-                thisTarget = thisTarget.*4.*ditherFilter;
-            end
+            thisTarget = target.*targetAmplitude(iTrials,iLevels).*bitDepthIn;
             
             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut));
@@ -82,7 +76,12 @@ for iTrials = 1:nTrials
 
         % Apply the mask
         thisStimulus(~circMask) = bgPixVal;
+        
+        % Apply the gamma correction
+        thisStimulus = experiment.gammaCorrect(thisStimulus, gammaValue, bitDepthIn, bitDepthOut);
+        
         stimuli(:,:,iTrials,iLevels) = thisStimulus;
+
     end
 end
 

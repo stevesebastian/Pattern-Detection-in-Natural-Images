@@ -18,7 +18,7 @@ function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, 
 %% FOVEA
 if(strcmp(expTypeStr, 'fovea'))
     
-    stimulusIntervalMs = 250;
+    stimulusIntervalMs = 200;
     responseInvervalMs = 1000;
     fixationIntervalMs = 400;
     blankIntervalMs    = 100;
@@ -66,7 +66,7 @@ if(strcmp(expTypeStr, 'fovea'))
 %% FOVEA PILOT
 elseif(strcmp(expTypeStr, 'fovea_pilot'))
         
-    stimulusIntervalMs = 250;
+    stimulusIntervalMs = 200;
     responseInvervalMs = 1000;
     fixationIntervalMs = 400;
     blankIntervalMs    = 100;
@@ -135,7 +135,6 @@ elseif(strcmp(expTypeStr, 'periphery'))
         
     stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
     fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
-    
     
     contrastRMS     = .17;
     amplitude8Bit   = 127;
