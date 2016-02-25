@@ -4,7 +4,7 @@ function imgOut = gammaCorrect(imgIn, gammaValue, bitDepthIn, bitDepthOut)
 % Example: 
 %  [stimiuli pIndex] = SAMPLEPATCHESFOREXPERIMENT(ImgStats, 'gabor', [5 5 5], 'uniform'); 
 %
-% v1.0, 1/5/2016, Steve Sebastian <sebastian@utexas.edu>
+% v1.0, 2/24/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %%
 maxPixelValIn = 2^bitDepthIn - 1;

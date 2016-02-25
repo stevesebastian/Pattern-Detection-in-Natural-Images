@@ -46,6 +46,7 @@ load(filePathSession);
 save(filePathSubject, 'SubjectExpFile');
 
 SettingsOut = ExpSettings;
+SettingsOut.bgPixVal = experiment.gammaCorrect(SettingsOut.bgPixVal, 1.972, 8, 16);
 SettingsOut.subjectStr = subjectStr;
 SettingsOut.expTypeStr = expTypeStr;
 SettingsOut.targetTypeStr = targetTypeStr;

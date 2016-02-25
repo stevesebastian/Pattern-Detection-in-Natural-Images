@@ -68,7 +68,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L(5)/100;
     
-    targetLvls(1,:) = linspace(0.05, 0.003, nLevels)*lumVal;
+    targetLvls(1,:) = linspace(0.06, 0.01, nLevels)*lumVal;
     targetLvls(2,:) = linspace(0.15, 0.01, nLevels)*lumVal;
     targetLvls(3,:) = linspace(0.25, 0.05, nLevels)*lumVal;
     targetLvls(4,:) = linspace(0.13, 0.003, nLevels)*lumVal;
