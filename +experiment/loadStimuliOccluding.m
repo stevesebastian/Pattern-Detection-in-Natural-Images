@@ -9,7 +9,20 @@ function SessionSettings = loadStimuliOccluding(ExpSettings)
 %
 % v1.0, 2/4/2016 R. Calen Walshe <calen.walshe@utexas.edu>
 
+%LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
+% 
+% Example: 
+%  SessionSettings = LOADSTIMULIADDITIVE(ExpSettings, monitorSizePix, 1); 
+%
+% Output: 
+%  SessionSettings Structure containing stimuli and experiment settings
+%
+% v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
+
 %% Set up 
+
+gammaValue = 1.972;
+
 bFovea = 0;
 
 levelStartIndex = ExpSettings.levelStartIndex;
@@ -25,10 +38,10 @@ monitorSizePix = ExpSettings.monitorSizePix;
 stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
 stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
-targetContrast  = ExpSettings.targetContrast;
-targetAmplitude = ExpSettings.targetAmplitude;
+targetContrast = ExpSettings.targetContrast(:,:,currentSession);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
+bgPixValGamma = ExpSettings.bgPixValGamma; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
 stimPosDeg = ExpSettings.stimPosDeg(:,:,currentSession, :);
@@ -38,7 +51,7 @@ stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
 
 bAdditive   = 0;
-bitDepthIn  = 14;
+bitDepthIn  = 16;
 bitDepthOut = 8;
 
 responseIntervalS = ExpSettings.responseIntervalMs/1000;
@@ -56,58 +69,69 @@ circMask        = ((maskX.^2+maskY.^2)<=(maskRadiusPix.^2));
 nTrials = ExpSettings.nTrials;
 nLevels = ExpSettings.nLevels;
 
-tWin        = ExpSettings.envelope;
-
+tWin = ExpSettings.envelope;
 
 %% Add stimuli to backgrounds
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
-        thisTarget = target.*targetContrast(iTrials,iLevels)*targetAmplitude(iTrials,iLevels) + targetAmplitude(iTrials,iLevels);        
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         % Convert to 8 bit
-        thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
+%         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
         
         if(bTargetPresent(iTrials, iLevels))
+            thisTarget = target .* targetContrast(iTrials,iLevels) .* floor((2^bitDepthIn-1)/2) + floor((2^bitDepthIn-1)/2);
+            
             thisStimulus = ...
-                lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin);
+                round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin));
+            
         end
 
         % Apply the mask
         thisStimulus(~circMask) = bgPixVal;
+        
+        % Apply the gamma correction
+        thisStimulus = experiment.gammaCorrect(thisStimulus, gammaValue, bitDepthIn, bitDepthOut);
+        
         stimuli(:,:,iTrials,iLevels) = thisStimulus;
+
     end
 end
 
 %% Create target examples
 targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
 
-for iLevels = 1:nLevels    
-    thisTarget = target.*mean(targetContrast(:,iLevels))*mean(targetAmplitude(:,iLevels)) + mean(targetAmplitude(:,iLevels));            
+
+for iLevels = 1:nLevels
+    thisTarget ...
+               = target .* mean(targetContrast(:,iLevels)) .* floor((2^bitDepthIn-1)/2) + floor((2^bitDepthIn-1)/2);
     
-    targetSamples(:,:,iLevels) = ...
-        lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut,[],[], tWin);
+    thisSample = ...
+        lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut, [], [], tWin);
+    targetSamples(:,:,iLevels) = experiment.gammaCorrect(thisSample, gammaValue, bitDepthIn, bitDepthOut);
 end
 
 %% Create the fixation target
-crossWidth          = round(pixelsPerDeg.*0.1);
-fixationSize        = floor(pixelsPerDeg.*0.5)-1;
-fixationPixelVal    = round(bgPixVal - bgPixVal*0.5);
-fixationTarget      = ones(fixationSize, fixationSize)*bgPixVal;
-fixationTarget(round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,:) = fixationPixelVal;
-fixationTarget(:,round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2) = fixationPixelVal;
-
+fixationSize = round(pixelsPerDeg.*0.1);
+fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
+fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
+fixationTarget = experiment.gammaCorrect(fixationTarget, gammaValue, bitDepthIn, bitDepthOut);
 
 %% Save
 
 SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, 'stimPosPix', stimPosPix, ...
-    'fixPosPix', fixPosPix,'bgPixVal', bgPixVal, 'targetSamples', targetSamples, ...
+    'fixPosPix', fixPosPix,'bgPixValGamma', bgPixValGamma, 'targetSamples', targetSamples, ...
     'responseIntervalS', responseIntervalS, 'fixationIntervalS', fixationIntervalS, ...
     'stimulusIntervalS', stimulusIntervalS, 'blankIntervalS', blankIntervalS, ...
     'fixationTarget', fixationTarget, 'nTrials', nTrials, 'nLevels', nLevels, ...
     'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea, ...
     'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
     'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
-    'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
+    'stimuliIndex', stimuliIndex, ...
     'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
+
+
+
+
+
 

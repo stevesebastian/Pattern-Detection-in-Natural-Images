@@ -29,7 +29,7 @@ else % check for events
             % record a few samples before we actually start displaying
             WaitSecs(0.1);
             
-            Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal);
+            Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
             
             target   = SessionSettings.fixationTarget; 
             %% Redraw fixation cross and see how we do.

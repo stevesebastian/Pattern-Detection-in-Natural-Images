@@ -8,7 +8,7 @@ function el = configureEyetracker(SessionSettings)
 
 [status, dummy] = EyelinkInit();
 el = EyelinkInitDefaults(SessionSettings.window);
-el.backgroundcolour = SessionSettings.bgPixVal;
+el.backgroundcolour = SessionSettings.bgPixValGamma;
 
 el.dummyconnected = dummy;
 
@@ -28,7 +28,7 @@ end
 
 
 
-Screen('FillRect', SessionSettings.window, SessionSettings.bgPixVal);
+Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
 Screen('Flip', SessionSettings.window);
 
 % start recording eye position
