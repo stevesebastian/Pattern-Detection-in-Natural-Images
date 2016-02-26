@@ -125,12 +125,9 @@ elseif(strcmp(expTypeStr, 'periphery'))
     
     % Session files
     for iBin = 1:nBins
-        for iTarget = 1:nTargets           
+        for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
                 ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
-            
-            mkdir([fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr])            
-            
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
@@ -139,36 +136,23 @@ elseif(strcmp(expTypeStr, 'periphery'))
     end
  
     %% Subject experiment files
-    subjectStr = ['sps'; 'rcw'; 'jsa'; 'yhb'];
-    
+    subjectStr = ['sps'; 'rcw'; 'jsa'; 'yhb'];  
     nSubjects = size(subjectStr, 1);
-    nTrials   = ExpSettings.nTrials;
-    nLevels   = ExpSettings.nLevels;
-    nSessions = ExpSettings.nBlocks;
-    
-    ExpSettings.targetTypeStr = ImgStats.Settings.targetKey;
+    targetTypeStr = ImgStats.Settings.targetKey;
+    ExpSettings.binIndex = binIndex;
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile.binIndex = binIndex;
-            SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
-            SubjectExpFile.stimPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.fixPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.response = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.hit = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.miss = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.falseAlarm = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.correctRejection = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.pixelsPerDeg = ExpSettings.pixelsPerDeg;
-            SubjectExpFile.bgPixVal = ExpSettings.bgPixVal;
-            
-            fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
+            fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
             save(fpOut, 'SubjectExpFile');
         end
     end
+    
+    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    fprintf(ftemp, 'Date Created: %s', date);
+    fclose(ftemp);    
 elseif(strcmp(expTypeStr, 'periphery-pilot'))    
     % Experimental bins
     binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 10 5 5; ...
@@ -185,14 +169,13 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     nBins = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
     
+    ImgStats.Settings.imgFilePathExperiment = '/data/masking/natural_images/pixel_space/';    
+    
     % Session files
     for iBin = 1:nBins
-        for iTarget = 1:nTargets           
+        for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
                 ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
-            
-            mkdir([fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr])            
-            
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
@@ -200,47 +183,71 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         end
     end
  
-    % Subject experiment files
-    subjectStr = ['pilot'];
-    
+    %% Subject experiment files
+    subjectStr = ['rcw'];  
     nSubjects = size(subjectStr, 1);
-    nTrials   = ExpSettings.nTrials;
-    nLevels   = ExpSettings.nLevels;
-    nSessions = ExpSettings.nBlocks;
-    
-    ExpSettings.targetTypeStr = ImgStats.Settings.targetKey;
+    targetTypeStr = ImgStats.Settings.targetKey;
+    ExpSettings.binIndex = binIndex;
     
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
-            SubjectExpFile.binIndex = binIndex;
-            SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
-            SubjectExpFile.stimPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.bCompleted = zeros(nBins, 2);
-            SubjectExpFile.targetAmplitude = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.levelCompleted = zeros(nSessions, nBins);
-            SubjectExpFile.targetPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.fixPosDeg = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.bTargetPresent = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.response = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.hit = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.miss = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.falseAlarm = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.correctRejection = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.stimuliIndex = zeros(nTrials, nLevels, nSessions, nBins);
-            SubjectExpFile.pixelsPerDeg = ExpSettings.pixelsPerDeg;
-            SubjectExpFile.bgPixVal = ExpSettings.bgPixVal;
-            
-            fpOut = [fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} ...
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
+            fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
                 '/' subjectStr(iSubject,:) '.mat']; 
-            
-            mkdir([fpSubjects '/' expTypeStr '/' ExpSettings.targetTypeStr{iTarget} '/']);            
-            
             save(fpOut, 'SubjectExpFile');
         end
     end
     
-ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-fprintf(ftemp, 'Date Created: %s', date);
-fclose(ftemp);    
+    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    fprintf(ftemp, 'Date Created: %s', date);
+    fclose(ftemp);    
 
+%% Phase Noise
+elseif(strcmp(expTypeStr, 'phase-noise'))    
+    % Experimental bins
+    binIndex    = [1 1 1; 1 2 1; 1 3 1; 1 4 1;1 5 1];  
+     
+    % Eccentricity range for each level
+    eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
+
+    fpSettings = 'experiment_files/experiment_settings';
+    fpSubjects = 'experiment_files/subject_out';
+    
+    nBins = size(binIndex, 1);
+    nTargets = size(ImgStats.Settings.targets, 3);
+    
+    ImgStats.Settings.imgFilePathExperiment = '/data/masking/natural_images/pixel_space/';
+    
+    % Session files
+    for iBin = 1:nBins
+        for iTarget = 1:nTargets
+            ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
+            fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
+                '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
+                '_S' num2str(binIndex(iBin,3)) '.mat'];
+            save(fpOut, 'ExpSettings');
+        end
+    end
+ 
+    %% Subject experiment files
+    subjectStr = ['rcw'];  
+    nSubjects = size(subjectStr, 1);
+    targetTypeStr = ImgStats.Settings.targetKey;
+    ExpSettings.binIndex = binIndex;
+    
+    for iSubject = 1:nSubjects
+        for iTarget = 1:nTargets
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
+            fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
+                '/' subjectStr(iSubject,:) '.mat']; 
+            save(fpOut, 'SubjectExpFile');
+        end
+    end
+    
+    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    fprintf(ftemp, 'Date Created: %s', date);
+    fclose(ftemp);    
+    
+    
 end
