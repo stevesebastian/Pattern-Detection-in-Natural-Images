@@ -225,7 +225,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
 
-elseif(strcmp(expTypeStr, 'phase-noise'))
+elseif(strcmp(expTypeStr, 'phase-noise'))        
     stimulusIntervalMs = 200;
     responseInvervalMs = 1000;
     fixationIntervalMs = 400;
@@ -235,6 +235,7 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     
     imgFilePath = ImgStats.Settings.imgFilePath;
     
+    binContrast = [0.03, 0.1, 0.17, 0.31, 0.45];    
     
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
@@ -264,8 +265,8 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
 
     sampleMethod = 'random';
     
-	[stimuli, stimuliIndex] = experiment.sampleNoisePatchForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
+	[stimuli] = experiment.sampleNoisePatchForExperiment(ImgStats, ...
+        targetTypeStr, binIndex, binContrast, nTrials, nLevels, nSessions, sampleMethod);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
     
@@ -277,7 +278,7 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
         'pTarget', pTarget, 'pixelsPerDeg', pixelsPerDeg, 'stimPosDeg', stimPosDeg, ...
         'fixPosDeg', fixPosDeg, 'loadSessionStimuli', loadSessionStimuli, ...
         'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, ...
-        'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
+        'stimuli', stimuli, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
         'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
 end

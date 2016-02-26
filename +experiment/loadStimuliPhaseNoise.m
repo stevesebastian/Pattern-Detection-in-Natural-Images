@@ -35,7 +35,7 @@ currentSession = ExpSettings.currentSession;
 
 monitorSizePix = ExpSettings.monitorSizePix;
 
-stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
+%stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession); 
 stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
 targetContrast = ExpSettings.targetContrast(:,:,currentSession);
@@ -127,7 +127,6 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea, ...
     'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
     'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
-    'stimuliIndex', stimuliIndex, ...
     'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
 
 
