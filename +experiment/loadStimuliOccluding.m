@@ -39,6 +39,7 @@ stimuliIndex = ExpSettings.stimuliIndex(:,:,currentSession);
 stimuli = ExpSettings.stimuli(:,:,:,:,currentSession);
 target = ExpSettings.target;
 targetContrast = ExpSettings.targetContrast(:,:,currentSession);
+targetAmplitude = ExpSettings.targetAmplitude(:,:,currentSession);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
 bgPixValGamma = ExpSettings.bgPixValGamma; 
@@ -127,7 +128,7 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'pixelsPerDeg', pixelsPerDeg, 'bFovea', bFovea, ...
     'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
     'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
-    'stimuliIndex', stimuliIndex, ...
+    'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
     'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
 
 
