@@ -63,17 +63,23 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Experimental bins
     binIndex = [5 1 5; 5 5 5; 5 10 5; 5 5 1; 5 5 10];
  
-    nLevels = 5;
+    nLevels = 4;
     
     % Contrast range for each level
-    lumVal = ImgStats.Settings.binCenters.L(5)/100;
+    lumVal = ImgStats.Settings.binCenters.L/100;
     
-    targetLvls(1,:) = linspace(0.06, 0.01, nLevels)*lumVal;
-    targetLvls(2,:) = linspace(0.15, 0.01, nLevels)*lumVal;
-    targetLvls(3,:) = linspace(0.25, 0.05, nLevels)*lumVal;
-    targetLvls(4,:) = linspace(0.13, 0.003, nLevels)*lumVal;
-    targetLvls(5,:) = linspace(0.2 , 0.01, nLevels)*lumVal;
+    targetLvls(1,1,:) = linspace(0.01, 0.003, nLevels);
+    targetLvls(1,2,:) = linspace(0.013, 0.05, nLevels);
+    targetLvls(1,3,:) = linspace(0.05, 0.02, nLevels);
+    targetLvls(1,4,:) = linspace(0.012, 0.02, nLevels);
+    targetLvls(1,5,:) = linspace(0.04 , 0.008, nLevels);
 
+	targetLvls(2,1,:) = linspace(0.006, 0.02, nLevels);
+    targetLvls(2,2,:) = linspace(0.05, 0.01, nLevels);
+    targetLvls(2,3,:) = linspace(0.1, 0.05, nLevels);
+    targetLvls(2,4,:) = linspace(0.08, 0.02, nLevels);
+    targetLvls(2,5,:) = linspace(0.035 , 0.01, nLevels);
+    
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
     
@@ -84,7 +90,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     for iBin = 1:nBins
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iTarget, iBin,:));
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];

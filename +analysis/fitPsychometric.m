@@ -17,7 +17,8 @@ function [cT, b] = fitPsychometric(initCT,initB,contrast,correct)
 options = optimset('TolX',1e-3,'Display','off');    
 init = [initCT initB];                              
 
-params = fminsearch(@(x) analysis.nLogLike_SDTmodel(x,contrast,correct),init,options);    
+params = fminsearch(@(x) analysis.computeNegLogLikelihood(x,contrast,correct),init,options);    
 
 cT = params(1);  
 b = params(2);   
+    
