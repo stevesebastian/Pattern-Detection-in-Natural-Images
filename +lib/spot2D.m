@@ -37,8 +37,10 @@ interiorRadDeg  = stimulusParams.size/2 * 1/sqrt(2);
 dGrid       = sqrt(XX.^2 + YY.^2) ./ stimulusParams.pixperdeg;
 envelope    = dGrid < stimulusParams.size/2;
 
-spot = ones(size(dGrid)) * -amp .* envelope;
-spot(dGrid < interiorRadDeg) = amp;
+spot                         = ones(size(dGrid)) * -amp
+spot(dGrid > interiorRadDeg) = amp;
+spot                         = spot .* envelope;
+
 
 nInner = size(spot(dGrid < interiorRadDeg),1) % Number of pixels in the inner region
 nOuter = size(spot(dGrid(envelope) > interiorRadDeg),1) % Number of pixels in the outer region.
