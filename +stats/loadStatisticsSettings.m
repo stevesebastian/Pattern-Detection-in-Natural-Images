@@ -52,7 +52,7 @@ if(strcmp(typeStr,'fovea'))
 	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.45, 0.75, nBins);
 
     imgFilePath = 'D:\sebastian\natural_images\images_stats';
-
+    
 	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'gaborParams', gaborParams, 'dogParams', dogParams, ...
 					  'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
 					  'imgSizePix', imgSizePix, 'pixelMax', pixelMax, 'binEdges', binEdges, 'binCenters', binCenters);

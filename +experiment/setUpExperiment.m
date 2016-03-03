@@ -63,17 +63,23 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Experimental bins
     binIndex = [5 1 5; 5 5 5; 5 10 5; 5 5 1; 5 5 10];
  
-    nLevels = 5;
+    nLevels = 4;
     
     % Contrast range for each level
-    lumVal = ImgStats.Settings.binCenters.L(5)/100;
+    lumVal = ImgStats.Settings.binCenters.L/100;
     
-    targetLvls(1,:) = linspace(0.06, 0.01, nLevels)*lumVal;
-    targetLvls(2,:) = linspace(0.15, 0.01, nLevels)*lumVal;
-    targetLvls(3,:) = linspace(0.25, 0.05, nLevels)*lumVal;
-    targetLvls(4,:) = linspace(0.13, 0.003, nLevels)*lumVal;
-    targetLvls(5,:) = linspace(0.2 , 0.01, nLevels)*lumVal;
+    targetLvls(1,1,:) = linspace(0.01, 0.003, nLevels);
+    targetLvls(1,2,:) = linspace(0.013, 0.05, nLevels);
+    targetLvls(1,3,:) = linspace(0.05, 0.02, nLevels);
+    targetLvls(1,4,:) = linspace(0.012, 0.02, nLevels);
+    targetLvls(1,5,:) = linspace(0.04 , 0.008, nLevels);
 
+	targetLvls(2,1,:) = linspace(0.006, 0.02, nLevels);
+    targetLvls(2,2,:) = linspace(0.05, 0.01, nLevels);
+    targetLvls(2,3,:) = linspace(0.1, 0.05, nLevels);
+    targetLvls(2,4,:) = linspace(0.08, 0.02, nLevels);
+    targetLvls(2,5,:) = linspace(0.035 , 0.01, nLevels);
+    
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
     
@@ -84,7 +90,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     for iBin = 1:nBins
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), targetLvls(iTarget, iBin,:));
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
@@ -208,7 +214,17 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     binIndex    = [1 1 1; 1 2 1; 1 3 1; 1 4 1;1 5 1];  
      
     % Eccentricity range for each level
-    eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
+    %eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);
+    %eLvls(1,:) = [10, 13, 15, 17, 19, 21, 22];%linspace(10, 23, 10);
+    eLvls(1,:) = [13.5, 14, 14.5, 15, 17, 21];
+    %eLvls(2,:) = [1, 2.5, 5, 7.5, 10, 12, 15];
+    eLvls(2,:) = [7, 7.5, 8, 8.5, 9, 12];
+    %eLvls(3,:) = [1, 2.5, 4, 5, 6, 7, 13];
+    eLvls(3,:) = [2.5, 4.5, 5, 6, 7, 9];
+    %eLvls(4,:) = [1, 2, 2.5, 3, 3.5, 5, 8];
+    eLvls(4,:) = [3. 3.5, 4, 4.5, 5, 7.5];
+%   eLvls(5,:) = [1, 2, 2.5, 3, 3.5, 5, 8];
+    eLvls(5,:) = [2, 3.25, 3.5, 3.75, 4, 5];
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -231,7 +247,7 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     end
  
     %% Subject experiment files
-    subjectStr = ['rcw'];  
+    subjectStr = ['rcw-pilot2'];  
     nSubjects = size(subjectStr, 1);
     targetTypeStr = ImgStats.Settings.targetKey;
     ExpSettings.binIndex = binIndex;

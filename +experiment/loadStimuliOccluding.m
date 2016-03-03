@@ -113,10 +113,12 @@ for iLevels = 1:nLevels
 end
 
 %% Create the fixation target
-fixationSize = round(pixelsPerDeg.*0.1);
-fixationPixelVal = round(bgPixVal - bgPixVal*0.2);
-fixationTarget = fixationPixelVal.*ones(fixationSize, fixationSize);
-fixationTarget = experiment.gammaCorrect(fixationTarget, gammaValue, bitDepthIn, bitDepthOut);
+crossWidth          = round(pixelsPerDeg.*0.1);
+fixationSize        = floor(pixelsPerDeg.*0.5)-1;
+fixationPixelVal    = round(bgPixValGamma - bgPixValGamma*0.5);
+fixationTarget      = ones(fixationSize, fixationSize)*bgPixValGamma;
+fixationTarget(round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,:) = fixationPixelVal;
+fixationTarget(:,round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2) = fixationPixelVal;
 
 %% Save
 
@@ -130,9 +132,3 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
     'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
     'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
-
-
-
-
-
-

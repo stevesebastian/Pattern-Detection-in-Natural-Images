@@ -86,7 +86,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
   
     pixelsPerDeg = 120;
   
-    targetAmplitude = repmat(targetLvls, [nTrials, 1, nSessions]);
+    targetAmplitude = squeeze(repmat(targetLvls, [nTrials, 1, nSessions]));
 	
     stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
 	fixPosDeg = zeros(nTrials, nLevels, nSessions, 2);
