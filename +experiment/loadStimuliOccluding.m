@@ -77,11 +77,8 @@ for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
-        % Convert to 8 bit
-%         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
-        
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target .* targetContrast(iTrials,iLevels) .* floor((2^bitDepthIn-1)/2) + floor((2^bitDepthIn-1)/2);
+            thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* (2^bitDepthIn-1)/2 + (2^bitDepthIn-1)/2;
             
             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin));
