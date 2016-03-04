@@ -1,4 +1,4 @@
-function viewpatches(ImgStats, L,C,S, targetNr, bText, bSave, imgDir)
+function viewpatches(ImgStats, L,C,S, targetNr, bText)
 % VIEWPATCHES Step through patches in a bin.
 %   Description: Step through one image at a time.
 % 
@@ -12,10 +12,10 @@ if nargin == 1
     bText       = 1;
     bSave       = 0;
     imgDir      = ImgStats.Settings.imgFilePath;
-    envelope    = ImgStats.Settings.imgFilePath;
+    envelope    = ImgStats.Settings.envelope;
 end
 
-[target, win] = lib.haar2D();
+envelope = ImgStats.Settings.envelope;
 
 patchList = ImgStats.patchIndex{targetNr,1}(L,C,S);
 try 

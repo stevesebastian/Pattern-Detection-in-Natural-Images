@@ -42,8 +42,8 @@ spot(dGrid > interiorRadDeg) = amp;
 spot                         = spot .* envelope;
 
 
-nInner = size(spot(dGrid < interiorRadDeg),1) % Number of pixels in the inner region
-nOuter = size(spot(dGrid(envelope) > interiorRadDeg),1) % Number of pixels in the outer region.
+nInner = size(spot(dGrid < interiorRadDeg),1); % Number of pixels in the inner region
+nOuter = size(spot(dGrid(envelope) > interiorRadDeg),1); % Number of pixels in the outer region.
 
 spot(dGrid < interiorRadDeg) = spot(dGrid < interiorRadDeg) * nOuter/nInner; % Scale the magnitude of the inner region. Region under the target envelope integrates to 0.
 

@@ -175,7 +175,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     nBins = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
     
-    ImgStats.Settings.imgFilePathExperiment = '/data/masking/natural_images/pixel_space/';    
+    ImgStats.Settings.imgFilePathExperiment = '~/occluding/natural_images/images_pht/';    
     
     % Session files
     for iBin = 1:nBins
