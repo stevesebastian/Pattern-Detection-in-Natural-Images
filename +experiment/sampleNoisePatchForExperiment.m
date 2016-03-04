@@ -22,8 +22,7 @@ stimuli = zeros(ImgStats.Settings.surroundSizePix, ImgStats.Settings.surroundSiz
 
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
-        for iBlocks = 1:nBlocks           
-                                              
+        for iBlocks = 1:nBlocks                                                         
             nPatch = lib.pink_noise_2d(241, 241, 60);
             
             nPatch = (nPatch - min(nPatch(:)));
@@ -32,8 +31,7 @@ for iTrials = 1:nTrials
             nPatch = (nPatch - mean(nPatch(:))) ./ std(nPatch(:)) .* maskContrast .* floor((2^16 - 1)/2) + floor((2^16 - 1)/2);
             
             stimuli(:,:, iTrials, iLevels, iBlocks) = ...
-                nPatch;
-            
+                nPatch;            
         end
     end
 end

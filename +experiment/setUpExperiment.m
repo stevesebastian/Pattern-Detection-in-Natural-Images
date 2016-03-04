@@ -214,7 +214,11 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     binIndex    = [1 1 1; 1 2 1; 1 3 1; 1 4 1;1 5 1];  
      
     % Eccentricity range for each level
-    eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
+    eLvls(1,:) = [13.5, 14, 14.5, 15, 17, 21];
+    eLvls(2,:) = [7, 7.5, 8, 8.5, 9, 12];
+    eLvls(3,:) = [2.5, 4.5, 5, 6, 7, 9];
+    eLvls(4,:) = [3. 3.5, 4, 4.5, 5, 7.5];
+    eLvls(5,:) = [2, 3.25, 3.5, 3.75, 4, 5];
 
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';
@@ -237,7 +241,7 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     end
  
     %% Subject experiment files
-    subjectStr = ['rcw'];  
+    subjectStr = ['rcw-pilot2'];
     nSubjects = size(subjectStr, 1);
     targetTypeStr = ImgStats.Settings.targetKey;
     ExpSettings.binIndex = binIndex;
@@ -255,5 +259,57 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     fprintf(ftemp, 'Date Created: %s', date);
     fclose(ftemp);    
     
+elseif(strcmp(expTypeStr, 'uniform'))    
+    % Experimental bins
+    binIndex    = [1 1 1; 2 1 1; 3 1 1; 4 1 1;5 1 1];  
+     
+    % Eccentricity range for each level
+    eLvls(1,:) = [13.5, 14, 14.5, 15, 17, 21];
+    eLvls(2,:) = [7, 7.5, 8, 8.5, 9, 12];
+    eLvls(3,:) = [2.5, 4.5, 5, 6, 7, 9];
+    eLvls(4,:) = [3. 3.5, 4, 4.5, 5, 7.5];
+    eLvls(5,:) = [2, 3.25, 3.5, 3.75, 4, 5];
+
+    fpSettings = 'experiment_files/experiment_settings';
+    fpSubjects = 'experiment_files/subject_out';
+    
+    nBins = size(binIndex, 1);
+    nTargets = size(ImgStats.Settings.targets, 3);
+    
+    ImgStats.Settings.imgFilePathExperiment = '/data/masking/natural_images/pixel_space/';
+    
+    % Session files
+    for iBin = 1:nBins
+        for iTarget = 1:nTargets
+            ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
+            fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
+                '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
+                '_S' num2str(binIndex(iBin,3)) '.mat'];
+            save(fpOut, 'ExpSettings');
+        end
+    end
+ 
+    %% Subject experiment files
+    subjectStr = ['rcw'];
+    nSubjects = size(subjectStr, 1);
+    targetTypeStr = ImgStats.Settings.targetKey;
+    ExpSettings.binIndex = binIndex;
+    
+    for iSubject = 1:nSubjects
+        for iTarget = 1:nTargets
+            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
+            fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
+                '/' subjectStr(iSubject,:) '.mat']; 
+            save(fpOut, 'SubjectExpFile');
+        end
+    end
+    
+    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    fprintf(ftemp, 'Date Created: %s', date);
+    fclose(ftemp);    
+    
+    
+end
     
 end

@@ -1,4 +1,4 @@
-function SessionSettings = loadStimuliOccluding(ExpSettings)
+function SessionSettings = loadStimuliUniform(ExpSettings)
 %LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
 % 
 % Example: 
@@ -25,7 +25,7 @@ gammaValue = 1.972;
 
 bFovea = 0;
 
-levelStartIndex = ExpSettings.levelStartIndex;
+ levelStartIndex = ExpSettings.levelStartIndex;
 subjectStr = ExpSettings.subjectStr; 
 expTypeStr = ExpSettings.expTypeStr;
 targetTypeStr = ExpSettings.targetTypeStr;
@@ -76,15 +76,15 @@ tWin = ExpSettings.envelope;
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         thisStimulus = stimuli(:,:,iTrials,iLevels);
+        thisStimulus(:,:) = bgPixVal; % Uniform background.
         
         if(bTargetPresent(iTrials, iLevels))
             thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* (2^bitDepthIn-1)/2 + (2^bitDepthIn-1)/2;
             
-            thisStimulus = ...
+             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin));
-            
         end
-
+        
         % Apply the mask
         thisStimulus(~circMask) = bgPixVal;
         
