@@ -157,8 +157,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
     end
     
     ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-    fprintf(ftemp, 'Date Created: %s', date);
-    fclose(ftemp);    
+    fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
+    fclose(ftemp);     
 elseif(strcmp(expTypeStr, 'periphery-pilot'))    
     % Experimental bins
     binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 10 5 5; ...
@@ -205,8 +205,8 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     end
     
     ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-    fprintf(ftemp, 'Date Created: %s', date);
-    fclose(ftemp);    
+    fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
+    fclose(ftemp);      
 
 %% Phase Noise
 elseif(strcmp(expTypeStr, 'phase-noise'))    
@@ -256,7 +256,7 @@ elseif(strcmp(expTypeStr, 'phase-noise'))
     end
     
     ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-    fprintf(ftemp, 'Date Created: %s', date);
+    fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);    
     
 elseif(strcmp(expTypeStr, 'uniform'))    
@@ -306,7 +306,7 @@ elseif(strcmp(expTypeStr, 'uniform'))
     end
     
     ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-    fprintf(ftemp, 'Date Created: %s', date);
+    fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);    
     
     
