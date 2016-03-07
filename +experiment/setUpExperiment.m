@@ -115,7 +115,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
 %% PERIPHERY
 elseif(strcmp(expTypeStr, 'periphery'))    
     % Experimental bins
-    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 10 5 5; ...
+    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; ...
                 5 1 5; 5 3 5; 5 7 5; 5 10 5; ...
                 5 5 1; 5 5 3; 7 7 7; 10 5 5];
  
@@ -161,16 +161,16 @@ elseif(strcmp(expTypeStr, 'periphery'))
     fclose(ftemp);     
 elseif(strcmp(expTypeStr, 'periphery-pilot'))    
     % Experimental bins
-    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 10 5 5; ...
-                5 1 5; 5 3 5; 5 7 5; 5 10 5; ...
-                5 5 1; 5 5 3; 7 7 7; 10 5 5];
+    binIndex = [1 5 5; 3 5 5; 5 5 5;7 5 5; 9 5 5;...
+        5 1 5; 5 3 5;5 7 5; 5 9 5; ...
+        5 5 1; 5 5 3;5 5 7;5 5 9];
  
     
     % Eccentricity range for each level
     eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
 
-    fpSettings = 'experiment_files/experiment_settings';
-    fpSubjects = 'experiment_files/subject_out';
+    fpSettings = '~/experiment_files/experiment_settings';
+    fpSubjects = '~/experiment_files/subject_out';
     
     nBins = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
@@ -190,7 +190,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     end
  
     %% Subject experiment files
-    subjectStr = ['rcw'];  
+    subjectStr = ['rcw','sps','jsa','yhb'];  
     nSubjects = size(subjectStr, 1);
     targetTypeStr = ImgStats.Settings.targetKey;
     ExpSettings.binIndex = binIndex;
