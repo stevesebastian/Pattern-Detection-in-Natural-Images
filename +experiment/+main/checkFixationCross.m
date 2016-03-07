@@ -19,7 +19,6 @@ else % check for events
         end
         if IsInRect(evt.gx(1), evt.gy(1), fixRect)
             break;
-            keyboard;
         elseif GetSecs() > t0 + maxTime
             Eyelink('Command', 'set_idle_mode');
             Eyelink('Command', 'clear_screen 0');
