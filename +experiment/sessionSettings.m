@@ -157,7 +157,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
     
     envelope = ImgStats.Settings.envelope;
-
+  
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
@@ -182,9 +182,8 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
 	nLevels = length(targetLvls);
-	nTrials = 100;
+	nTrials = 40;
 	nSessions = 2;
-	nSessions = 1;
 
 	pTarget = 0.5;
   
@@ -323,7 +322,7 @@ elseif(strcmp(expTypeStr, 'uniform'))
     
 	[stimuli, stimuliIndex] = experiment.sampleUniformPatchForExperiment(ImgStats, binIndex, nTrials, nLevels, nSessions); % load a noise patch, but do not present it.
         
-	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
+	bgPixVal = 0; %ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
     
     envelope = ImgStats.Settings.envelope;
 
