@@ -76,7 +76,7 @@ tWin = ExpSettings.envelope;
 for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         thisStimulus = stimuli(:,:,iTrials,iLevels);
-        thisStimulus(:,:) = bgPixVal; % Uniform background.
+        %thisStimulus(:,:) = bgPixVal; % Uniform background.
         
         if(bTargetPresent(iTrials, iLevels))
             thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* (2^bitDepthIn-1)/2 + (2^bitDepthIn-1)/2;
@@ -112,10 +112,10 @@ end
 %% Create the fixation target
 crossWidth          = round(pixelsPerDeg.*0.1);
 fixationSize        = floor(pixelsPerDeg.*0.5)-1;
-fixationPixelVal    = round(bgPixValGamma - bgPixValGamma*0.5);
-fixationTarget      = ones(fixationSize, fixationSize)*bgPixValGamma;
-fixationTarget(round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,:) = fixationPixelVal;
-fixationTarget(:,round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2) = fixationPixelVal;
+fixationPixelVal    = 127;
+fixationTarget      = zeros(fixationSize, fixationSize,3);
+fixationTarget(round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,:,1) = fixationPixelVal; % Only in the R dimension
+fixationTarget(:,round(fixationSize/2) - crossWidth/2:round(fixationSize/2) + crossWidth/2,1) = fixationPixelVal; % Only in the R dimension
 
 %% Save
 

@@ -103,8 +103,8 @@ elseif(strcmp(typeStr, 'periphery'))
 
 	% Binning parameters
     nBins = 10;
-	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(2.47, 70.91, nBins);
-	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 0.47, nBins);
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(2.47, 70.92, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.02, 0.96, nBins);
 	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.41, 0.85, nBins);
 	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.43, 0.86, nBins);
 	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.53, 0.75, nBins);

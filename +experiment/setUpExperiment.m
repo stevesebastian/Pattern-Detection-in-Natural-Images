@@ -175,7 +175,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     nBins = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
     
-    ImgStats.Settings.imgFilePathExperiment = '~/occluding/natural_images/images_pht/';    
+    ImgStats.Settings.imgFilePathExperiment = '/data/masking/natural_images/pixel_space/';%'~/occluding/natural_images/images_pht/';    
     
     % Session files
     for iBin = 1:nBins
@@ -270,8 +270,8 @@ elseif(strcmp(expTypeStr, 'uniform'))
     eLvls(4,:) = [3. 3.5, 4, 4.5, 5, 7.5];
     eLvls(5,:) = [2, 3.25, 3.5, 3.75, 4, 5];
 
-    fpSettings = 'experiment_files/experiment_settings';
-    fpSubjects = 'experiment_files/subject_out';
+    fpSettings = '~/experiment_files/experiment_settings';
+    fpSubjects = '~/experiment_files/subject_out';
     
     nBins = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
@@ -305,7 +305,7 @@ elseif(strcmp(expTypeStr, 'uniform'))
         end
     end
     
-    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    ftemp = fopen('~/experiment_files/README.txt', 'w');  % Date stamp file generation.
     fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);    
     

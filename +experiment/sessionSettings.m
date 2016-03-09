@@ -157,7 +157,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
     
     envelope = ImgStats.Settings.envelope;
-
+  
     SessionSettings = struct('monitorMaxPix', monitorMaxPix, ...
         'imgFilePath', imgFilePath, 'target', target, 'targetTypeStr', targetTypeStr, ...
         'nLevels', nLevels, 'nTrials', nTrials, 'nSessions', nSessions, 'sampleMethod', sampleMethod, ...
@@ -182,9 +182,8 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
 	nLevels = length(targetLvls);
-	nTrials = 100;
+	nTrials = 40;
 	nSessions = 2;
-	nSessions = 1;
 
 	pTarget = 0.5;
   
@@ -193,10 +192,11 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
     fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
     
-    
-    contrastRMS     = .17;
+    targetLuminance = 18.30; % Median luminance in image database    
+    contrastRMS     = .33; %Median Contrast in image database
     targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
     targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
+
         
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
@@ -224,7 +224,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplitude,...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
-        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope, 'targetLuminance', targetLuminance);
 
 elseif(strcmp(expTypeStr, 'phase-noise'))        
     stimulusIntervalMs = 200;
@@ -323,7 +323,7 @@ elseif(strcmp(expTypeStr, 'uniform'))
     
 	[stimuli, stimuliIndex] = experiment.sampleUniformPatchForExperiment(ImgStats, binIndex, nTrials, nLevels, nSessions); % load a noise patch, but do not present it.
         
-	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
+	bgPixVal = 0; %ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
     
     envelope = ImgStats.Settings.envelope;
 
