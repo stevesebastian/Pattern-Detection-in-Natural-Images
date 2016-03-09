@@ -192,10 +192,11 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
     fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
     
-    
-    contrastRMS     = .17;
+    targetLuminance = 18.30; % Median luminance in image database    
+    contrastRMS     = .33; %Median Contrast in image database
     targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
     targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
+
         
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
@@ -223,7 +224,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplitude,...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
-        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope);
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope, 'targetLuminance', targetLuminance);
 
 elseif(strcmp(expTypeStr, 'phase-noise'))        
     stimulusIntervalMs = 200;
