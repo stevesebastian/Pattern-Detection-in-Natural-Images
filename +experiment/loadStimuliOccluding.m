@@ -79,7 +79,7 @@ for iTrials = 1:nTrials
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* targetLuminance + (2^bitDepthIn-1)/2;
+            thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* targetLuminance * (2^bitDepthIn/2^bitDepthOut - 1) + targetLuminance * (2^bitDepthIn/2^bitDepthOut - 1) ;
             
             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin));
