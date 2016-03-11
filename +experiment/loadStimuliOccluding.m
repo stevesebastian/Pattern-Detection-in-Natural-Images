@@ -42,7 +42,7 @@ targetContrast = ExpSettings.targetContrast(:,:,currentSession);
 targetAmplitude = ExpSettings.targetAmplitude(:,:,currentSession);
 bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
-targetLuminance = ExpSettings.targetLuminance;
+targetLuminance = ExpSettings.targetLuminance / 100; % Express as monitor max.
 bgPixValGamma = ExpSettings.bgPixValGamma; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
@@ -79,7 +79,7 @@ for iTrials = 1:nTrials
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
         if(bTargetPresent(iTrials, iLevels))
-            thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* targetLuminance * (2^bitDepthIn/2^bitDepthOut - 1) + targetLuminance * (2^bitDepthIn/2^bitDepthOut - 1) ;
+            thisTarget = target/std(target(:)) .* targetContrast(iTrials,iLevels) .* targetLuminance * (2^bitDepthIn - 1) + targetLuminance * (2^bitDepthIn - 1);
             
             thisStimulus = ...
                 round(lib.embedImageinCenter(thisStimulus, thisTarget, bAdditive, bitDepthOut, [], [], tWin));

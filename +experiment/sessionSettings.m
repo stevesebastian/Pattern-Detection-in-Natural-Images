@@ -182,7 +182,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
 	nLevels = length(targetLvls);
-	nTrials = 40;
+	nTrials = 30;
 	nSessions = 2;
 
 	pTarget = 0.5;
