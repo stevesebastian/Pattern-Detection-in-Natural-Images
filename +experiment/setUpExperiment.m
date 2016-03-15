@@ -245,7 +245,7 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     end
  
     %% Subject experiment files
-    subjectStr = ['rcw','sps','jsa','yhb'];  
+    subjectStr = ['rcw';'sps';'jsa';'yhb'];  
     nSubjects = size(subjectStr, 1);
     targetTypeStr = ImgStats.Settings.targetKey;
     ExpSettings.binIndex = binIndex;
