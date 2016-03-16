@@ -213,43 +213,44 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     binIndex = [1 5 5; 3 5 5; 5 5 5;7 5 5; 9 5 5;...
         5 1 5; 5 3 5;5 7 5; 5 9 5; ...
         5 5 1; 5 5 3;5 5 7;5 5 9];
- 
-    
-    % Eccentricity range for each level
-    %eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
-    eLvls = [linspace(10, 23, 5);linspace(5, 18, 5);linspace(6, 19, 5);...;
-        linspace(5, 18, 5);linspace(2, 15, 5);linspace(10, 23, 5);...;
-        linspace(10, 23, 5);linspace(2, 18, 5);linspace(2, 18, 5);linspace(10, 23, 5);...;
-        linspace(10, 23, 5);linspace(10, 23, 5);linspace(5, 18, 5)];
-               
-        
-
+     
     fpSettings = '~/experiment_files/experiment_settings';
     fpSubjects = '~/experiment_files/subject_out';
     
-    nBins = size(binIndex, 1);
+    nBins    = size(binIndex, 1);
     nTargets = size(ImgStats.Settings.targets, 3);
+    nLevel   = 5;
     
     ImgStats.Settings.imgFilePathExperiment = '~/occluding/natural_images/images_pht/';    
+
+    %% Subject experiment files
+    subjectStr = ['rcw';'sps';'jsa';'yhb'];  
+    nSubjects = size(subjectStr, 1);                      
+    
+    eLvls = zeros(size(binIndex,1),nLevel, nSubjects);
+    % Eccentricity range for each level
+    eLvls(:,:,:) = repmat([linspace(10, 23, 5);linspace(5, 18, 5);linspace(6, 19, 5);...;
+        linspace(5, 18, 5);linspace(2, 15, 5);linspace(10, 23, 5);...;
+        linspace(10, 23, 5);linspace(2, 18, 5);linspace(2, 18, 5);linspace(10, 23, 5);...;
+        linspace(10, 23, 5);linspace(10, 23, 5);linspace(5, 18, 5)],...,
+        1, 1, nSubjects);    
     
     % Session files
     for iBin = 1:nBins
         for iTarget = 1:nTargets
             ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
+                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:,:), nSubjects);
             fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
                 '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
                 '_S' num2str(binIndex(iBin,3)) '.mat'];
             save(fpOut, 'ExpSettings');
         end
-    end
- 
-    %% Subject experiment files
-    subjectStr = ['rcw';'sps';'jsa';'yhb'];  
-    nSubjects = size(subjectStr, 1);
+    end    
+    
     targetTypeStr = ImgStats.Settings.targetKey;
     ExpSettings.binIndex = binIndex;
-    
+
+       
     for iSubject = 1:nSubjects
         for iTarget = 1:nTargets
             SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);

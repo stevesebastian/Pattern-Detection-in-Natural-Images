@@ -1,5 +1,5 @@
 function SessionSettings = loadStimuliOccluding(ExpSettings)
-%LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
+%LOADSTIMULIOCCLUDING Formats and loads stimuli for experiment 
 % 
 % Example: 
 %  SessionSettings = LOADSTIMULIOCCLUDING(ExpSettings, monitorSizePix, 1); 
@@ -9,19 +9,11 @@ function SessionSettings = loadStimuliOccluding(ExpSettings)
 %
 % v1.0, 2/4/2016 R. Calen Walshe <calen.walshe@utexas.edu>
 
-%LOADSTIMULIADDITIVE Formats and loads stimuli for experiment 
-% 
-% Example: 
-%  SessionSettings = LOADSTIMULIADDITIVE(ExpSettings, monitorSizePix, 1); 
-%
-% Output: 
-%  SessionSettings Structure containing stimuli and experiment settings
-%
-% v1.0, 1/22/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Set up 
 
 gammaValue = 1.972;
+subjects = ['rcw';'sps';'jsa';'yhb'];  
 
 bFovea = 0;
 
@@ -46,8 +38,10 @@ targetLuminance = ExpSettings.targetLuminance / 100; % Express as monitor max.
 bgPixValGamma = ExpSettings.bgPixValGamma; 
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
-stimPosDeg = ExpSettings.stimPosDeg(:,:,currentSession, :);
-fixPosDeg = ExpSettings.fixPosDeg(:,:,currentSession, :);
+
+subIdx     = strmatch('rcw' , subjectStr);
+stimPosDeg = ExpSettings.stimPosDeg(:,:,subIdx,currentSession, :);
+fixPosDeg  = ExpSettings.fixPosDeg(:,:,subIdx,currentSession, :);
 
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
