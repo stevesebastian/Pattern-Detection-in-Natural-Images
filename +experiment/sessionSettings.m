@@ -181,8 +181,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
-    
-	nLevels = length(targetLvls);
+    nLevels = length(targetLvls);
 	nTrials = 30;
 	nSessions = 2;
 
@@ -257,17 +256,17 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
 
         
+    sampleMethod = 'random';
+    imgSet = 'N';
+ 
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
 	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nSessions]);
 
-    
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
 	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
 
-    sampleMethod = 'random';
-    
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
         targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
         
