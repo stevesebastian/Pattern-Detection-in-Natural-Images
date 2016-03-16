@@ -81,7 +81,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     
 	nLevels = length(targetLvls);
 	nTrials = 30;
-	nSessions = 1;
+	nSessions = 2;
 
 	pTarget = 0.5;
   
