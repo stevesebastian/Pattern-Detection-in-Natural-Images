@@ -12,7 +12,7 @@ nTrials = size(expCorrect, 1);
 
 targetLvls = SubjectExpFile.targetAmplitude(1,:,1,expBinIndex);
 
-[cT, b] = analysis.fitPsychometric(0.05, 2, SubjectExpFile.targetAmplitude(:,:,1,expBinIndex), SubjectExpFile.correct(:,:,1,expBinIndex));
+[cT, b] = analysis.fitPsychometric(0.02, 2, SubjectExpFile.targetAmplitude(:,:,1,expBinIndex), SubjectExpFile.correct(:,:,1,expBinIndex));
 
 %% Figure properties
 if(bPlot)

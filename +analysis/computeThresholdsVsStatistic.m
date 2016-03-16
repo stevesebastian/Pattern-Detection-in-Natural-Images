@@ -42,7 +42,9 @@ for iSubject = 1:size(subjectsStr,1)
     end
 end
 
-plot(backgroundValues, mean(thresholds), '-ok', 'MarkerSize', 11, 'MarkerFaceColor', 'k', 'LineWidth', 2);
+if(size(thresholds, 1) > 1)
+    plot(backgroundValues, mean(thresholds), '-ok', 'MarkerSize', 11, 'MarkerFaceColor', 'k', 'LineWidth', 2);
+end
 
 legend(subjectsStr, 'Location', 'northwest');
 legend('boxoff');

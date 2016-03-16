@@ -63,14 +63,14 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Experimental bins
     binIndex = [5 1 5; 5 5 5; 5 10 5; 5 5 1; 5 5 10];
  
-    nLevels = 4;
+    nLevels = 5;
     
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L/100;
 
     targetLvls(1,1,:) = linspace(0.02, 0.005, nLevels);
     targetLvls(1,2,:) = linspace(0.04, 0.008, nLevels);
-    targetLvls(1,3,:) = linspace(0.05, 0.01, nLevels);
+    targetLvls(1,3,:) = linspace(0.08, 0.03, nLevels);
     targetLvls(1,4,:) = linspace(0.02, 0.001, nLevels);
     targetLvls(1,5,:) = linspace(0.05 , 0.01, nLevels);
     
