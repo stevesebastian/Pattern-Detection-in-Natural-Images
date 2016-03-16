@@ -67,18 +67,18 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L/100;
-    
-    targetLvls(1,1,:) = linspace(0.01, 0.003, nLevels);
-    targetLvls(1,2,:) = linspace(0.013, 0.05, nLevels);
-    targetLvls(1,3,:) = linspace(0.05, 0.02, nLevels);
-    targetLvls(1,4,:) = linspace(0.012, 0.02, nLevels);
-    targetLvls(1,5,:) = linspace(0.04 , 0.008, nLevels);
 
-	targetLvls(2,1,:) = linspace(0.006, 0.02, nLevels);
+    targetLvls(1,1,:) = linspace(0.02, 0.005, nLevels);
+    targetLvls(1,2,:) = linspace(0.04, 0.008, nLevels);
+    targetLvls(1,3,:) = linspace(0.05, 0.01, nLevels);
+    targetLvls(1,4,:) = linspace(0.02, 0.001, nLevels);
+    targetLvls(1,5,:) = linspace(0.05 , 0.01, nLevels);
+    
+    targetLvls(2,1,:) = linspace(0.03, 0.007, nLevels);
     targetLvls(2,2,:) = linspace(0.05, 0.01, nLevels);
-    targetLvls(2,3,:) = linspace(0.1, 0.05, nLevels);
-    targetLvls(2,4,:) = linspace(0.08, 0.02, nLevels);
-    targetLvls(2,5,:) = linspace(0.035 , 0.01, nLevels);
+    targetLvls(2,3,:) = linspace(0.08, 0.03, nLevels);
+    targetLvls(2,4,:) = linspace(0.03, 0.006, nLevels);
+    targetLvls(2,5,:) = linspace(0.08 , 0.0055, nLevels);
     
     fpSettings = 'experiment_files/experiment_settings';
     fpSubjects = 'experiment_files/subject_out';

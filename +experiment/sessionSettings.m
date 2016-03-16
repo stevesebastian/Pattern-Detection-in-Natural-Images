@@ -48,9 +48,10 @@ if(strcmp(expTypeStr, 'fovea'))
 	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
 
     sampleMethod = 'random';
+    imgSet = 'N';
     
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
+        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod, imgSet);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
@@ -79,7 +80,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
 	nLevels = length(targetLvls);
-	nTrials = 20;
+	nTrials = 30;
 	nSessions = 1;
 
 	pTarget = 0.5;

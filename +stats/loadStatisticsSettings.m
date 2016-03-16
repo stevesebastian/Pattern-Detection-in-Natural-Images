@@ -46,14 +46,17 @@ if(strcmp(typeStr,'fovea'))
 
 	% Binning parameters
     nBins = 10;
-	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(6, 62, nBins);
-	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 0.47, nBins);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.13, 0.35, nBins);
-	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.45, 0.75, nBins);
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(10, 62, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.05, 0.47, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.1, 0.6, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.3, 0.7, nBins);
+    [binEdges.Ss(:,1), binCenters.Ss(:,1)] = stats.computeBinSpacing(0.05, 0.3, nBins);
+    [binEdges.Ss(:,2), binCenters.Ss(:,2)] = stats.computeBinSpacing(0.05, 0.4, nBins);
 
     imgFilePath = 'D:\sebastian\natural_images\images_stats';
+    imgFilePathExperiment = 'D:\Sebastian\natural_images\images_pht';
     
-	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'gaborParams', gaborParams, 'dogParams', dogParams, ...
+	Settings = struct('imgFilePath', imgFilePath, 'imgFilePathExperiment', imgFilePathExperiment, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'gaborParams', gaborParams, 'dogParams', dogParams, ...
 					  'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
 					  'imgSizePix', imgSizePix, 'pixelMax', pixelMax, 'binEdges', binEdges, 'binCenters', binCenters);
 
