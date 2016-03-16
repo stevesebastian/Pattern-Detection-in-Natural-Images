@@ -12,10 +12,11 @@ if nargin == 1
     bText       = 1;
     bSave       = 0;
     imgDir      = ImgStats.Settings.imgFilePath;
-    envelope    = ImgStats.Settings.envelope;
 end
 
+target = ImgStats.Settings.targets(:,:,targetNr);
 envelope = ImgStats.Settings.envelope;
+targetSize = size(target);
 
 patchList = ImgStats.patchIndex{targetNr,1}(L,C,S);
 try 
@@ -26,15 +27,17 @@ end
     
 [patchNr, imgNr] = ind2sub(size(ImgStats.L), randPatch);
 
-figure('Position', [100, 100, 21, 21]);
+% figure('Position', [100, 100, 21, 21]);
 
 for i = 1:length(patchNr)
 
-    I_PPM = load([ImgStats.Settings.imgFilePath, ImgStats.imgDir(imgNr(i)).name]);
+    I_PPM = load([ImgStats.Settings.imgFilePath, '\' ImgStats.imgDir(imgNr(i)).name]);
     I     = I_PPM.I_PPM;
     
-    cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr(i),:), 21,1,1).*envelope;
     
+%    cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr(i),:), targetSize(1),1,1).*envelope;
+    cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr(i),:), 513,1,1);
+
     colormap(gray(2^14)); imagesc(cropped);
 
     if bText
