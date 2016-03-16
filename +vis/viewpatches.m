@@ -1,4 +1,4 @@
-function viewpatches(ImgStats, L,C,S, targetNr, bText, bSave, imgDir)
+function viewpatches(ImgStats, L,C,S, targetNr, bText)
 % VIEWPATCHES Step through patches in a bin.
 %   Description: Step through one image at a time.
 % 

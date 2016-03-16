@@ -51,9 +51,9 @@ end
 
 switch Parameters.type
     case('horizontal')
-        haar    = [repmat(-amp,sizeRadPx,2*sizeRadPx+1);repmat(Parameters.dc,1,2*sizeRadPx+1);repmat(amp,sizeRadPx,2*sizeRadPx+1)];
+        haar    = [repmat(amp,sizeRadPx,2*sizeRadPx+1);repmat(Parameters.dc,1,2*sizeRadPx+1);repmat(-amp,sizeRadPx,2*sizeRadPx+1)];
     case('vertical')
-        haar    = [repmat(-amp,2*sizeRadPx+1,sizeRadPx),repmat(Parameters.dc,2*sizeRadPx+1,1),repmat(amp,2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
+        haar    = [repmat(amp,2*sizeRadPx+1,sizeRadPx),repmat(Parameters.dc,2*sizeRadPx+1,1),repmat(-amp,2*sizeRadPx+1,sizeRadPx)]; % vertical edge haar        
     case('bowtie')
         hwR   = YY./XX;    
         angleMat = atan2(YY,XX);
@@ -61,13 +61,10 @@ switch Parameters.type
         
         haar = ones(sizeRadPx*2 + 1) * Parameters.dc;
         
-        haar(angleMat > 0 & angleMat < pi/2) = -amp;
-        haar(angleMat > pi/2 & angleMat < pi) = amp;
-        haar(angleMat < 0 & angleMat > -pi/2) = amp;
-        haar(angleMat < -pi/2 & angleMat > -pi) = -amp;
-        
-        %haar(angle >= 0 & angle < pi/2  + pi/180)   = -amp;
-        %haar(abs(angle) > pi/4 + pi/180 & abs(angle) < 3*pi/2) = amp;
+        haar(angleMat > 0 & angleMat < pi/2)  = amp;
+        haar(angleMat > pi/2 & angleMat < pi) = -amp;
+        haar(angleMat < 0 & angleMat > -pi/2) = -amp;
+        haar(angleMat < -pi/2 & angleMat > -pi) = amp;        
     otherwise
         error('Haar type error');
 end

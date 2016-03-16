@@ -9,7 +9,7 @@ function stimulusOnsetMs = stimulusInterval(SessionSettings, trialNumber, levelN
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
 %% Set up 
-stimulusIntervalS = SessionSettings.stimulusIntervalS;
+ stimulusIntervalS = SessionSettings.stimulusIntervalS;
 
 stimulus = SessionSettings.stimuli(:,:,trialNumber,levelNumber);
 

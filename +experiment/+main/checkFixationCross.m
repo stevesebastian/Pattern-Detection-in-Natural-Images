@@ -17,7 +17,6 @@ else % check for events
         if Eyelink('NewFloatSampleAvailable') > 0
         	evt = Eyelink('NewestFloatSample');
         end
-        
         if IsInRect(evt.gx(1), evt.gy(1), fixRect)
             break;
         elseif GetSecs() > t0 + maxTime
@@ -54,6 +53,7 @@ else % check for events
             target   = SessionSettings.fixationTarget; 
             %% Redraw fixation cross and see how we do.
 
+            Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
             targetTexture      = Screen('Maketexture', SessionSettings.window, target);
             targetRect         = SetRect(0, 0, size(target,2), size(target,1));
             targetDestination  = floor(CenterRectOnPointd(targetRect, fixPosPix(1), fixPosPix(2))); 

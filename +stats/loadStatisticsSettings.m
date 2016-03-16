@@ -82,7 +82,7 @@ elseif(strcmp(typeStr, 'periphery'))
     
     stimulusParams.type     = 'spot';
     tWin                    = envelope;
-    spot                    = lib.spot2D(stimulusParams, tWin);
+    spot                    = lib.spot2D(stimulusParams);
 	
     vertical    = vertical./max(vertical(:));
     horizontal  = horizontal./max(horizontal(:));
@@ -106,12 +106,12 @@ elseif(strcmp(typeStr, 'periphery'))
 
 	% Binning parameters
     nBins = 10;
-	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(6, 70, nBins);
-	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.03, 1.5, nBins);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.5, 0.9, nBins);
-	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.5, 0.9, nBins);
-	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.5, 0.9, nBins);
-	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.5, 0.9, nBins);
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(2.47, 70.92, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.02, 0.96, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.41, 0.85, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.43, 0.86, nBins);
+	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.53, 0.75, nBins);
+	[binEdges.Sa(:,4), binCenters.Sa(:,4)] = stats.computeBinSpacing(0.69, 0.85, nBins);
     
     imgFilePath = '~/occluding/natural_images/pixel_space/';
 
