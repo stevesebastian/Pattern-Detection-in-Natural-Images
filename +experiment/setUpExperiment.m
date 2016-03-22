@@ -213,6 +213,8 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     binIndex = [1 5 5; 3 5 5; 5 5 5;7 5 5; 9 5 5;...
         5 1 5; 5 3 5;5 7 5; 5 9 5; ...
         5 5 1; 5 5 3;5 5 7;5 5 9];
+
+    binIndex = [1 5 5];
      
     fpSettings = '~/experiment_files/experiment_settings';
     fpSubjects = '~/experiment_files/subject_out';
@@ -229,10 +231,13 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     
     eLvls = zeros(size(binIndex,1),nLevel, nSubjects);
     % Eccentricity range for each level
-    eLvls(:,:,:) = repmat([linspace(10, 23, 5);linspace(5, 18, 5);linspace(6, 19, 5);...;
-        linspace(5, 18, 5);linspace(2, 15, 5);linspace(10, 23, 5);...;
-        linspace(10, 23, 5);linspace(2, 18, 5);linspace(2, 18, 5);linspace(10, 23, 5);...;
-        linspace(10, 23, 5);linspace(10, 23, 5);linspace(5, 18, 5)],...,
+%     eLvls(:,:,:) = repmat([linspace(10, 23, 5);linspace(5, 18, 5);linspace(6, 19, 5);...;
+%         linspace(5, 18, 5);linspace(2, 15, 5);linspace(10, 23, 5);...;
+%         linspace(10, 23, 5);linspace(2, 18, 5);linspace(2, 18, 5);linspace(10, 23, 5);...;
+%         linspace(10, 23, 5);linspace(10, 23, 5);linspace(5, 18, 5)],...,
+%         1, 1, nSubjects);    
+    
+    eLvls(:,:,:) = repmat([linspace(10, 23, 5)],...,
         1, 1, nSubjects);    
     
     % Session files
