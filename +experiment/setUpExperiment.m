@@ -204,7 +204,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         end
     end
     
-    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    ftemp = fopen('~/experiment_files/README.txt', 'w');  % Date stamp file generation.
     fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);      
 
