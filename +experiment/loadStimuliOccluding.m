@@ -39,7 +39,7 @@ bgPixValGamma = ExpSettings.bgPixValGamma;
 pixelsPerDeg = ExpSettings.pixelsPerDeg; 
 
 
-subIdx     = strmatch('rcw' , subjectStr);
+subIdx     = strmatch(subjectStr, subjects); %#ok<MATCH2>
 stimPosDeg = ExpSettings.stimPosDeg(:,:,subIdx,currentSession, :);
 fixPosDeg  = ExpSettings.fixPosDeg(:,:,subIdx,currentSession, :);
 
