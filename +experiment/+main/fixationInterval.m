@@ -30,6 +30,6 @@ end
 
 if(~SessionSettings.bFovea)    
     if ~SessionSettings.el.dummyconnected
-        experiment.main.checkFixationCross(SessionSettings, fixPosXY);
+        experiment.main.checkFixationCross(SessionSettings, trialNumber, fixPosXY);
     end
 end

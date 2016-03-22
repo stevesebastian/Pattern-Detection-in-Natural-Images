@@ -8,7 +8,8 @@ function [response,responseTimeMs] = runTrial(SessionSettings, trialNumber, leve
 %
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
-if(~SessionSettings.bFovea)        
+if(~SessionSettings.bFovea)      
+    Eyelink('Message', '!V TRIAL_VAR index %d', trialNumber);
     experiment.main.checkFixationCross(SessionSettings, trialNumber, SessionSettings.fixPosPix(trialNumber, levelNumber, :));
 end
 

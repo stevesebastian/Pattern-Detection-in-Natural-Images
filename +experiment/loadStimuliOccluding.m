@@ -36,7 +36,9 @@ bTargetPresent = ExpSettings.bTargetPresent(:,:,currentSession);
 bgPixVal = ExpSettings.bgPixVal; 
 targetLuminance = ExpSettings.targetLuminance / 100; % Express as monitor max.
 bgPixValGamma = ExpSettings.bgPixValGamma; 
-pixelsPerDeg = ExpSettings.pixelsPerDeg; 
+pixelsPerDeg = ExpSettings.pixelsPerDeg;
+checkFix     = 0;
+edfFile      = [expTypeStr,'-',targetTypeStr,'-',subjectStr,'.edf'];
 
 
 subIdx     = strmatch(subjectStr, subjects); %#ok<MATCH2>
@@ -123,4 +125,4 @@ SessionSettings = struct('stimuli', stimuli, 'bTargetPresent', bTargetPresent, '
     'levelStartIndex', levelStartIndex, 'subjectStr', subjectStr, 'expTypeStr', expTypeStr, ...
     'targetTypeStr', targetTypeStr, 'currentBin', currentBin, 'currentSession', currentSession, ...
     'stimuliIndex', stimuliIndex, 'targetAmplitude', targetAmplitude, ...
-    'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg);
+    'stimPosDeg', stimPosDeg, 'fixPosDeg', fixPosDeg, 'checkFix', checkFix, 'edfFile', edfFile);
