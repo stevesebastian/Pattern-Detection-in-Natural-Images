@@ -40,7 +40,7 @@ i = Eyelink('Openfile', edfFile);
 if i~=0
     fprintf('Cannot create EDF file ''%s'' ', edffilename);
     cleanup;
-%         Eyelink( 'Shutdown');
+    Eyelink( 'Shutdown');
     return;
 end
 
