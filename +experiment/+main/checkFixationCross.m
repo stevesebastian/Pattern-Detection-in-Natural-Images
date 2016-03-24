@@ -1,4 +1,4 @@
-function checkFixationCross(SessionSettings, trialNumber, fixPosPix)
+function checkFixationCross(SessionSettings, fixPosPix)
 %CHECKFIXATIONCROSS Do a check to ensure fixation is on cross before trial
 %starts.
 %

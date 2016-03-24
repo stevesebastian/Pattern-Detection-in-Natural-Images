@@ -9,8 +9,12 @@ function [response,responseTimeMs] = runTrial(SessionSettings, trialNumber, leve
 % v1.0, 1/20/2016, R. C. Walshe <calen.walshe@utexas.edu>
 
 if(~SessionSettings.bFovea)      
-    Eyelink('Message', '!V TRIAL_VAR index %d', trialNumber);
-    experiment.main.checkFixationCross(SessionSettings, trialNumber, SessionSettings.fixPosPix(trialNumber, levelNumber, :));
+     Eyelink('Message', '!V TRIAL_VAR index %d',   trialNumber);
+     Eyelink('Message', '!V TRIAL_VAR session %d', SessionSettings.currentSession);
+     Eyelink('Message', '!V TRIAL_VAR level %d',   levelNumber);
+     Eyelink('Message', '!V TRIAL_VAR bin %d',     SessionSettings.currentBin);
+     
+    experiment.main.checkFixationCross(SessionSettings, SessionSettings.fixPosPix(trialNumber, levelNumber, :));
 end
 
 experiment.main.fixationInterval(SessionSettings, trialNumber, levelNumber);
