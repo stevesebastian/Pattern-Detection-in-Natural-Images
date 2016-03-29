@@ -1,9 +1,10 @@
-function Sarray = addToStatStruct(ImgStats, statFunction)
+function Sarray = addToStatStruct(ImgStats, statFunction, statNameStr, target)
 %ADDTOSTATSTRUCT Computes statistics for each image in filepath
 %
 % Example: 
 %
-%   Sarray = ADDTOSTATSTRUCT(ImgStats, @statFunction);
+%   statFunction = @stats.computeSceneSimilarityAmplitude;
+%   Sarray = ADDTOSTATSTRUCT(ImgStats, @statFunction, 'S', gabor);
 %   ImgStats.NameOfStatistic = Sarray;
 %
 %   See also BINIMAGESTATS, COMPUTESCENESTATS.
@@ -11,16 +12,18 @@ function Sarray = addToStatStruct(ImgStats, statFunction)
 % v1.0, 3/14/2016, Steve Sebastian <sebastian@utexas.edu>
 
 %% Variable set up.
+
+if(nargin < 4)
+    target = [];
+end
+
 surroundSizePix = ImgStats.Settings.surroundSizePix;
 spacingPix      = ImgStats.Settings.spacingPix;
 imgSizePix      = ImgStats.Settings.imgSizePix;
 
 filePathStr = ImgStats.Settings.imgFilePath;
 
-targets = ImgStats.Settings.targets;
 envelope = ImgStats.Settings.envelope;
-
-pixelMax = ImgStats.Settings.pixelMax;
 
 sampleCoords    = lib.samplePatchCoordinates(imgSizePix, [surroundSizePix surroundSizePix], spacingPix);
 
@@ -41,12 +44,21 @@ parfor iImg = 1:nImages
     
     scene = I.I_PPM;
     
-    StatsOut = statFunction(scene, targets, ...
-        envelope, sampleCoords, pixelMax);
+    if(isempty(target))
+        StatsOut = statFunction(scene, envelope, sampleCoords);
+    else
+        StatsOut = statFunction(scene, target, sampleCoords);
+    end
     
     % Save output
-    Sarray(:,iImg)        = StatsOut;
+    Sarray(:,iImg) = getStatFromStruct(StatsOut, statNameStr);
+    
+end
 
+end
+
+function Sout = getStatFromStruct(StatsOut, statNameStr)
+    Sout = eval(['StatsOut.' statNameStr]);
 end
 
 

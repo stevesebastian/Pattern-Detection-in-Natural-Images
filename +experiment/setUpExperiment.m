@@ -63,7 +63,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     % Experimental bins
     binIndex = [5 1 5; 5 5 5; 5 10 5; 5 5 1; 5 5 10];
  
-    nLevels = 5;
+    nLevels = 4;
     
     % Contrast range for each level
     lumVal = ImgStats.Settings.binCenters.L/100;
@@ -84,7 +84,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     fpSubjects = 'experiment_files/subject_out';
     
     nBins = size(binIndex, 1);
-    nTargets = size(ImgStats.Settings.targets, 3);
+    nTargets = 2;
     
     % Session files
     for iBin = 1:nBins

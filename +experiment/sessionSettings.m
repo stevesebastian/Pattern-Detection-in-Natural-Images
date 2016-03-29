@@ -79,8 +79,10 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
+    nDummyTrials = 1;
+    
 	nLevels = length(targetLvls);
-	nTrials = 30;
+	nTrials = 20;
 	nSessions = 2;
 
 	pTarget = 0.5;
@@ -89,17 +91,20 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
   
     targetAmplitude = squeeze(repmat(targetLvls, [nTrials, 1, nSessions]));
 	
-    stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
-	fixPosDeg = zeros(nTrials, nLevels, nSessions, 2);
+    stimPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
+	fixPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
     
 	loadSessionStimuli = @experiment.loadStimuliAdditive;
 
-	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
+	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials+nDummyTrials, nLevels, nSessions, pTarget);
 
+    bTargetPresent(1,:,:) = 1;
+    
     sampleMethod = 'random';
+    imageType = 'N'; % Use only nature images
     
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
+        targetTypeStr, binIndex, nTrials+nDummyTrials, nLevels, nSessions, sampleMethod, imageType);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
@@ -111,7 +116,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         'bTargetPresent', bTargetPresent, 'targetAmplitude', targetAmplitude, ...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
-        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs);
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'nDummyTrials', nDummyTrials);
 %% PERIPHERY  
 elseif(strcmp(expTypeStr, 'periphery'))
     stimulusIntervalMs = 200;

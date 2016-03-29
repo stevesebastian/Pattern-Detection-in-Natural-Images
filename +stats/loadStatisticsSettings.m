@@ -46,13 +46,16 @@ if(strcmp(typeStr,'fovea'))
 
 	% Binning parameters
     nBins = 10;
-	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(10, 62, nBins);
-	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.05, 0.47, nBins);
-	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.1, 0.6, nBins);
-	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.3, 0.7, nBins);
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(8, 62, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.05, 0.36, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.08, 0.64, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.25, 0.75, nBins);
+    [binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.2, 0.6, nBins);
+    
     [binEdges.Ss(:,1), binCenters.Ss(:,1)] = stats.computeBinSpacing(0.05, 0.3, nBins);
     [binEdges.Ss(:,2), binCenters.Ss(:,2)] = stats.computeBinSpacing(0.05, 0.4, nBins);
-
+    [binEdges.Ss(:,3), binCenters.Ss(:,3)] = stats.computeBinSpacing(0.05, 0.3, nBins);
+    
     imgFilePath = 'D:\sebastian\natural_images\images_stats';
     imgFilePathExperiment = 'D:\Sebastian\natural_images\images_pht';
     
