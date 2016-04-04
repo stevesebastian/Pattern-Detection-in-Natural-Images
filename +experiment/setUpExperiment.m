@@ -70,7 +70,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
 
     targetLvls(1,1,:) = linspace(0.02, 0.005, nLevels);
     targetLvls(1,2,:) = linspace(0.04, 0.008, nLevels);
-    targetLvls(1,3,:) = linspace(0.05, 0.01, nLevels);
+    targetLvls(1,3,:) = linspace(0.08, 0.03, nLevels);
     targetLvls(1,4,:) = linspace(0.02, 0.001, nLevels);
     targetLvls(1,5,:) = linspace(0.05 , 0.01, nLevels);
     
@@ -84,7 +84,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     fpSubjects = 'experiment_files/subject_out';
     
     nBins = size(binIndex, 1);
-    nTargets = size(ImgStats.Settings.targets, 3);
+    nTargets = 2;
     
     % Session files
     for iBin = 1:nBins
@@ -204,7 +204,7 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
         end
     end
     
-    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
+    ftemp = fopen('~/experiment_files/README.txt', 'w');  % Date stamp file generation.
     fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);      
 
