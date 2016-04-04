@@ -23,7 +23,17 @@ rtMatrix = zeros(nTrials, nLevels);
 
 for iLevel = levelStartIndex:nLevels
 
-      experiment.main.displayLevelStart(SessionSettings, iLevel);  
+        if ~SessionSettings.bFovea
+            Eyelink('Command', 'set_idle_mode');
+            Eyelink('Command', 'clear_screen 0');
+            EyelinkDoDriftCorrection(SessionSettings.el);
+            Eyelink('Command', 'set_idle_mode');            
+            Eyelink('StartRecording');
+            Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
+
+        end    
+    
+        experiment.main.displayLevelStart(SessionSettings, iLevel);        
     
     for iTrial = 1:nTrials
 
@@ -31,7 +41,6 @@ for iLevel = levelStartIndex:nLevels
 
         responseMatrix(iTrial, iLevel) = response;
         rtMatrix(iLevel, iLevel) = RT;
-
     end
     
     experiment.saveCurrentLevel(SessionSettings, responseMatrix(:,iLevel), iLevel);
@@ -40,6 +49,7 @@ for iLevel = levelStartIndex:nLevels
     Screen('TextSize', SessionSettings.window, 25);
     DrawFormattedText(SessionSettings.window, 'End of the block', 'center', 'center');
     Screen('Flip', SessionSettings.window);
+    WaitSecs(1);
   
 end
 

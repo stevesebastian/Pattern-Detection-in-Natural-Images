@@ -33,7 +33,7 @@ targetTexture = Screen('MakeTexture', SessionSettings.window, target);
 
 targetRect         = SetRect(0, 0, size(target,2), size(target,1));
 targetDestination  = floor(CenterRectOnPointd(targetRect, stimPosPixXY(1), stimPosPixXY(2))); 
-
+ 
 
 
 if SessionSettings.bFovea % If foveal experiment, then draw stimulus after fixation cross.
@@ -41,10 +41,12 @@ if SessionSettings.bFovea % If foveal experiment, then draw stimulus after fixat
     Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
 else
     Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);    
-    Screen('DrawTexture', SessionSettings.window, fixTexture, [], fixDestination);    
+    Screen('DrawTexture', SessionSettings.window, fixTexture, [], fixDestination);
 end
 Screen('Flip',SessionSettings.window);
    
+WaitSecs(10); %Adapt to background luminance
+
 KbWait();
 
 WaitSecs(1);

@@ -61,7 +61,7 @@ Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 experiment.main.runSession(SessionSettings);
 
 
-if SessionSettings.bFovea
+if ~SessionSettings.bFovea
     Eyelink('Command', 'set_idle_mode');
     WaitSecs(0.5);
     Eyelink('CloseFile');
@@ -76,13 +76,11 @@ if SessionSettings.bFovea
             fprintf('ReceiveFile status %d\n', status);
         end
         if 2==exist(edfFile, 'file')
-            fprintf('Data file ''%s'' can be found in ''%s''\n', edfFile, pwd );
+            fprintf('Data file ''%s'' can be found in ''%s''\n', edfFile, pwd);
         end
     catch
-        fprintf('Problem receiving data file ''%s''\n', edfFile );
-    end    
-
-    cleanup;
+        fprintf('Problem receiving data file ''%s''\n', edfFile);
+    end 
     Eyelink('ShutDown');
     Screen('CloseAll');    
 end

@@ -24,8 +24,7 @@ stimulusDestination  = floor(CenterRectOnPointd(stimulusRect, stimPosXY(1), stim
 Screen('DrawTexture', SessionSettings.window, stimulusTexture, [], stimulusDestination);
 
 if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always a layer above the stimulus.
-    Eyelink('Message', 'STIMULUS_ON');
-    
+     
     fixTarget = SessionSettings.fixationTarget; 
     fixPosXY = SessionSettings.fixPosPix(trialNumber, levelNumber, :);
 
@@ -33,7 +32,11 @@ if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always
     targetRect         = SetRect(0, 0, size(fixTarget,2), size(fixTarget,1));
     targetDestination  = floor(CenterRectOnPointd(targetRect, fixPosXY(1), fixPosXY(2)));  
 
-    Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination);    
+    Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination); 
+    
+    Eyelink('Message', 'STIMULUS_ON'); 
+    Eyelink('Message', 'FIX_CROSS_RECT %d %d %d %d', targetDestination(1), targetDestination(2),...
+        targetDestination(3), targetDestination(4));
 end
 [~, StimulusOnsetTime] = Screen('Flip', SessionSettings.window, 0, 1);
 
