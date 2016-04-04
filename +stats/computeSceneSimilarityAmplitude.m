@@ -20,8 +20,8 @@ diskSizePix = targetSizePix(1) - rampSizePix;
 
 cosWin = lib.cosWindowFlattop2(targetSizePix, diskSizePix, rampSizePix); 
 
-% Pad by a power of 2
-paddedSizePix = 2^(ceil(log2(targetSizePix(1))));
+% Pad to 128
+paddedSizePix = 128;
 paddedCenterPix = paddedSizePix/2;
 paddedImage = zeros([paddedSizePix, paddedSizePix]);
 
@@ -32,7 +32,6 @@ tarInPadded = paddedImage;
 tarInPadded(1:targetSizePix(1),1:targetSizePix(2)) = tarIn;
 
 tarInPaddedF = fftshift(abs(fft2(tarInPadded)));
-tarInPaddedF = tarInPaddedF(ampRange, ampRange);
 tarInNorm = sqrt(sum(tarInPaddedF(:).^2));
 
 nSamples = size(sampleCoords, 1);
@@ -52,7 +51,6 @@ for sItr = 1:nSamples
     imgSmallPadded(1:targetSizePix(1),1:targetSizePix(2)) = imgSmall;
     
     imgSmallPaddedF = fftshift(abs(fft2(imgSmallPadded)));
-    imgSmallPaddedF = imgSmallPaddedF(ampRange, ampRange);
     imgNorm = sqrt(sum(imgSmallPaddedF(:).^2));
     
     templateMatch = sum(imgSmallPaddedF(:).*tarInPaddedF(:));
