@@ -1,4 +1,11 @@
-function checkFixationCross(SessionSettings, fixPosPix)
+function checkFixationCross(SessionSettings, trialNumber, fixPosPix)
+%CHECKFIXATIONCROSS Do a check to ensure fixation is on cross before trial
+%starts.
+%
+%   Description: The eyetracker gaze position is sampled. If the sample
+%   falls within a region defined around the location of the fixation cross
+%   the trial will procede. The experiment will pause at this point until a
+%   gaze sample is measured at the fixation cross.
 
 if SessionSettings.el.dummyconnected % in dummy mode use mousecoordinates
     [x,y,button] = GetMouse(SessionSettings.window);
@@ -13,9 +20,10 @@ else % check for events
     maxTime = 5;
     fixRect = CenterRectOnPoint(SetRect(0,0,60,60), fixPosPix(1), fixPosPix(2));
     
+if SessionSettings.checkFix 
     while 1
         if Eyelink('NewFloatSampleAvailable') > 0
-        	evt = Eyelink('NewestFloatSample');
+            evt = Eyelink('NewestFloatSample');
         end
         if IsInRect(evt.gx(1), evt.gy(1), fixRect)
             break;
@@ -27,9 +35,9 @@ else % check for events
             Eyelink('StartRecording');
             % record a few samples before we actually start displaying
             WaitSecs(0.1);
-            
+
             Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
-            
+
             target   = SessionSettings.fixationTarget; 
             %% Redraw fixation cross and see how we do.
 
@@ -39,10 +47,10 @@ else % check for events
 
             Screen('DrawTexture', SessionSettings.window, targetTexture, [], targetDestination);
             Screen('Flip', SessionSettings.window, 0, 1);
-            
+
             t0 = GetSecs();
         end
-        
+
         [keyIsDown,secs, keyCode] = KbCheck;   
         if      keyCode(KbName('c'))
             Eyelink('Command', 'set_idle_mode');
@@ -65,7 +73,6 @@ else % check for events
         end
         WaitSecs(.001);               
     end
-    
 end
 
 end

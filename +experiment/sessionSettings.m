@@ -1,4 +1,4 @@
-function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, targetLvls)
+function SessionSettings = sessionSettings(ImgStats, expTypeStr, targetTypeStr, binIndex, targetLvls, nSubjects)
 %SESSIONSETTINGS Loads settings and stimuli for each experimental session 
 % 
 % Example: 
@@ -48,7 +48,7 @@ if(strcmp(expTypeStr, 'fovea'))
 	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
 
     sampleMethod = 'random';
-    imgSet = 'N';
+    imgSet       = 'N';
     
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
         targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod, imgSet);
@@ -244,16 +244,16 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-	nLevels = length(targetLvls);
+	nLevels = size(targetLvls,2);
 	nTrials = 30;
 	nSessions = 2;
 
 	pTarget = 0.5;
   
     pixelsPerDeg = 60;
-        
-    stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
-    fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
+            
+    stimPosDeg = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
     
     targetLuminance = 18.30; % Median luminance in image database    
     contrastRMS     = .33; %Median Contrast in image database
@@ -264,9 +264,9 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     sampleMethod = 'random';
     imgSet = 'N';
  
-    stimulusDistanceDeg     = 10;
-    stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
-	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nSessions]);
+    stimulusDistanceDeg   = 10;
+    stimPosDeg(:,:,:,:,1) = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,:,1)  = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials,1,1, nSessions]);
 
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
