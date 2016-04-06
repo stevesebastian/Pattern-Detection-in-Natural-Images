@@ -20,7 +20,7 @@ diskSizePix = targetSizePix(1) - rampSizePix;
 
 cosWin = lib.cosWindowFlattop2(targetSizePix, diskSizePix, rampSizePix); 
 
-% Pad by a power of 2
+% Pad to 128
 paddedSizePix = 128;
 paddedCenterPix = paddedSizePix/2;
 paddedImage = zeros([paddedSizePix, paddedSizePix]);
