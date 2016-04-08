@@ -113,56 +113,10 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
         end
     end
 %% PERIPHERY
-elseif(strcmp(expTypeStr, 'periphery'))    
-    % Experimental bins
-    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; ...
-                5 1 5; 5 3 5; 5 7 5; 5 10 5; ...
-                5 5 1; 5 5 3; 7 7 7; 10 5 5];
- 
-    
-    % Eccentricity range for each level
-    eLvls = repmat(linspace(2, 10, 5), [size(binIndex,1) , 1]);    
-
-    fpSettings = 'experiment_files/experiment_settings';
-    fpSubjects = 'experiment_files/subject_out';
-    
-    nBins = size(binIndex, 1);
-    nTargets = size(ImgStats.Settings.targets, 3);
-    
-    % Session files
-    for iBin = 1:nBins
-        for iTarget = 1:nTargets
-            ExpSettings = experiment.sessionSettings(ImgStats, expTypeStr,...
-                ImgStats.Settings.targetKey{iTarget}, binIndex(iBin,:), eLvls(iBin,:));
-            fpOut = [fpSettings '/' expTypeStr '/' ExpSettings.targetTypeStr ...
-                '/L' num2str(binIndex(iBin,1)) '_C' num2str(binIndex(iBin,2)) ...
-                '_S' num2str(binIndex(iBin,3)) '.mat'];
-            save(fpOut, 'ExpSettings');
-        end
-    end
- 
-    %% Subject experiment files
-    subjectStr = ['sps'; 'rcw'; 'jsa'; 'yhb'];  
-    nSubjects = size(subjectStr, 1);
-    targetTypeStr = ImgStats.Settings.targetKey;
-    ExpSettings.binIndex = binIndex;
-    
-    for iSubject = 1:nSubjects
-        for iTarget = 1:nTargets
-            SubjectExpFile = experiment.subjectExperimentFile(ExpSettings, binIndex);
-            fpOut = [fpSubjects '/' expTypeStr '/' targetTypeStr{iTarget} ...
-                '/' subjectStr(iSubject,:) '.mat']; 
-            save(fpOut, 'SubjectExpFile');
-        end
-    end
-    
-    ftemp = fopen('experiment_files/README.txt', 'w');  % Date stamp file generation.
-    fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
-    fclose(ftemp);     
 elseif(strcmp(expTypeStr, 'periphery-pilot'))    
     % Experimental bins
-    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; 10 5 5,...
-                5 3 5; 5 5 5; 5 7 5; 5 9 5; 5 10 5, ...
+    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; 10 5 5;...
+                5 3 5; 5 5 5; 5 7 5; 5 9 5; 5 10 5; ...
                 5 5 1; 5 5 3; 5 5 7; 5 5 9; 5 5 10];
  
     
@@ -208,9 +162,9 @@ elseif(strcmp(expTypeStr, 'periphery-pilot'))
     fprintf(ftemp, 'Experiment %s Updated: %s', expTypeStr, datestr(now,'dd.mm.yyyy-HH-MM'));
     fclose(ftemp);      
 
-elseif(strcmp(expTypeStr, 'full-periphery-pilot'))    
+elseif(strcmp(expTypeStr, 'periphery'))    
     % Experimental bins
-    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; 10 5 5, ...
+    binIndex = [1 5 5; 3 5 5; 5 5 5; 7 5 5; 9 5 5; 10 5 5;, ...
                 5 3 5; 5 7 5; 5 9 5; 5 10 5; ...
                 5 5 1; 5 5 3; 5 5 7; 5 5 9 ; 5 5 10];
      

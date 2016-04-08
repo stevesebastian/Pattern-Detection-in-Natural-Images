@@ -139,8 +139,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
   
     pixelsPerDeg = 60;
         
-    stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
-    fixPosDeg  = zeros(nTrials, nLevels, nSessions, 2);
+    stimPosDeg = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
     
     contrastRMS     = .17;
     amplitude8Bit   = 127;
@@ -148,8 +148,8 @@ elseif(strcmp(expTypeStr, 'periphery'))
     targetAmplitude = repmat(ones(1,nLevels)*amplitude8Bit , [nTrials, 1, nSessions]); % Amplitude
         
     stimulusDistanceDeg     = 10;
-    stimPosDeg(:,:,:,1)     = stimulusDistanceDeg;
-	fixPosDeg(:,:,:,1)      = stimPosDeg(:,:,:,1) - repmat(targetLvls, [nTrials,1,nSessions]);
+    stimPosDeg(:,:,:,:,1)     = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,:,1)      = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials,1,1,nSessions]);
     
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
