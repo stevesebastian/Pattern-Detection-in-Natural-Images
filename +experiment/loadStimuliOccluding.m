@@ -99,7 +99,8 @@ targetSamples = bgPixVal.*ones([size(stimuli, 1) size(stimuli,2), iLevels]);
 
 for iLevels = 1:nLevels
     thisTarget ...
-               = target .* mean(targetContrast(:,iLevels)) .* targetLuminance * (2^bitDepthIn - 1) + targetLuminance * (2^bitDepthIn - 1);
+               = target/std(target(:)) .* mean(targetContrast(:,iLevels)) .* targetLuminance * (2^bitDepthIn - 1) + targetLuminance * (2^bitDepthIn - 1);
+
     
     thisSample = ...
         lib.embedImageinCenter(targetSamples(:,:,iLevels), thisTarget, bAdditive, bitDepthOut, [], [], tWin);
