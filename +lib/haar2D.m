@@ -48,7 +48,6 @@ else
     amp = 1;
 end
 
-
 switch Parameters.type
     case('horizontal')
         haar    = [repmat(amp,sizeRadPx,2*sizeRadPx+1);repmat(Parameters.dc,1,2*sizeRadPx+1);repmat(-amp,sizeRadPx,2*sizeRadPx+1)];

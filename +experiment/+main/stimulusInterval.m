@@ -24,7 +24,12 @@ stimulusDestination  = floor(CenterRectOnPointd(stimulusRect, stimPosXY(1), stim
 Screen('DrawTexture', SessionSettings.window, stimulusTexture, [], stimulusDestination);
 
 if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always a layer above the stimulus.
+<<<<<<< HEAD
      
+=======
+    Eyelink('Message', 'STIMULUS_ON');
+    
+>>>>>>> master
     fixTarget = SessionSettings.fixationTarget; 
     fixPosXY = SessionSettings.fixPosPix(trialNumber, levelNumber, :);
 

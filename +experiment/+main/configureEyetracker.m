@@ -35,11 +35,18 @@ Screen('Flip', SessionSettings.window);
 Eyelink('StartRecording');
 
 % open file to record data to
+<<<<<<< HEAD
 edfFile = [num2str(SessionSettings.currentBin),num2str(SessionSettings.currentSession),...
     num2str(SessionSettings.targetTypeStr(1)), SessionSettings.subjectStr, '.edf'];
 i = Eyelink('Openfile', edfFile);
 if i~=0
     fprintf('Cannot create EDF file ''%s'' ', edfFile);
+=======
+edfFile = [SessionSettings.subjectStr, '.edf'];
+i = Eyelink('Openfile', edfFile);
+if i~=0
+    fprintf('Cannot create EDF file ''%s'' ', edffilename);
+>>>>>>> master
     cleanup;
     Eyelink( 'Shutdown');
     return;

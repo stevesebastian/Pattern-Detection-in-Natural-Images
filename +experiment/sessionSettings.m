@@ -244,6 +244,11 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
+<<<<<<< HEAD
+=======
+    nDummyTrials = 1;    
+    
+>>>>>>> master
 	nLevels = size(targetLvls,2);
 	nTrials = 30;
 	nSessions = 2;
@@ -252,14 +257,21 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
   
     pixelsPerDeg = 60;
             
+<<<<<<< HEAD
     stimPosDeg = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
     fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
+=======
+    stimPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
+	fixPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
+    
+>>>>>>> master
     
     targetLuminance = 18.30; % Median luminance in image database    
     contrastRMS     = .33; %Median Contrast in image database
     targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
     targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
 
+<<<<<<< HEAD
         
     sampleMethod = 'random';
     imgSet = 'N';
@@ -267,13 +279,21 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,:,1)     = stimulusDistanceDeg;
 	fixPosDeg(:,:,:,:,1)      = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials,1,1, nSessions]);
+=======
+    sampleMethod = 'random';
+    imageType = 'N'; % Use only nature images
+ 
+    stimulusDistanceDeg   = 10;
+    stimPosDeg(:,:,:,:,1) = stimulusDistanceDeg;
+	fixPosDeg(:,:,:,:,1)  = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials,1,1, nSessions]);
+>>>>>>> master
 
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
-	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
+    bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials+nDummyTrials, nLevels, nSessions, pTarget);
 
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod);
+        targetTypeStr, binIndex, nTrials+nDummyTrials, nLevels, nSessions, sampleMethod, imageType); 
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
     
@@ -287,7 +307,8 @@ elseif(strcmp(expTypeStr, 'full-periphery-pilot'))
         'bTargetPresent', bTargetPresent, 'targetContrast', targetContrast, 'targetAmplitude', targetAmplitude,...
         'stimuli', stimuli, 'stimuliIndex', stimuliIndex, 'bgPixVal', bgPixVal, ...
         'stimulusIntervalMs', stimulusIntervalMs, 'responseIntervalMs', responseInvervalMs, ...
-        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope, 'targetLuminance', targetLuminance);    
+        'fixationIntervalMs', fixationIntervalMs, 'blankIntervalMs', blankIntervalMs, 'envelope', envelope,...
+        'targetLuminance', targetLuminance, 'nDummyTrials', nDummyTrials);    
     
 elseif(strcmp(expTypeStr, 'phase-noise'))        
     stimulusIntervalMs = 200;
