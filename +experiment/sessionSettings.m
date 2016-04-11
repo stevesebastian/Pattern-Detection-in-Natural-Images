@@ -134,37 +134,37 @@ elseif(strcmp(expTypeStr, 'periphery'))
     nDummyTrials = 1;    
     
 	nLevels = size(targetLvls,2);
-	nTrials = 30;
+	nTrials = 30 + nDummyTrials;
 	nSessions = 2;
 
 	pTarget = 0.5;
   
     pixelsPerDeg = 60;
 
-    stimPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSubjects, nSessions, 2);
-    fixPosDeg  = zeros(nTrials+nDummyTrials, nLevels, nSubjects, nSessions, 2);    
+    stimPosDeg = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
+    fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);    
     
     
     targetLuminance = 18.30; % Median luminance in image database    
     contrastRMS     = .33; %Median Contrast in image database
     targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials+nDummyTrials, 1, nSessions]); % Contrast
-    targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials+nDummyTrials, 1, nSessions]); % Amplitude
+    targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
        
     sampleMethod = 'random';
     imageType = 'N';
  
     stimulusDistanceDeg     = 10;
     stimPosDeg(:,:,:,:,1)     = stimulusDistanceDeg;
-	fixPosDeg(:,:,:,:,1)      = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials+nDummyTrials,1,1,nSessions]);
+	fixPosDeg(:,:,:,:,1)      = stimPosDeg(:,:,:,:,1) - repmat(targetLvls, [nTrials,1,1,nSessions]);
 
 
 	loadSessionStimuli = @experiment.loadStimuliOccluding;
 
-    bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials+nDummyTrials, nLevels, nSessions, pTarget);
+    bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
     bTargetPresent(1,:,:) = 1; % Always set the first trial to be a target present trial. A single example trial.
 
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials+nDummyTrials, nLevels, nSessions, sampleMethod, imageType); 
+        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod, imageType); 
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1)) * monitorMaxPix./100;
     
