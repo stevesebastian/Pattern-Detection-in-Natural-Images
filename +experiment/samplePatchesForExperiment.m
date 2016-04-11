@@ -12,7 +12,7 @@ if(nargin < 7)
     sampleMethod = 'uniform';
 end
 
-if(nargin < 8)
+if(nargin < 9)
     simTypeStr = 'amplitude';
 end
 
