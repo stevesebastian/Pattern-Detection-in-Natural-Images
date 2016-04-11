@@ -68,10 +68,22 @@ if ~SessionSettings.bFovea
     
     % download data file
     try
-        edfFile = SessionSettings.edfFile;
-        fprintf('Receiving data file ''%s''\n', edfFile );
+        % open file to record data to
+        % open file to record data to
+        subjectStr    = SessionSettings.subjectStr;
+        expTypeStr    = SessionSettings.expTypeStr;
+        targetTypeStr = SessionSettings.targetTypeStr;
+        binNumber     = SessionSettings.currentBin;
+        sessionNumber = SessionSettings.currentSession;
         
-        status=Eyelink('ReceiveFile');
+        edfFilePath = ['eyetracking_files/' expTypeStr '/' targetTypeStr '/'...
+            num2str(binNumber) '/' subjectStr '/'];
+
+        edfFile = [num2str(sessionNumber) '.edf'];
+
+        fprintf('Receiving data file ''%s''\n', edfFile);
+        
+        status=Eyelink('ReceiveFile', edfFile, edfFilePath,1);
         if status > 0
             fprintf('ReceiveFile status %d\n', status);
         end

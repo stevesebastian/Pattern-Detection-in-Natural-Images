@@ -1,4 +1,4 @@
-function checkFixationCross(SessionSettings, trialNumber, fixPosPix)
+function checkFixationCross(SessionSettings, fixPosPix)
 %CHECKFIXATIONCROSS Do a check to ensure fixation is on cross before trial
 %starts.
 %
@@ -18,7 +18,7 @@ else % check for events
     
     t0 = GetSecs();
     maxTime = 5;
-    fixRect = CenterRectOnPoint(SetRect(0,0,60,60), fixPosPix(1), fixPosPix(2));
+      fixRect = CenterRectOnPoint(SetRect(0,0,60,60), fixPosPix(1), fixPosPix(2));
     
 if SessionSettings.checkFix 
     while 1

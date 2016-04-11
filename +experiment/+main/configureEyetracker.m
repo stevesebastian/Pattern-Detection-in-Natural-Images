@@ -26,19 +26,15 @@ if dummy == 0
     WaitSecs(0.1);
 end
 
-
-
 Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
 Screen('Flip', SessionSettings.window);
 
-% start recording eye position
-Eyelink('StartRecording');
+sessionNumber = SessionSettings.currentSession;
+     edfFile = [num2str(sessionNumber) '.edf'];
 
-% open file to record data to
-edfFile = [SessionSettings.subjectStr, '.edf'];
 i = Eyelink('Openfile', edfFile);
 if i~=0
-    fprintf('Cannot create EDF file ''%s'' ', edffilename);
+    fprintf('Cannot create EDF file');
     cleanup;
     Eyelink( 'Shutdown');
     return;
@@ -48,7 +44,7 @@ end
 % Setting the proper recording resolution, proper calibration type, 
 % as well as the data file content;
 Eyelink('command','screen_pixel_coords = %ld %ld %ld %ld', 0, 0, 1919, 1199);
-Eyelink('message', 'DISPLAY_COORDS %ld %ld %ld %ld', 0, 0, 1919, 1199);                
+    Eyelink('message', 'DISPLAY_COORDS %ld %ld %ld %ld', 0, 0, 1919, 1199);                
 % set calibration type.
 Eyelink('command', 'calibration_type = HV9');
 % set parser (conservative saccade thresholds)

@@ -35,7 +35,6 @@ if ~SessionSettings.bFovea % If not foveal experiment. Make sure cross is always
 
     Screen('DrawTexture', SessionSettings.window, fixTexture, [], targetDestination); 
     
-    Eyelink('Message', 'STIMULUS_ON'); 
     Eyelink('Message', 'FIX_CROSS_RECT %d %d %d %d', targetDestination(1), targetDestination(2),...
         targetDestination(3), targetDestination(4));
 end

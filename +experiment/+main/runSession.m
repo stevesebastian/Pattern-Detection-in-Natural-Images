@@ -28,7 +28,6 @@ for iLevel = levelStartIndex:nLevels
             Eyelink('Command', 'clear_screen 0');
             EyelinkDoDriftCorrection(SessionSettings.el);
             Eyelink('Command', 'set_idle_mode');            
-            Eyelink('StartRecording');
             Screen('FillRect', SessionSettings.window, SessionSettings.bgPixValGamma);
 
         end    
@@ -50,7 +49,19 @@ for iLevel = levelStartIndex:nLevels
     DrawFormattedText(SessionSettings.window, 'End of the block', 'center', 'center');
     Screen('Flip', SessionSettings.window);
     WaitSecs(1);
-  
+    
+    if ~SessionSettings.bFovea
+        Eyelink('StopRecording');
+    end       
+    
+    
+    
+    
+     
+    
+    
+    
+     
 end
 
 SessionData.response = responseMatrix;
