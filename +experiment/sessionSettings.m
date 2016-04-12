@@ -147,7 +147,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
     
     targetLuminance = 18.30; % Median luminance in image database    
     contrastRMS     = .33; %Median Contrast in image database
-    targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials+nDummyTrials, 1, nSessions]); % Contrast
+    targetContrast  = repmat(ones(1,nLevels)*contrastRMS  , [nTrials, 1, nSessions]); % Contrast
     targetAmplitude = repmat(ones(1,nLevels)*0 , [nTrials, 1, nSessions]); % Amplitude
        
     sampleMethod = 'random';
