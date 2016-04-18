@@ -82,7 +82,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     nDummyTrials = 1;
     
 	nLevels = length(targetLvls);
-	nTrials = 20;
+	nTrials = 20 + nDummyTrials;
 	nSessions = 2;
 
 	pTarget = 0.5;
@@ -91,12 +91,12 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
   
     targetAmplitude = squeeze(repmat(targetLvls, [nTrials, 1, nSessions]));
 	
-    stimPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
-	fixPosDeg = zeros(nTrials+nDummyTrials, nLevels, nSessions, 2);
+    stimPosDeg = zeros(nTrials, nLevels, nSessions, 2);
+	fixPosDeg = zeros(nTrials, nLevels, nSessions, 2);
     
 	loadSessionStimuli = @experiment.loadStimuliAdditive;
 
-	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials+nDummyTrials, nLevels, nSessions, pTarget);
+	bTargetPresent  = experiment.generateTargetPresentMatrix(nTrials, nLevels, nSessions, pTarget);
 
     bTargetPresent(1,:,:) = 1;
     
@@ -104,7 +104,7 @@ elseif(strcmp(expTypeStr, 'fovea_pilot'))
     imageType = 'N'; % Use only nature images
     
 	[stimuli, stimuliIndex] = experiment.samplePatchesForExperiment(ImgStats, ...
-        targetTypeStr, binIndex, nTrials+nDummyTrials, nLevels, nSessions, sampleMethod, imageType);
+        targetTypeStr, binIndex, nTrials, nLevels, nSessions, sampleMethod, imageType);
         
 	bgPixVal = ImgStats.Settings.binCenters.L(binIndex(1))*monitorMaxPix./100;
 
