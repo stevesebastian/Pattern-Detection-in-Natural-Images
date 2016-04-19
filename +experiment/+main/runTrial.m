@@ -24,7 +24,9 @@ if(~SessionSettings.bFovea)
     Eyelink('Message', '!V TRIAL_VAR session %s', num2str(SessionSettings.currentSession));
     Eyelink('Message', '!V TRIAL_VAR level %s',   num2str(levelNumber));
     Eyelink('Message', '!V TRIAL_VAR bin %s',     num2str(SessionSettings.currentBin));
-     
+    Eyelink('Message', '!V TRIAL_VAR FIX_CROSS_X %s', num2str(SessionSettings.fixPosPix(trialNumber, levelNumber, 1)));
+    Eyelink('Message', '!V TRIAL_VAR FIX_CROSS_Y %s', num2str(SessionSettings.fixPosPix(trialNumber, levelNumber, 2)));
+             
     experiment.main.checkFixationCross(SessionSettings, SessionSettings.fixPosPix(trialNumber, levelNumber, :));
 end
 
