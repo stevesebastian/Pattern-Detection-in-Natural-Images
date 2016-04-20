@@ -39,7 +39,7 @@ fixPosDeg = ExpSettings.fixPosDeg(:,:,currentSession, :);
 
 stimPosPix = lib.monitorDegreesToPixels(stimPosDeg, monitorSizePix, pixelsPerDeg);
 fixPosPix = lib.monitorDegreesToPixels(fixPosDeg, monitorSizePix, pixelsPerDeg);
-
+  
 bAdditive   = 1;
 bitDepthIn  = 16;
 bitDepthOut = 8;
@@ -64,9 +64,7 @@ for iTrials = 1:nTrials
     for iLevels = 1:nLevels
         thisStimulus = stimuli(:,:,iTrials,iLevels);
         
-        % Convert to 8 bit
-%         thisStimulus = round((thisStimulus./(2^bitDepthIn-1))*(2^bitDepthOut-1));
-        
+        % Convert to 8 bit        
         if(bTargetPresent(iTrials, iLevels))
             thisTarget = target.*targetAmplitude(iTrials,iLevels).*(2^bitDepthIn-1);
             

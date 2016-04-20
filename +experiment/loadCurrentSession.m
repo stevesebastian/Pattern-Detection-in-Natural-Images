@@ -14,6 +14,7 @@ if(nargin < 4)
         
 
     % Check for experiment files that have not been completed
+    % Check for not completed session
     [notCompletedSession, notCompletedBin] = ...
         find(SubjectExpFile.levelCompleted < nLevels);
 
@@ -21,10 +22,13 @@ if(nargin < 4)
         error('Error: All bins, sessions, and levels have been completed');
     end
 
-    currentBin     = notCompletedBin(1);
-    currentSession = notCompletedSession(1);
-    binIndex = SubjectExpFile.binIndex(notCompletedBin(1), :);
+    % lower sessions first
+    sIndex = find(min(notCompletedSession)==notCompletedSession);
     
+    currentBin     = notCompletedBin(sIndex(1));
+    currentSession = notCompletedSession(sIndex(1));
+    
+    binIndex = SubjectExpFile.binIndex(currentBin, :);
     levelCompleted = SubjectExpFile.levelCompleted(currentSession, currentBin);
     levelStartIndex = levelCompleted + 1;
 else

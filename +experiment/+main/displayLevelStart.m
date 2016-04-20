@@ -45,7 +45,7 @@ else
 end
 Screen('Flip',SessionSettings.window);
    
-WaitSecs(10); %Adapt to background luminance
+%WaitSecs(10); %Adapt to background luminance
 
 KbWait();
 
