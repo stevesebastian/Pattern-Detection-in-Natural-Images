@@ -39,5 +39,5 @@ experiment.main.stimulusInterval(SessionSettings, trialNumber, levelNumber);
 experiment.main.giveFeedback(SessionSettings, response, trialNumber, levelNumber);
 
 if(~SessionSettings.bFovea)
-    Eyelink('Message', 'TRIAL_RESULT 0')
+    Eyelink('Message', 'TRIAL_RESULT 0');
 end
