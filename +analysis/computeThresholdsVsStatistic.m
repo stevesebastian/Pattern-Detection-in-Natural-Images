@@ -1,4 +1,4 @@
-function thresholds = computeThresholdsVsStatistic(ImgStats, binIndexLevels,  statTypeStr, expTypeStr, targetTypeStr, subjectsStr, bBootstrap)
+function thresholds = computeThresholdsVsStatistic(ImgStats, binIndexLevels,  statTypeStr, expTypeStr, targetTypeStr, subjectsStr, bBootstrap, bModel)
 
 %% Compute thresholds for each subject and each bin
 for iSubject = 1:size(subjectsStr,1)
@@ -42,9 +42,21 @@ for iSubject = 1:size(subjectsStr,1)
     end
 end
 
-if(size(thresholds, 1) > 1)
-    plot(backgroundValues, mean(thresholds), '-ok', 'MarkerSize', 11, 'MarkerFaceColor', 'k', 'LineWidth', 2);
+if(bModel)
+    bScale = 1;
+    tSigma = analysis.computeTemplateResponseSigma(ImgStats, targetTypeStr, bScale);
+    eff = 0.0001;
+    for bItr = 1:size(binIndexLevels,1)
+        modelAmp(bItr) = eff.*tSigma(binIndexLevels(bItr, 1), binIndexLevels(bItr, 2), binIndexLevels(bItr, 3));
+    end
+    plot(backgroundValues, modelAmp, '-ok', 'MarkerSize', 11, 'MarkerFaceColor', 'k', 'LineWidth', 2);
+else
+    if(size(thresholds, 1) > 1)
+        plot(backgroundValues, mean(thresholds), '-ok', 'MarkerSize', 11, 'MarkerFaceColor', 'k', 'LineWidth', 2);
+    end    
 end
+
+
 
 legend(subjectsStr, 'Location', 'northwest');
 legend('boxoff');

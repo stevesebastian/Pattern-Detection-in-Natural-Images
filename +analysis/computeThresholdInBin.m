@@ -5,14 +5,32 @@ function [cT, cTStd] = computeThresholdInBin(binIndex, expTypeStr, targetTypeStr
 load(['./experiment_files/subject_out/' expTypeStr '/' targetTypeStr '/' subjectStr '.mat']);
 
 expBinIndex = find(SubjectExpFile.binIndex(:,1) == binIndex(1) & SubjectExpFile.binIndex(:,2) == binIndex(2) & SubjectExpFile.binIndex(:,3) == binIndex(3));
-expLvls    = SubjectExpFile.targetAmplitude(:,:,1,expBinIndex);
-expCorrect = SubjectExpFile.correct(:,:,1,expBinIndex);
 
-nTrials = size(expCorrect, 1);
-
+nTrials = size(SubjectExpFile.correct, 1);
 targetLvls = SubjectExpFile.targetAmplitude(1,:,1,expBinIndex);
+nLevels = length(targetLvls);
 
-[cT, b] = analysis.fitPsychometric(0.02, 2, SubjectExpFile.targetAmplitude(:,:,1,expBinIndex), SubjectExpFile.correct(:,:,1,expBinIndex));
+completedBinIndex = SubjectExpFile.levelCompleted(:,expBinIndex) == nLevels;
+
+if(sum(completedBinIndex) == 0)
+    error(['Error: Needed ' num2str(nLevels) ' levels to fit psychometric function.']);
+end
+
+expLvls = [];
+expCorrect = [];
+
+if(bPlot)
+    disp(['Sessions used: ' num2str(sum(completedBinIndex))]);
+end
+
+for cItr = 1:length(completedBinIndex)
+    if(completedBinIndex(cItr))
+        expLvls    = [expLvls; SubjectExpFile.targetAmplitude(:,:,cItr,expBinIndex)];
+        expCorrect = [expCorrect; SubjectExpFile.correct(:,:,cItr,expBinIndex)];
+    end
+end
+
+[cT, b] = analysis.fitPsychometric(0.02, 2, expLvls, expCorrect);
 
 %% Figure properties
 if(bPlot)
