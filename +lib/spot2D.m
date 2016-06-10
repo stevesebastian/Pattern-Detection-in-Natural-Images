@@ -37,7 +37,7 @@ interiorRadDeg  = stimulusParams.size/2 * 1/sqrt(2);
 dGrid       = sqrt(XX.^2 + YY.^2) ./ stimulusParams.pixperdeg;
 envelope    = dGrid < stimulusParams.size/2;
 
-spot                         = ones(size(dGrid)) * -amp
+spot                         = ones(size(dGrid)) * -amp;
 spot(dGrid > interiorRadDeg) = amp;
 spot                         = spot .* envelope;
 

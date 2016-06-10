@@ -7,7 +7,7 @@ function presentpatches(ImgStats, L, targetNr,bSave, outPath)
 %   Example:
 %
 %   % v1.0, 1/28/2016, R. C. Walshe <calen.walshe@utexas.edu>
-close all;
+%close all;
 h = figure('Position', [100,100, 1920,1200], 'Name', ['Luminance bin = ' num2str(L), ' Contrast x Similarity']);
 
 envelope = ImgStats.Settings.envelope;
@@ -26,6 +26,9 @@ for i = 1:10
             I = I_PPM.I_PPM;
     
             cropped = lib.cropImage(I, ImgStats.sampleCoords(patchNr,:), targetSizePix,1,1).*envelope;
+            
+            cropped = experiment.gammaCorrect(cropped, 2, 14,14);
+            
             colormap(gray(2^14));image(cropped)
             axis image;          
             set(gca,'xtick',[],'ytick',[]);
