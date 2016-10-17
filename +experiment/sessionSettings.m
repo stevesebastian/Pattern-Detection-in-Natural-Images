@@ -124,14 +124,14 @@ elseif(strcmp(expTypeStr, 'periphery'))
     fixationIntervalMs = 400;
     blankIntervalMs    = 100;
     
-    monitorMaxPix = 255;    
+    monitorMaxPix = 255;
     
     imgFilePath = ImgStats.Settings.imgFilePath;
     
     targetIndex = lib.getTargetIndexFromString(ImgStats.Settings, targetTypeStr);
     target = ImgStats.Settings.targets(:,:,targetIndex);
     
-    nDummyTrials = 1;    
+    nDummyTrials = 1;
     
 	nLevels = size(targetLvls,2);
 	nTrials = 30 + nDummyTrials;
@@ -142,7 +142,7 @@ elseif(strcmp(expTypeStr, 'periphery'))
     pixelsPerDeg = 60;
 
     stimPosDeg = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
-    fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);    
+    fixPosDeg  = zeros(nTrials, nLevels, nSubjects, nSessions, 2);
     
     
     targetLuminance = 18.30; % Median luminance in image database    

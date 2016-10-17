@@ -79,7 +79,7 @@ elseif(strcmp(typeStr, 'periphery'))
     
     stimulusParams.type     = 'bowtie';
     [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
-
+    
     stimulusParams.type     = 'bowtie';
     [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
     
