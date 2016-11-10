@@ -121,6 +121,67 @@ elseif(strcmp(typeStr, 'periphery'))
 	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'stimulusParams', stimulusParams,...
                       'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
 					  'imgSizePix', imgSizePix, 'pixelMax', pixelMax, 'binEdges', binEdges, 'binCenters', binCenters);
+                  
+elseif(strcmp(typeStr, 'periphery_model'))
+    % Images doubled from periphery to accomodate RV1 code that did retinal
+    % blurring at 120 ppd. 
+    
+	% Target set up
+    stimulusParams.pixperdeg    = 2*60;
+    stimulusParams.size         = .35;
+    stimulusParams.dc           = 0;
+    stimulusParams.contrast     = 1;
+
+    stimulusParams.type     = 'vertical';   
+	[vertical, envelope]    = lib.haar2D(stimulusParams);
+ 
+    stimulusParams.type     = 'horizontal';
+    [horizontal, envelope]  = lib.haar2D(stimulusParams);
+    
+    stimulusParams.type     = 'bowtie';
+    [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
+    
+    stimulusParams.type     = 'bowtie';
+    [bowtiehaar, envelope]  = lib.haar2D(stimulusParams);
+    
+    stimulusParams.type     = 'spot';
+    tWin                    = envelope;
+    spot                    = lib.spot2D(stimulusParams);
+	
+    vertical    = vertical./max(vertical(:));
+    horizontal  = horizontal./max(horizontal(:));
+    bowtiehaar  = bowtiehaar./max(bowtiehaar(:));
+    spot        = spot./max(spot(:));
+        
+	targets(:,:,1)  = vertical;
+    targets(:,:,2)  = horizontal;
+    targets(:,:,3)  = bowtiehaar;
+    targets(:,:,4)  = spot;
+    
+	targetKey = {{'vertical','horizontal','bowtie','spot'}};
+    
+	% Statistic parameters
+	surroundSizePix = 2*241;
+	targetSizePix = size(targets(:,:,1));
+	spacingPix = 2*10;
+	imgSizePix = [2*2844 2*4284];
+
+	pixelMax = 2^14-1;
+
+	% Binning parameters
+    nBins = 10;
+	[binEdges.L, binCenters.L]  = stats.computeBinSpacing(2.47, 70.92, nBins);
+	[binEdges.C, binCenters.C]  = stats.computeBinSpacing(0.02, 0.96, nBins);
+	[binEdges.Sa(:,1), binCenters.Sa(:,1)] = stats.computeBinSpacing(0.41, 0.85, nBins);
+	[binEdges.Sa(:,2), binCenters.Sa(:,2)] = stats.computeBinSpacing(0.43, 0.86, nBins);
+	[binEdges.Sa(:,3), binCenters.Sa(:,3)] = stats.computeBinSpacing(0.53, 0.75, nBins);
+	[binEdges.Sa(:,4), binCenters.Sa(:,4)] = stats.computeBinSpacing(0.69, 0.85, nBins);
+    
+    imgFilePath = '~/occluding/natural_images/pixel_space/';
+
+	Settings = struct('imgFilePath', imgFilePath, 'targets', targets, 'targetKey', targetKey, 'envelope', envelope, 'stimulusParams', stimulusParams,...
+                      'surroundSizePix', surroundSizePix, 'targetSizePix', targetSizePix, 'spacingPix', spacingPix, ...
+					  'imgSizePix', imgSizePix, 'pixelMax', pixelMax, 'binEdges', binEdges, 'binCenters', binCenters);                  
     
 else
 	error('Error: Unsupported experiment type')
