@@ -67,7 +67,7 @@ elseif(strcmp(typeStr, 'periphery'))
     
 	% Target set up
     stimulusParams.pixperdeg    = 60;
-    stimulusParams.size         = .35;
+    stimulusParams.size         = .34;
     stimulusParams.dc           = 0;
     stimulusParams.contrast     = 1;
 
@@ -128,7 +128,7 @@ elseif(strcmp(typeStr, 'periphery_model'))
     
 	% Target set up
     stimulusParams.pixperdeg    = 2*60;
-    stimulusParams.size         = .35;
+    stimulusParams.size         = .34;
     stimulusParams.dc           = 0;
     stimulusParams.contrast     = 1;
 
