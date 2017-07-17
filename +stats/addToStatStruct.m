@@ -47,7 +47,7 @@ parfor iImg = 1:nImages
     if(isempty(target))
         StatsOut = statFunction(scene, envelope, sampleCoords);
     else
-        StatsOut = statFunction(scene, target, sampleCoords);
+        StatsOut = statFunction(scene, target, envelope, sampleCoords);
     end
     
     % Save output
